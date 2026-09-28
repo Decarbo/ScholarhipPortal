@@ -253,7 +253,7 @@ export const useAdminStore = create<AdminState>((set, get) => ({
     for (const a of apps) {
       byStatus[a.status] = (byStatus[a.status] ?? 0) + 1;
       flagged += a.aiFlags?.length ?? 0;
-      if (a.status === "disbursed") disbursedAmount += Number(a.amount) || 0;
+      if ((a.status as string) === "disbursed") disbursedAmount += Number(a.amount) || 0;
     }
 
     return {

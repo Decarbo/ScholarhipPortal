@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import {
   Card,
   Badge,
+  StatusBadge,
   Button,
   EmptyState,
   Modal,
@@ -511,19 +512,18 @@ export const Issues: React.FC = () => {
     );
 
   return (
-    <div className='p-4 md:p-8 space-y-8  mx-auto font-sans text-[#1B2434] dark:text-slate-100 animate-fade-in'>
+    <div className='p-4 md:p-6 lg:p-8 space-y-6 max-w-5xl mx-auto font-sans text-[#1D293D] dark:text-slate-100 animate-fade-in'>
       {/* Header */}
-      <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[#1B2434]/10 dark:border-slate-800 pb-5'>
+      <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#DEE2E6] dark:border-slate-800 pb-5'>
         <div className='flex items-start gap-3'>
-          <LifeBuoy
-            size={32}
-            className='text-[#1B2434] dark:text-slate-300 shrink-0 mt-1'
-          />
+          <div className="p-2 rounded-xl bg-[#E6F1F5] dark:bg-[#0B75A4]/20 text-[#0B75A4] dark:text-[#7EC5E2] shrink-0 mt-0.5">
+            <LifeBuoy size={24} />
+          </div>
           <div>
-            <h1 className='font-serif text-[28px] md:text-[34px] text-[#1B2434] dark:text-white leading-tight'>
+            <h1 className='text-2xl font-bold text-[#1D293D] dark:text-white leading-tight'>
               {t('issues.title')}
             </h1>
-            <p className='text-sm text-slate-500 dark:text-slate-400 mt-1'>
+            <p className='text-sm text-[#64748B] dark:text-slate-400 mt-0.5'>
               {t('issues.subtitle')}
             </p>
           </div>
@@ -534,7 +534,7 @@ export const Issues: React.FC = () => {
           <CSCFinder studentState='Maharashtra' />
           <Button
             size='sm'
-            variant='outline'
+            variant='secondary'
             icon={<Download size={14} />}
             onClick={handleExport}
           >
@@ -549,19 +549,22 @@ export const Issues: React.FC = () => {
                 e.target.files?.[0] && handleImport(e.target.files[0])
               }
             />
-            <span className='inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md border border-[#1B2434]/20 dark:border-slate-700 hover:bg-[#1B2434]/5 dark:hover:bg-slate-800 transition-all'>
+            <span className='inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-[#DEE2E6] dark:border-slate-700 bg-white dark:bg-slate-800 text-[#475569] dark:text-slate-200 hover:bg-[#F8FAFC] hover:text-[#0B75A4] hover:border-[#0B75A4]/40 transition-all shadow-xs'>
               <Upload size={14} /> {tc('actions.import') || 'Import'}
             </span>
           </label>
-          <button
+          <Button
+            size="sm"
+            variant="secondary"
             onClick={handleReset}
-            className='p-2 rounded-md hover:bg-[#1B2434]/5 dark:hover:bg-slate-800 text-slate-500 transition-all'
+            icon={<RefreshCw size={14} />}
             title='Reset demo data'
           >
-            <RefreshCw size={16} />
-          </button>
+            Reset
+          </Button>
           <Button
             size='sm'
+            variant="primary"
             icon={<Plus size={14} />}
             onClick={() => setShowForm((v) => !v)}
           >
@@ -572,17 +575,17 @@ export const Issues: React.FC = () => {
 
       {/* Form */}
       {showForm && (
-        <Card className='border-[#1B2434]/20 dark:border-slate-700 shadow-sm p-5 md:p-6'>
-          <h3 className='font-serif text-xl font-semibold text-[#1B2434] dark:text-white mb-4 flex items-center gap-2'>
+        <Card className='border border-[#DEE2E6] dark:border-slate-700 rounded-xl shadow-xs p-5 md:p-6 bg-white dark:bg-slate-800'>
+          <h3 className='text-base font-semibold text-[#1D293D] dark:text-white mb-4 flex items-center gap-2'>
             <LifeBuoy
-              size={20}
-              className='text-[#1B2434] dark:text-slate-300'
+              size={18}
+              className='text-[#0B75A4]'
             />{" "}
             {t('issues.newTicket')}
           </h3>
           <form onSubmit={handleSubmit} className='space-y-4'>
             <div>
-              <label className='block text-xs font-semibold text-[#1B2434] dark:text-slate-300 mb-1'>
+              <label className='block text-xs font-semibold text-[#475569] dark:text-slate-300 mb-1'>
                 {t('issues.subject')} *
               </label>
               <div className='relative'>
@@ -592,7 +595,7 @@ export const Issues: React.FC = () => {
                   onChange={(e) =>
                     setForm((f) => ({ ...f, subject: e.target.value }))
                   }
-                  className='w-full px-3 py-2 rounded-md border border-[#1B2434]/20 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-[#1B2434] dark:text-white outline-none focus:ring-2 focus:ring-[#1B2434] pr-16'
+                  className='w-full px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-[#1D293D] dark:text-white outline-none focus:border-[#0B75A4] focus:ring-2 focus:ring-[#0B75A4]/20 transition-all placeholder:text-[#94A3B8] pr-16'
                   placeholder={t('issues.subjectPlaceholder')}
                 />
                 <VoiceInput
@@ -608,7 +611,7 @@ export const Issues: React.FC = () => {
 
             <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
               <div>
-                <label className='block text-xs font-semibold text-[#1B2434] dark:text-slate-300 mb-1'>
+                <label className='block text-xs font-semibold text-[#475569] dark:text-slate-300 mb-1'>
                   {t('issues.priority')}
                 </label>
                 <select
@@ -619,7 +622,7 @@ export const Issues: React.FC = () => {
                       priority: e.target.value as GrievancePriority,
                     }))
                   }
-                  className='w-full px-3 py-2 rounded-md border border-[#1B2434]/20 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-[#1B2434] dark:text-white outline-none focus:ring-2 focus:ring-[#1B2434]'
+                  className='w-full px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-[#1D293D] dark:text-white outline-none focus:border-[#0B75A4] focus:ring-2 focus:ring-[#0B75A4]/20 transition-all'
                 >
                   <option value='low'>{t('issues.priorityLow')}</option>
                   <option value='medium'>{t('issues.priorityMed')}</option>
@@ -629,7 +632,7 @@ export const Issues: React.FC = () => {
             </div>
 
             <div>
-              <label className='block text-xs font-semibold text-[#1B2434] dark:text-slate-300 mb-1'>
+              <label className='block text-xs font-semibold text-[#475569] dark:text-slate-300 mb-1'>
                 {t('issues.description')} *
               </label>
               <div className='relative'>
@@ -639,7 +642,7 @@ export const Issues: React.FC = () => {
                   onChange={(e) =>
                     setForm((f) => ({ ...f, description: e.target.value }))
                   }
-                  className='w-full px-3 py-2 rounded-md border border-[#1B2434]/20 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-[#1B2434] dark:text-white outline-none focus:ring-2 focus:ring-[#1B2434] resize-none pr-16 leading-relaxed'
+                  className='w-full px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-[#1D293D] dark:text-white outline-none focus:border-[#0B75A4] focus:ring-2 focus:ring-[#0B75A4]/20 transition-all placeholder:text-[#94A3B8] resize-none pr-16 leading-relaxed'
                   placeholder={t('issues.descriptionPlaceholder')}
                 />
                 <VoiceInput
@@ -770,16 +773,16 @@ export const Issues: React.FC = () => {
       {/* Filters & Controls */}
       <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-3 flex-wrap'>
         <div className='flex items-center gap-2 flex-wrap'>
-          <Filter size={14} className='text-slate-400' />
+          <Filter size={14} className='text-[#64748B]' />
           {(["all", "open", "in_progress", "resolved", "closed"] as const).map(
             (f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all cursor-pointer ${
                   filter === f
-                    ? "bg-[#1B2434] text-white border-[#1B2434] dark:bg-slate-100 dark:text-[#1B2434] dark:border-slate-100 shadow-sm"
-                    : "bg-white dark:bg-[#0F1622] text-slate-600 dark:text-slate-300 border-[#1B2434]/15 dark:border-slate-700 hover:border-[#1B2434]"
+                    ? "bg-[#0B75A4] text-white border-[#0B75A4] shadow-xs font-semibold"
+                    : "bg-white dark:bg-slate-800 text-[#475569] dark:text-slate-300 border-[#DEE2E6] dark:border-slate-700 hover:border-[#0B75A4] hover:text-[#0B75A4]"
                 }`}
               >
                 {f === "all" ? t('issues.all') : (tc(`status.${f}`) || f.replace("_", " "))} ({counts[f] ?? 0})
@@ -792,20 +795,20 @@ export const Issues: React.FC = () => {
           <div className='relative'>
             <Search
               size={14}
-              className='absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400'
+              className='absolute left-2.5 top-1/2 -translate-y-1/2 text-[#94A3B8]'
             />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={t('issues.searchPlaceholder')}
-              className='pl-8 pr-3 py-1.5 rounded-md border border-[#1B2434]/20 dark:border-slate-700 bg-white dark:bg-[#0F1622] text-xs text-[#1B2434] dark:text-slate-200 outline-none focus:ring-2 focus:ring-[#1B2434] w-48'
+              className='pl-8 pr-3 py-1.5 rounded-lg border border-[#CBD5E1] dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-200 outline-none focus:border-[#0B75A4] focus:ring-2 focus:ring-[#0B75A4]/20 transition-all placeholder:text-[#94A3B8] w-48'
             />
           </div>
           <button
             onClick={() =>
               setSort((s) => (s === "recent" ? "priority" : "recent"))
             }
-            className='px-3 py-1.5 rounded-md border border-[#1B2434]/20 dark:border-slate-700 text-xs font-medium flex items-center gap-1.5 hover:bg-[#1B2434]/5 dark:hover:bg-slate-800 transition-all text-[#1B2434] dark:text-slate-200'
+            className='px-3 py-1.5 rounded-lg border border-[#DEE2E6] dark:border-slate-700 text-xs font-medium flex items-center gap-1.5 hover:bg-[#F8FAFC] hover:text-[#0B75A4] hover:border-[#0B75A4]/40 dark:hover:bg-slate-800 transition-all text-[#475569] dark:text-slate-200 cursor-pointer'
             title='Toggle sort order'
           >
             <ArrowUpDown size={12} />
@@ -817,7 +820,7 @@ export const Issues: React.FC = () => {
       {/* Tickets List */}
       {visible.length === 0 ? (
         <EmptyState
-          icon={<MessageSquare size={40} className='text-slate-400' />}
+          icon={<MessageSquare size={36} className='text-[#94A3B8]' />}
           title={t('issues.noIssues')}
           description={t('issues.noIssuesDesc')}
         />
@@ -839,19 +842,15 @@ export const Issues: React.FC = () => {
             return (
               <div
                 key={grv.id}
-                className='p-4 md:p-5 rounded-md border border-[#1B2434]/15 dark:border-slate-800 bg-white dark:bg-[#0F1622] transition-all hover:border-[#1B2434]/30 shadow-sm'
+                className='p-4 md:p-5 rounded-xl border border-[#DEE2E6] dark:border-slate-700 bg-white dark:bg-slate-800 transition-all hover:border-[#0B75A4]/40 shadow-xs'
               >
                 <div className='flex items-start justify-between gap-3 flex-wrap'>
                   <div className='min-w-0 flex-1'>
                     <div className='flex items-center gap-2 flex-wrap'>
-                      <p className='text-sm font-semibold text-[#1B2434] dark:text-white'>
+                      <p className='text-sm font-semibold text-[#1D293D] dark:text-white'>
                         {grv.subject}
                       </p>
-                      <span
-                        className={`text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full ${statusColor(grv.status)}`}
-                      >
-                        {grv.status.replace("_", " ")}
-                      </span>
+                      <StatusBadge status={grv.status} />
                       <Badge variant={priorityVariant(grv.priority) as any}>
                         {grv.priority}
                       </Badge>
@@ -991,19 +990,17 @@ const TicketDetail: React.FC<{
   return (
     <div className='space-y-5 font-sans'>
       {/* Summary */}
-      <div className='grid grid-cols-2 md:grid-cols-4 gap-3 p-3.5 rounded-md bg-[#1B2434]/5 dark:bg-slate-800/50 border border-[#1B2434]/10 dark:border-slate-700'>
+      <div className='grid grid-cols-2 md:grid-cols-4 gap-3 p-4 rounded-xl bg-[#F8FAFC] dark:bg-slate-900/60 border border-[#DEE2E6] dark:border-slate-700'>
         <div>
-          <p className='text-[11px] text-slate-500 dark:text-slate-400'>
+          <p className='text-xs font-semibold text-[#64748B] dark:text-slate-400 uppercase tracking-wider'>
             Status
           </p>
-          <span
-            className={`mt-1 inline-block text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full ${statusColor(ticket.status)}`}
-          >
-            {ticket.status.replace("_", " ")}
-          </span>
+          <div className="mt-1">
+            <StatusBadge status={ticket.status} />
+          </div>
         </div>
         <div>
-          <p className='text-[11px] text-slate-500 dark:text-slate-400'>
+          <p className='text-xs font-semibold text-[#64748B] dark:text-slate-400 uppercase tracking-wider'>
             Priority
           </p>
           <div className='mt-1'>
@@ -1013,26 +1010,26 @@ const TicketDetail: React.FC<{
           </div>
         </div>
         <div>
-          <p className='text-[11px] text-slate-500 dark:text-slate-400'>
+          <p className='text-xs font-semibold text-[#64748B] dark:text-slate-400 uppercase tracking-wider'>
             Created
           </p>
-          <p className='text-xs font-medium text-[#1B2434] dark:text-white mt-1'>
+          <p className='text-xs font-semibold text-[#1D293D] dark:text-white mt-1'>
             {fmtDate(ticket.createdAt)}
           </p>
         </div>
         <div>
-          <p className='text-[11px] text-slate-500 dark:text-slate-400'>
+          <p className='text-xs font-semibold text-[#64748B] dark:text-slate-400 uppercase tracking-wider'>
             Updated
           </p>
-          <p className='text-xs font-medium text-[#1B2434] dark:text-white mt-1 font-mono'>
+          <p className='text-xs font-semibold text-[#1D293D] dark:text-white mt-1'>
             {timeSince(ticket.updatedAt)}
           </p>
         </div>
       </div>
 
       {ticket.needsAssistance && (
-        <div className='p-3 rounded-md bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800'>
-          <p className='text-xs text-purple-800 dark:text-purple-300'>
+        <div className='p-3.5 rounded-xl bg-[#E6F1F5] dark:bg-[#0B75A4]/20 border border-[#0B75A4]/30'>
+          <p className='text-xs text-[#0B75A4] dark:text-[#7EC5E2] font-semibold'>
             <strong>Assistance requested:</strong> {ticket.assistanceType}
           </p>
         </div>
@@ -1040,10 +1037,10 @@ const TicketDetail: React.FC<{
 
       {/* Description */}
       <div>
-        <p className='text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1'>
+        <p className='text-xs font-semibold text-[#64748B] dark:text-slate-400 uppercase tracking-wider mb-1'>
           Description
         </p>
-        <p className='text-xs text-[#1B2434] dark:text-slate-200 whitespace-pre-wrap leading-relaxed'>
+        <p className='text-xs text-[#1D293D] dark:text-slate-200 whitespace-pre-wrap leading-relaxed'>
           {ticket.description}
         </p>
       </div>
@@ -1051,18 +1048,18 @@ const TicketDetail: React.FC<{
       {/* Attachments */}
       {ticket.attachments.length > 0 && (
         <div>
-          <p className='text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5'>
+          <p className='text-xs font-semibold text-[#64748B] dark:text-slate-400 uppercase tracking-wider mb-1.5'>
             Attachments
           </p>
           <ul className='space-y-1.5'>
             {ticket.attachments.map((a) => (
               <li
                 key={a.id}
-                className='flex items-center gap-2 text-xs text-[#1B2434] dark:text-slate-300 bg-[#1B2434]/5 dark:bg-slate-800/50 rounded-md px-3 py-1.5'
+                className='flex items-center gap-2 text-xs text-[#1D293D] dark:text-slate-300 bg-[#F8FAFC] dark:bg-slate-800/80 rounded-lg px-3 py-2 border border-[#DEE2E6] dark:border-slate-700'
               >
-                <Paperclip size={12} className='text-slate-400' />
-                <span className='truncate'>{a.name}</span>
-                <span className='text-slate-400 font-mono text-[11px]'>
+                <Paperclip size={13} className='text-[#64748B]' />
+                <span className='truncate font-medium'>{a.name}</span>
+                <span className='text-[#94A3B8] font-mono text-[11px]'>
                   ({(a.size / 1024).toFixed(1)} KB)
                 </span>
               </li>
@@ -1073,7 +1070,7 @@ const TicketDetail: React.FC<{
 
       {/* Thread */}
       <div>
-        <p className='text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2'>
+        <p className='text-xs font-semibold text-[#64748B] dark:text-slate-400 uppercase tracking-wider mb-2'>
           Conversation ({ticket.messages.length})
         </p>
         <div
@@ -1086,16 +1083,16 @@ const TicketDetail: React.FC<{
               className={`flex ${m.author === "student" ? "justify-end" : "justify-start"}`}
             >
               <div
-                className={`max-w-[85%] rounded-md px-3.5 py-2.5 text-xs ${
+                className={`max-w-[85%] rounded-xl px-4 py-2.5 text-xs ${
                   m.author === "student"
-                    ? "bg-[#1B2434] text-white dark:bg-slate-700"
-                    : "bg-[#1B2434]/5 dark:bg-slate-800 text-[#1B2434] dark:text-slate-200"
+                    ? "bg-[#0B75A4] text-white shadow-xs"
+                    : "bg-[#F8FAFC] dark:bg-slate-800 text-[#1D293D] dark:text-slate-200 border border-[#DEE2E6] dark:border-slate-700"
                 }`}
               >
                 <p className='whitespace-pre-wrap leading-relaxed'>{m.text}</p>
                 <p
-                  className={`text-[10px] mt-1.5 font-mono ${
-                    m.author === "student" ? "text-slate-300" : "text-slate-400"
+                  className={`text-[10px] mt-1.5 font-medium ${
+                    m.author === "student" ? "text-white/80" : "text-[#94A3B8]"
                   }`}
                 >
                   {fmtDateTime(m.at)}
@@ -1116,10 +1113,11 @@ const TicketDetail: React.FC<{
               if (e.key === "Enter") send();
             }}
             placeholder='Type a reply…'
-            className='flex-1 px-3 py-2 rounded-md border border-[#1B2434]/20 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-[#1B2434] dark:text-white outline-none focus:ring-2 focus:ring-[#1B2434]'
+            className='flex-1 px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-white outline-none focus:border-[#0B75A4] focus:ring-2 focus:ring-[#0B75A4]/20 transition-all placeholder:text-[#94A3B8]'
           />
           <Button
             size='sm'
+            variant="primary"
             icon={
               sending ? (
                 <Loader2 size={14} className='animate-spin' />
@@ -1135,8 +1133,8 @@ const TicketDetail: React.FC<{
       )}
 
       {/* Status Transition Actions */}
-      <div className='flex items-center gap-2 flex-wrap pt-3 border-t border-[#1B2434]/10 dark:border-slate-800'>
-        <p className='text-xs text-slate-500 dark:text-slate-400 mr-auto'>
+      <div className='flex items-center gap-2 flex-wrap pt-3 border-t border-[#DEE2E6] dark:border-slate-800'>
+        <p className='text-xs text-[#64748B] dark:text-slate-400 mr-auto'>
           Change status:
         </p>
         {(["open", "in_progress", "resolved", "closed"] as const).map((s) => (
@@ -1144,10 +1142,10 @@ const TicketDetail: React.FC<{
             key={s}
             onClick={() => onStatusChange(s)}
             disabled={ticket.status === s}
-            className={`px-2.5 py-1 rounded-md text-[11px] font-medium border transition-all ${
+            className={`px-3 py-1 rounded-lg text-xs font-medium border transition-all cursor-pointer ${
               ticket.status === s
-                ? "bg-[#1B2434]/5 dark:bg-slate-800 text-slate-400 border-[#1B2434]/10 dark:border-slate-800 cursor-not-allowed"
-                : "bg-white dark:bg-[#0F1622] text-[#1B2434] dark:text-slate-200 border-[#1B2434]/20 dark:border-slate-700 hover:border-[#1B2434]"
+                ? "bg-[#F1F5F9] dark:bg-slate-800 text-[#94A3B8] border-[#DEE2E6] dark:border-slate-800 cursor-not-allowed"
+                : "bg-white dark:bg-slate-800 text-[#475569] dark:text-slate-200 border-[#DEE2E6] dark:border-slate-700 hover:border-[#0B75A4] hover:text-[#0B75A4]"
             }`}
           >
             {s.replace("_", " ")}

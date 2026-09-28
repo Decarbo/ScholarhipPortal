@@ -15,6 +15,7 @@ import { Button, Card, Modal, StatusPill } from "./ui";
 import { getStatusType, getStatusLabel } from "./ui";
 import { cscCenters } from "../mock/data";
 import { checkSMSStatus } from "../services/api";
+import { useAppStore } from "../store";
 
 // ============ VOICE INPUT BUTTON ============
 export const VoiceInput: React.FC<{
@@ -64,8 +65,8 @@ export const VoiceInput: React.FC<{
       onClick={startListening}
       className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-[12px] font-medium transition-all border ${
         listening
-          ? "border-[#B4472A]/30 bg-[#B4472A]/[0.04] text-[#B4472A] dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-400 animate-pulse"
-          : "border-[#1B2434]/15 bg-transparent text-[#1B2434] hover:bg-[#1B2434]/5 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
+          ? "border-[#EF4444]/30 bg-[#EF4444]/[0.05] text-[#EF4444] dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-400 animate-pulse"
+          : "border-[#DEE2E6] bg-transparent text-[#1D293D] hover:bg-[#E6F1F5]/40 hover:text-[#0B75A4] dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
       }`}
       aria-label={btnLabel}
       title={listening ? listeningText : btnLabel}
@@ -141,7 +142,7 @@ export const SMSStatusCheck: React.FC = () => {
     <>
       <button
         onClick={() => setShowModal(true)}
-        className='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300 hover:bg-green-200 dark:hover:bg-green-900/50 transition-all'
+        className='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#009B68]/10 text-[#009B68] border border-[#009B68]/20 hover:bg-[#009B68]/20 transition-all cursor-pointer'
         aria-label='Check status via SMS'
       >
         <MessageSquare size={14} />
@@ -157,19 +158,19 @@ export const SMSStatusCheck: React.FC = () => {
         title='Check Status via SMS/Phone'
         size='sm'
       >
-        <div className='space-y-4'>
-          <p className='text-sm text-slate-600 dark:text-slate-400'>
+        <div className='space-y-4 font-sans'>
+          <p className='text-sm text-[#64748B] dark:text-slate-400'>
             Don't have a smartphone or internet? Enter your registered phone
             number to check application status via SMS.
           </p>
-          <div className='p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800'>
-            <p className='text-xs text-blue-700 dark:text-blue-300'>
+          <div className='p-3 rounded-lg bg-[#E6F1F5] dark:bg-[#0B75A4]/10 border border-[#0B75A4]/20'>
+            <p className='text-xs text-[#0B75A4] dark:text-[#1697C5]'>
               💡 You can also send "STATUS" to <strong>56767</strong> from your
               registered mobile number.
             </p>
           </div>
           <div>
-            <label className='block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1'>
+            <label className='block text-xs font-semibold text-[#1D293D] dark:text-slate-300 mb-1.5'>
               Registered Phone Number
             </label>
             <input
@@ -177,7 +178,7 @@ export const SMSStatusCheck: React.FC = () => {
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               placeholder='Enter 10-digit mobile number'
-              className='w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500'
+              className='w-full px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-[#1D293D] dark:text-white outline-none focus:ring-2 focus:ring-[#0B75A4]/30 focus:border-[#0B75A4] transition-all'
             />
           </div>
           <Button onClick={handleCheck} loading={loading} className='w-full'>
@@ -232,7 +233,7 @@ export const CSCFinder: React.FC<{ studentState?: string }> = ({
     <>
       <button
         onClick={() => setShowModal(true)}
-        className='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300 hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-all'
+        className='inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-[#0B75A4]/10 text-[#0B75A4] border border-[#0B75A4]/20 hover:bg-[#0B75A4]/20 transition-all cursor-pointer'
         aria-label='Find nearby CSC center'
       >
         <MapPin size={14} />
@@ -245,8 +246,8 @@ export const CSCFinder: React.FC<{ studentState?: string }> = ({
         title='Find Help Center Near You'
         size='lg'
       >
-        <div className='space-y-4'>
-          <p className='text-sm text-slate-600 dark:text-slate-400'>
+        <div className='space-y-4 font-sans'>
+          <p className='text-sm text-[#64748B] dark:text-slate-400'>
             Can't fill the form online? Visit a Common Service Center (CSC) or
             Ashram School where trained staff can help you.
           </p>
@@ -269,7 +270,7 @@ export const CSCFinder: React.FC<{ studentState?: string }> = ({
                         {center.name}
                       </p>
                       <StatusPill
-                        status={center.available ? "done" : "neutral"}
+                        status={center.available ? "verified" : "draft"}
                         label={center.available ? "Open" : "Closed"}
                       />
                     </div>

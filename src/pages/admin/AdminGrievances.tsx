@@ -590,23 +590,28 @@ export const AdminGrievances: React.FC = () => {
   }
 
   return (
-    <div className='p-4 md:p-6 space-y-6 animate-fade-in max-w-7xl mx-auto'>
+    <div className='p-4 md:p-8 space-y-6 animate-fade-in max-w-7xl mx-auto font-sans text-[#1D293D] dark:text-slate-100'>
       {/* Header */}
-      <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-4'>
-        <div>
-          <h1 className='text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2'>
-            <Inbox size={22} /> {t('grievances.title')}
-          </h1>
-          <p className='text-sm text-slate-500 dark:text-slate-400'>
-            {t('grievances.subtitle')}
-          </p>
-          {adminUser?.name && (
-            <p className='text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1'>
-              <MapPin size={11} />
-              {t('grievances.signedInAs')} <strong>{adminUser.name}</strong>
-              {adminState ? ` · ${t('grievances.scopedTo')} ${adminState}` : ""}
+      <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[#DEE2E6] dark:border-slate-800 pb-5'>
+        <div className='flex items-start gap-3'>
+          <div className='p-2.5 rounded-xl bg-[#E6F1F5] dark:bg-[#0B75A4]/20 text-[#0B75A4] dark:text-[#1697C5] shrink-0 mt-0.5'>
+            <Inbox size={24} />
+          </div>
+          <div>
+            <h1 className='text-2xl md:text-3xl font-bold text-[#1D293D] dark:text-white leading-tight'>
+              {t('grievances.title')}
+            </h1>
+            <p className='text-sm text-[#64748B] dark:text-slate-400 mt-1'>
+              {t('grievances.subtitle')}
             </p>
-          )}
+            {adminUser?.name && (
+              <p className='text-xs text-[#64748B] dark:text-slate-400 mt-1 flex items-center gap-1 font-mono'>
+                <MapPin size={11} className='text-[#0B75A4]' />
+                {t('grievances.signedInAs')} <strong className='font-sans text-[#1D293D] dark:text-slate-200'>{adminUser.name}</strong>
+                {adminState ? ` · ${t('grievances.scopedTo')} ${adminState}` : ""}
+              </p>
+            )}
+          </div>
         </div>
         <div className='flex items-center gap-2 flex-wrap'>
           <Badge variant='success'>{t('communication.frontendOnly')}</Badge>
@@ -638,41 +643,41 @@ export const AdminGrievances: React.FC = () => {
       </div>
 
       {/* Stats */}
-      <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
-        <Card className='!p-3'>
-          <p className='text-[11px] font-semibold text-blue-600 uppercase tracking-wider'>
+      <div className='grid grid-cols-2 md:grid-cols-4 gap-3.5'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#0B75A4] dark:text-[#1697C5] uppercase tracking-wider'>
             {t('grievances.statusOpen')}
           </p>
-          <p className='text-2xl font-bold text-blue-600 mt-0.5'>
+          <p className='text-2xl font-bold text-[#0B75A4] dark:text-[#1697C5] mt-1'>
             {stats.open}
           </p>
         </Card>
-        <Card className='!p-3'>
-          <p className='text-[11px] font-semibold text-amber-600 uppercase tracking-wider'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#F59E0B] uppercase tracking-wider'>
             {t('grievances.statusInProgress')}
           </p>
-          <p className='text-2xl font-bold text-amber-600 mt-0.5'>
+          <p className='text-2xl font-bold text-[#F59E0B] mt-1'>
             {stats.inProgress}
           </p>
         </Card>
-        <Card className='!p-3'>
-          <p className='text-[11px] font-semibold text-emerald-600 uppercase tracking-wider'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#009B68] dark:text-emerald-400 uppercase tracking-wider'>
             {t('grievances.statusResolved')}
           </p>
-          <p className='text-2xl font-bold text-emerald-600 mt-0.5'>
+          <p className='text-2xl font-bold text-[#009B68] dark:text-emerald-400 mt-1'>
             {stats.resolved}
           </p>
         </Card>
-        <Card className='!p-3'>
-          <p className='text-[11px] font-semibold text-red-600 uppercase tracking-wider'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#EF4444] uppercase tracking-wider'>
             {t('grievances.priority')}
           </p>
-          <p className='text-2xl font-bold text-red-600 mt-0.5'>{stats.high}</p>
+          <p className='text-2xl font-bold text-[#EF4444] mt-1'>{stats.high}</p>
         </Card>
       </div>
 
       {/* Filters */}
-      <div className='flex flex-wrap gap-2 items-center'>
+      <div className='flex flex-wrap gap-2.5 items-center'>
         {STATUS_TABS.map((tabItem) => {
           const Icon = tabItem.icon;
           const isActive = tab === tabItem.key;
@@ -694,13 +699,13 @@ export const AdminGrievances: React.FC = () => {
             <button
               key={tabItem.key}
               onClick={() => setTab(tabItem.key)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all flex items-center gap-1.5 cursor-pointer ${
                 isActive
-                  ? "bg-blue-600 text-white border-blue-600"
-                  : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-300 dark:border-slate-600 hover:border-blue-400"
+                  ? "bg-[#0B75A4] text-white border-[#0B75A4] shadow-xs"
+                  : "bg-white dark:bg-slate-800 text-[#475569] dark:text-slate-300 border-[#DEE2E6] dark:border-slate-700 hover:border-[#0B75A4]"
               }`}
             >
-              <Icon size={12} />
+              <Icon size={13} />
               {label} ({count})
             </button>
           );
@@ -711,26 +716,26 @@ export const AdminGrievances: React.FC = () => {
         <div className='relative'>
           <Search
             size={14}
-            className='absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400'
+            className='absolute left-2.5 top-1/2 -translate-y-1/2 text-[#94A3B8]'
           />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder={t('grievances.searchPlaceholder')}
-            className='pl-8 pr-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-slate-900 dark:text-white outline-none w-56'
+            className='pl-8 pr-3 py-1.5 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-white outline-none focus:ring-2 focus:ring-[#0B75A4] focus:border-[#0B75A4] w-56'
           />
         </div>
 
         {adminState ? (
-          <div className='px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300 flex items-center gap-1'>
-            <MapPin size={11} className='text-slate-500' />
-            <strong>{adminState}</strong>
+          <div className='px-3 py-1.5 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-[#F8FAFC] dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-300 flex items-center gap-1.5'>
+            <MapPin size={11} className='text-[#0B75A4]' />
+            <strong className='font-semibold'>{adminState}</strong>
           </div>
         ) : (
           <select
             value={stateFilter}
             onChange={(e) => setStateFilter(e.target.value)}
-            className='px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-slate-700 dark:text-slate-300 outline-none'
+            className='px-3 py-1.5 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-300 outline-none focus:ring-2 focus:ring-[#0B75A4]'
           >
             <option value=''>{t('screening.allStates')}</option>
             {uniqueStates.map((s) => (
@@ -747,7 +752,7 @@ export const AdminGrievances: React.FC = () => {
         {filtered.map((grv) => (
           <Card
             key={grv.id}
-            className='!p-4 cursor-pointer hover:shadow-md transition-all'
+            className='p-5 border-[#DEE2E6] dark:border-slate-700 cursor-pointer hover:border-[#0B75A4] hover:shadow-xs transition-all'
             onClick={() => {
               setSelectedGrv(grv);
               setResponse(grv.response || "");
@@ -758,8 +763,8 @@ export const AdminGrievances: React.FC = () => {
           >
             <div className='flex items-start justify-between gap-3 flex-wrap'>
               <div className='flex-1 min-w-0'>
-                <div className='flex items-center gap-2 mb-1 flex-wrap'>
-                  <p className='text-sm font-medium text-slate-900 dark:text-white'>
+                <div className='flex items-center gap-2 mb-1.5 flex-wrap'>
+                  <p className='text-base font-bold text-[#1D293D] dark:text-white'>
                     {grv.subject}
                   </p>
                   <StatusBadge status={grv.status} />
@@ -767,7 +772,7 @@ export const AdminGrievances: React.FC = () => {
                     {grv.priority}
                   </Badge>
                   {grv.category && (
-                    <Badge variant='info'>
+                    <Badge variant='info' className='bg-[#E6F1F5] text-[#0B75A4]'>
                       {grv.category.replace(/_/g, " ")}
                     </Badge>
                   )}
@@ -777,17 +782,17 @@ export const AdminGrievances: React.FC = () => {
                     </Badge>
                   )}
                 </div>
-                <p className='text-xs text-slate-500'>
-                  {t('auditLog.user')}: {grv.studentName} · {grv.district}, {grv.state} ·{" "}
-                  {fmtDateTime(grv.createdAt)} · {grv.id}
+                <p className='text-xs text-[#64748B] dark:text-slate-400'>
+                  {t('auditLog.user')}: <strong className='text-[#1D293D] dark:text-slate-200'>{grv.studentName}</strong> · {grv.district}, {grv.state} ·{" "}
+                  {fmtDateTime(grv.createdAt)} · <span className='font-mono'>{grv.id}</span>
                 </p>
-                <p className='text-sm text-slate-600 dark:text-slate-400 mt-2 line-clamp-2'>
+                <p className='text-sm text-[#64748B] dark:text-slate-300 mt-2 line-clamp-2 leading-relaxed'>
                   {grv.description}
                 </p>
               </div>
               <div className='flex items-center gap-2 shrink-0'>
-                <span className='text-[10px] text-slate-400 flex items-center gap-1'>
-                  <MessageSquare size={11} /> {grv.messages.length}
+                <span className='text-xs text-[#64748B] flex items-center gap-1 font-mono'>
+                  <MessageSquare size={13} className='text-[#0B75A4]' /> {grv.messages.length}
                 </span>
                 <Button
                   size='sm'
@@ -811,7 +816,7 @@ export const AdminGrievances: React.FC = () => {
 
         {filtered.length === 0 && (
           <EmptyState
-            icon={<Inbox size={40} />}
+            icon={<Inbox size={40} className='text-[#94A3B8]' />}
             title={t('auditLog.noLogs')}
             description={t('auditLog.noLogsDesc')}
           />
@@ -826,47 +831,51 @@ export const AdminGrievances: React.FC = () => {
         size='lg'
       >
         {selectedGrv && (
-          <div className='space-y-4'>
+          <div className='space-y-4 font-sans text-[#1D293D] dark:text-slate-100'>
             {/* Summary */}
-            <div className='grid grid-cols-2 gap-3 p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50'>
+            <div className='grid grid-cols-2 gap-3 p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/50 border border-[#DEE2E6] dark:border-slate-700'>
               <div>
-                <p className='text-[11px] font-semibold text-slate-500 uppercase'>
+                <p className='text-[11px] font-semibold text-[#64748B] uppercase'>
                   {t('grievances.student')}
                 </p>
-                <p className='text-sm font-medium text-slate-900 dark:text-white mt-0.5'>
+                <p className='text-sm font-bold text-[#1D293D] dark:text-white mt-0.5'>
                   {selectedGrv.studentName}
                 </p>
-                <p className='text-[11px] text-slate-500'>
+                <p className='text-xs text-[#64748B]'>
                   {selectedGrv.studentEmail}
                 </p>
               </div>
               <div>
-                <p className='text-[11px] font-semibold text-slate-500 uppercase'>
+                <p className='text-[11px] font-semibold text-[#64748B] uppercase'>
                   {t('screening.location')}
                 </p>
-                <p className='text-sm font-medium text-slate-900 dark:text-white mt-0.5'>
+                <p className='text-sm font-bold text-[#1D293D] dark:text-white mt-0.5'>
                   {selectedGrv.district}, {selectedGrv.state}
                 </p>
               </div>
               <div>
-                <p className='text-[11px] font-semibold text-slate-500 uppercase'>
+                <p className='text-[11px] font-semibold text-[#64748B] uppercase'>
                   {t('grievances.priority')}
                 </p>
-                <Badge variant={priorityVariant(selectedGrv.priority)}>
-                  {selectedGrv.priority}
-                </Badge>
+                <div className='mt-1'>
+                  <Badge variant={priorityVariant(selectedGrv.priority)}>
+                    {selectedGrv.priority}
+                  </Badge>
+                </div>
               </div>
               <div>
-                <p className='text-[11px] font-semibold text-slate-500 uppercase'>
+                <p className='text-[11px] font-semibold text-[#64748B] uppercase'>
                   {t('grievances.status')}
                 </p>
-                <StatusBadge status={selectedGrv.status} />
+                <div className='mt-1'>
+                  <StatusBadge status={selectedGrv.status} />
+                </div>
               </div>
             </div>
 
             {/* Assistance */}
             {selectedGrv.needsAssistance && (
-              <div className='p-3 rounded-lg bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800'>
+              <div className='p-3 rounded-xl bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800'>
                 <p className='text-xs text-purple-700 dark:text-purple-300'>
                   <strong>{t('grievances.assistanceBadge')}:</strong>{" "}
                   {selectedGrv.assistanceType}
@@ -875,26 +884,24 @@ export const AdminGrievances: React.FC = () => {
             )}
 
             {/* Description */}
-            <div>
-              <p className='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1'>
+            <div className='p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/40 border border-[#DEE2E6] dark:border-slate-700'>
+              <p className='text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-1'>
                 {t('grievances.subject')}
               </p>
-              <p className='font-medium text-slate-900 dark:text-white'>
+              <p className='font-bold text-sm text-[#1D293D] dark:text-white'>
                 {selectedGrv.subject}
               </p>
-            </div>
-            <div>
-              <p className='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1'>
+              <p className='text-xs font-semibold text-[#64748B] uppercase tracking-wider mt-3 mb-1'>
                 {t('auditLog.details')}
               </p>
-              <p className='text-sm text-slate-700 dark:text-slate-300 whitespace-pre-wrap'>
+              <p className='text-sm text-[#1D293D] dark:text-slate-300 leading-relaxed whitespace-pre-wrap'>
                 {selectedGrv.description}
               </p>
             </div>
 
             {/* Thread */}
             <div>
-              <p className='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2'>
+              <p className='text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-2'>
                 {t('grievances.ticketThread')} ({selectedGrv.messages.length})
               </p>
               <div className='max-h-56 overflow-y-auto space-y-2 pr-1'>
@@ -906,18 +913,18 @@ export const AdminGrievances: React.FC = () => {
                     }`}
                   >
                     <div
-                      className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm ${
+                      className={`max-w-[80%] rounded-2xl px-3.5 py-2.5 text-xs ${
                         m.author === "admin"
-                          ? "bg-blue-600 text-white rounded-br-sm"
-                          : "bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-bl-sm"
+                          ? "bg-[#0B75A4] text-white rounded-br-xs shadow-xs"
+                          : "bg-[#F8FAFC] dark:bg-slate-800 text-[#1D293D] dark:text-slate-200 border border-[#DEE2E6] dark:border-slate-700 rounded-bl-xs"
                       }`}
                     >
-                      <p className='whitespace-pre-wrap'>{m.text}</p>
+                      <p className='whitespace-pre-wrap leading-relaxed'>{m.text}</p>
                       <p
-                        className={`text-[10px] mt-1 ${
+                        className={`text-[10px] mt-1.5 font-mono ${
                           m.author === "admin"
                             ? "text-blue-100"
-                            : "text-slate-500"
+                            : "text-[#64748B]"
                         }`}
                       >
                         {fmtDateTime(m.at)}
@@ -930,20 +937,20 @@ export const AdminGrievances: React.FC = () => {
 
             {/* Response */}
             <div>
-              <label className='block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1'>
+              <label className='block text-xs font-semibold text-[#1D293D] dark:text-slate-200 mb-1'>
                 {t('grievances.reply')}
               </label>
               <textarea
                 rows={4}
                 value={response}
                 onChange={(e) => setResponse(e.target.value)}
-                className='w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500 resize-none'
+                className='w-full px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-white outline-none focus:ring-2 focus:ring-[#0B75A4] focus:border-[#0B75A4] resize-none'
                 placeholder={t('grievances.searchPlaceholder')}
               />
             </div>
 
             <div>
-              <label className='block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1'>
+              <label className='block text-xs font-semibold text-[#1D293D] dark:text-slate-200 mb-1'>
                 {t('grievances.status')}
               </label>
               <select
@@ -951,7 +958,7 @@ export const AdminGrievances: React.FC = () => {
                 onChange={(e) =>
                   setReplyStatus(e.target.value as GrievanceStatus)
                 }
-                className='w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white outline-none'
+                className='w-full px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-white outline-none focus:ring-2 focus:ring-[#0B75A4]'
               >
                 <option value='in_progress'>{t('grievances.statusInProgress')}</option>
                 <option value='resolved'>{t('grievances.statusResolved')}</option>
@@ -962,7 +969,7 @@ export const AdminGrievances: React.FC = () => {
             </div>
 
             {/* Actions */}
-            <div className='flex flex-wrap gap-2 pt-2 border-t border-slate-200 dark:border-slate-700 justify-end'>
+            <div className='flex flex-wrap gap-2.5 pt-3 border-t border-[#DEE2E6] dark:border-slate-700 justify-end'>
               <Button
                 variant='outline'
                 size='sm'
@@ -1003,27 +1010,27 @@ export const AdminGrievances: React.FC = () => {
         size='lg'
       >
         {audit.length === 0 ? (
-          <p className='text-sm text-slate-500 italic'>{t('auditLog.noLogs')}</p>
+          <p className='text-sm text-[#94A3B8] italic'>{t('auditLog.noLogs')}</p>
         ) : (
-          <div className='space-y-2 max-h-[60vh] overflow-y-auto'>
+          <div className='space-y-2 max-h-[60vh] overflow-y-auto font-sans text-[#1D293D] dark:text-slate-100'>
             {audit.map((e) => (
               <div
                 key={e.id}
-                className='p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700'
+                className='p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/50 border border-[#DEE2E6] dark:border-slate-700'
               >
                 <div className='flex items-center justify-between gap-2'>
-                  <span className='text-xs font-semibold text-slate-800 dark:text-slate-200'>
+                  <span className='text-xs font-bold text-[#1D293D] dark:text-slate-200'>
                     {e.action}
                   </span>
-                  <span className='text-[10px] text-slate-500'>
+                  <span className='text-[10px] text-[#64748B] font-mono'>
                     {fmtDateTime(e.at)}
                   </span>
                 </div>
-                <p className='text-xs text-slate-600 dark:text-slate-400 mt-1'>
-                  {e.target} · by <strong>{e.actor}</strong>
+                <p className='text-xs text-[#64748B] dark:text-slate-400 mt-1'>
+                  {e.target} · by <strong className='text-[#1D293D] dark:text-slate-200'>{e.actor}</strong>
                 </p>
                 {e.remark && (
-                  <p className='text-[11px] text-slate-500 mt-1 italic'>
+                  <p className='text-[11px] text-[#64748B] mt-1 italic'>
                     "{e.remark}"
                   </p>
                 )}

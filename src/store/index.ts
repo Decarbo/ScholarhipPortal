@@ -182,6 +182,7 @@ interface AuthState {
     email: string;
     password: string;
     state?: string;
+    [key: string]: any;
   }) => Promise<void>;
   logout: () => void;
   initAuth: () => void;

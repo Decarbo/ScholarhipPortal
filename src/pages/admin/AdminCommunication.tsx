@@ -373,23 +373,28 @@ export const AdminCommunication: React.FC = () => {
   };
 
   return (
-    <div className='p-4 md:p-6 space-y-6 animate-fade-in max-w-7xl mx-auto'>
+    <div className='p-4 md:p-8 space-y-6 animate-fade-in max-w-7xl mx-auto font-sans text-[#1D293D] dark:text-slate-100'>
       {/* Header */}
-      <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-4'>
-        <div>
-          <h1 className='text-2xl font-bold text-slate-900 dark:text-white'>
-            {t('communication.title')}
-          </h1>
-          <p className='text-sm text-slate-500 dark:text-slate-400'>
-            {t('communication.subtitle')}
-          </p>
-          {adminUser?.name && (
-            <p className='text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1'>
-              <MapPin size={11} />
-              {t('communication.signedInAs')} <strong>{adminUser.name}</strong>
-              {adminState ? ` · ${t('communication.scopedTo')} ${adminState}` : ""}
+      <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[#DEE2E6] dark:border-slate-800 pb-5'>
+        <div className='flex items-start gap-3'>
+          <div className='p-2.5 rounded-xl bg-[#E6F1F5] dark:bg-[#0B75A4]/20 text-[#0B75A4] dark:text-[#1697C5] shrink-0 mt-0.5'>
+            <Mail size={24} />
+          </div>
+          <div>
+            <h1 className='text-2xl md:text-3xl font-bold text-[#1D293D] dark:text-white leading-tight'>
+              {t('communication.title')}
+            </h1>
+            <p className='text-sm text-[#64748B] dark:text-slate-400 mt-1'>
+              {t('communication.subtitle')}
             </p>
-          )}
+            {adminUser?.name && (
+              <p className='text-xs text-[#64748B] dark:text-slate-400 mt-1 flex items-center gap-1 font-mono'>
+                <MapPin size={11} className='text-[#0B75A4]' />
+                {t('communication.signedInAs')} <strong className='font-sans text-[#1D293D] dark:text-slate-200'>{adminUser.name}</strong>
+                {adminState ? ` · ${t('communication.scopedTo')} ${adminState}` : ""}
+              </p>
+            )}
+          </div>
         </div>
         <div className='flex items-center gap-2 flex-wrap'>
           <Badge variant='success'>{t('communication.frontendOnly')}</Badge>
@@ -414,34 +419,36 @@ export const AdminCommunication: React.FC = () => {
 
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
         {/* Recipient picker */}
-        <Card className='!p-4 space-y-3'>
+        <Card className='p-5 border-[#DEE2E6] dark:border-slate-700 shadow-xs space-y-3.5'>
           <div className='flex items-center justify-between'>
-            <h3 className='text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2'>
-              <Users size={15} /> {t('communication.recipients')}
+            <h3 className='text-base font-bold text-[#1D293D] dark:text-white flex items-center gap-2'>
+              <Users size={16} className='text-[#0B75A4]' /> {t('communication.recipients')}
             </h3>
-            <Badge variant='info'>{t('communication.selectedRecipients', { count: recipientIds.length })}</Badge>
+            <Badge variant='info' className='bg-[#E6F1F5] text-[#0B75A4] dark:bg-[#0B75A4]/20 dark:text-[#1697C5]'>
+              {t('communication.selectedRecipients', { count: recipientIds.length })}
+            </Badge>
           </div>
 
-          <div className='flex gap-2'>
+          <div className='flex gap-2.5'>
             <select
               value={group}
               onChange={(e) => setGroup(e.target.value as any)}
-              className='flex-1 px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-300 outline-none'
+              className='flex-1 px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-300 outline-none focus:ring-2 focus:ring-[#0B75A4]'
             >
               <option value='all'>{t('communication.groupAll')}</option>
               <option value='state_wise'>{t('communication.groupState')}</option>
             </select>
 
             {adminState && group === "all" ? (
-              <div className='flex-1 px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-300 flex items-center gap-1'>
-                <MapPin size={12} className='text-slate-500' />
-                <strong>{adminState}</strong>
+              <div className='flex-1 px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-[#F8FAFC] dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-300 flex items-center gap-1.5'>
+                <MapPin size={12} className='text-[#0B75A4]' />
+                <strong className='font-semibold'>{adminState}</strong>
               </div>
             ) : (
               <select
                 value={stateFilter}
                 onChange={(e) => setStateFilter(e.target.value)}
-                className='flex-1 px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-300 outline-none'
+                className='flex-1 px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-300 outline-none focus:ring-2 focus:ring-[#0B75A4]'
               >
                 <option value=''>{t('screening.allStates')}</option>
                 {uniqueStates.map((s) => (
@@ -456,13 +463,13 @@ export const AdminCommunication: React.FC = () => {
           <div className='relative'>
             <Search
               size={15}
-              className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-400'
+              className='absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8]'
             />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder={t('communication.searchStudents')}
-              className='w-full pl-9 pr-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500'
+              className='w-full pl-9 pr-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-white outline-none focus:ring-2 focus:ring-[#0B75A4] focus:border-[#0B75A4]'
             />
           </div>
 
@@ -475,26 +482,26 @@ export const AdminCommunication: React.FC = () => {
             </Button>
           </div>
 
-          <div className='max-h-72 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-700 border border-slate-200 dark:border-slate-700 rounded-lg'>
+          <div className='max-h-72 overflow-y-auto divide-y divide-[#DEE2E6] dark:divide-slate-700 border border-[#DEE2E6] dark:border-slate-700 rounded-xl'>
             {inScope.length === 0 && (
-              <p className='p-3 text-sm text-slate-500'>{t('communication.noMessages')}</p>
+              <p className='p-3 text-sm text-[#64748B] italic'>{t('communication.noMessages')}</p>
             )}
             {inScope.map((s) => (
               <label
                 key={s.id}
-                className='flex items-center gap-3 p-2.5 hover:bg-slate-50 dark:hover:bg-slate-800/40 cursor-pointer'
+                className='flex items-center gap-3 p-3 hover:bg-[#F8FAFC] dark:hover:bg-slate-800/40 cursor-pointer transition-colors'
               >
                 <input
                   type='checkbox'
                   checked={recipientIds.includes(s.id)}
                   onChange={() => toggle(s.id)}
-                  className='rounded'
+                  className='rounded border-[#CBD5E1] text-[#0B75A4] focus:ring-[#0B75A4] w-4 h-4'
                 />
                 <span className='flex-1 min-w-0'>
-                  <span className='block text-sm font-medium text-slate-900 dark:text-white truncate'>
+                  <span className='block text-xs font-bold text-[#1D293D] dark:text-white truncate'>
                     {s.name}
                   </span>
-                  <span className='block text-xs text-slate-500 truncate'>
+                  <span className='block text-[11px] text-[#64748B] truncate mt-0.5'>
                     {s.email} · {s.district}, {s.state}
                   </span>
                 </span>
@@ -503,8 +510,8 @@ export const AdminCommunication: React.FC = () => {
           </div>
 
           {selectedStudents.length > 0 && (
-            <div className='p-2 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800'>
-              <p className='text-xs text-blue-700 dark:text-blue-300'>
+            <div className='p-3 rounded-xl bg-[#E6F1F5]/60 dark:bg-slate-800/60 border border-[#0B75A4]/20 dark:border-slate-700'>
+              <p className='text-xs text-[#0B75A4] dark:text-[#1697C5] font-medium'>
                 <strong>{selectedStudents.length}</strong> {t('communication.recipients')} ·{" "}
                 {[...new Set(selectedStudents.map((s) => s.state))].join(", ")}
               </p>
@@ -513,19 +520,19 @@ export const AdminCommunication: React.FC = () => {
         </Card>
 
         {/* Compose */}
-        <Card className='!p-4 space-y-4'>
-          <h3 className='text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2'>
-            <Mail size={15} /> {t('communication.compose')}
+        <Card className='p-5 border-[#DEE2E6] dark:border-slate-700 shadow-xs space-y-4'>
+          <h3 className='text-base font-bold text-[#1D293D] dark:text-white flex items-center gap-2'>
+            <Mail size={16} className='text-[#0B75A4]' /> {t('communication.compose')}
           </h3>
 
           <div>
-            <label className='block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1'>
+            <label className='block text-xs font-semibold text-[#1D293D] dark:text-slate-300 mb-1'>
               {t('communication.noticeType')}
             </label>
             <select
               value={type}
               onChange={(e) => setType(e.target.value as NoticeType)}
-              className='w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500'
+              className='w-full px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-white outline-none focus:ring-2 focus:ring-[#0B75A4]'
             >
               {(["general", "deadline", "document_required", "disbursal"] as NoticeType[]).map((k) => (
                 <option key={k} value={k}>
@@ -536,37 +543,37 @@ export const AdminCommunication: React.FC = () => {
           </div>
 
           <div>
-            <label className='block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1'>
+            <label className='block text-xs font-semibold text-[#1D293D] dark:text-slate-300 mb-1'>
               {t('communication.messageSubject')}
             </label>
             <input
               type='text'
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
-              className='w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500'
+              className='w-full px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-white outline-none focus:ring-2 focus:ring-[#0B75A4] focus:border-[#0B75A4]'
               placeholder={t('communication.subjectPlaceholder')}
             />
           </div>
 
           <div>
-            <label className='block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1'>
+            <label className='block text-xs font-semibold text-[#1D293D] dark:text-slate-300 mb-1'>
               {t('communication.messageBody')}
             </label>
             <textarea
               rows={8}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className='w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500 resize-none'
+              className='w-full px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-white outline-none focus:ring-2 focus:ring-[#0B75A4] focus:border-[#0B75A4] resize-none'
               placeholder={t('communication.messagePlaceholder')}
             />
-            <p className='text-[11px] text-slate-500 mt-1'>
+            <p className='text-[11px] text-[#94A3B8] font-mono mt-1'>
               {message.length} characters
             </p>
           </div>
 
           {/* Quick templates */}
-          <div className='flex flex-wrap gap-2'>
-            <p className='text-[11px] text-slate-500 w-full'>
+          <div className='flex flex-wrap gap-1.5'>
+            <p className='text-[11px] font-semibold text-[#64748B] w-full'>
               {t('communication.template')}:
             </p>
             {[
@@ -597,7 +604,7 @@ export const AdminCommunication: React.FC = () => {
                   setSubject(tpl.s);
                   setMessage(tpl.m);
                 }}
-                className='px-2.5 py-1 rounded-full text-[11px] border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'
+                className='px-2.5 py-1 rounded-full text-[11px] font-medium border border-[#DEE2E6] dark:border-slate-600 hover:border-[#0B75A4] hover:bg-[#E6F1F5]/40 text-[#1D293D] dark:text-slate-300 transition-colors'
               >
                 {tpl.label}
               </button>
@@ -616,8 +623,8 @@ export const AdminCommunication: React.FC = () => {
           </Button>
 
           {recipientIds.length === 0 && (
-            <p className='text-[11px] text-amber-600 dark:text-amber-400 flex items-center gap-1'>
-              <AlertCircle size={11} /> {t('communication.recipients')}
+            <p className='text-[11px] text-[#F59E0B] flex items-center gap-1 font-medium'>
+              <AlertCircle size={12} /> {t('communication.recipients')}
             </p>
           )}
         </Card>
@@ -631,28 +638,28 @@ export const AdminCommunication: React.FC = () => {
         size='lg'
       >
         {log.length === 0 ? (
-          <p className='text-sm text-slate-500 italic'>{t('communication.noHistory')}</p>
+          <p className='text-sm text-[#94A3B8] italic'>{t('communication.noHistory')}</p>
         ) : (
-          <div className='space-y-2 max-h-[60vh] overflow-y-auto'>
+          <div className='space-y-2 max-h-[60vh] overflow-y-auto font-sans text-[#1D293D] dark:text-slate-100'>
             {log.map((e) => (
               <div
                 key={e.id}
-                className='p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 cursor-pointer hover:border-blue-400'
+                className='p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/50 border border-[#DEE2E6] dark:border-slate-700 cursor-pointer hover:border-[#0B75A4] transition-all'
                 onClick={() => setSelectedLog(e)}
               >
                 <div className='flex items-center justify-between gap-2 flex-wrap'>
-                  <span className='text-xs font-semibold text-slate-800 dark:text-slate-200'>
+                  <span className='text-xs font-bold text-[#1D293D] dark:text-white'>
                     {e.subject}
                   </span>
-                  <span className='text-[10px] text-slate-500'>
+                  <span className='text-[10px] text-[#94A3B8] font-mono'>
                     {new Date(e.at).toLocaleString("en-IN")}
                   </span>
                 </div>
-                <p className='text-xs text-slate-600 dark:text-slate-400 mt-1 flex items-center gap-2 flex-wrap'>
-                  <Badge variant='info'>{getNoticeTypeLabel(e.type)}</Badge>
+                <p className='text-xs text-[#64748B] dark:text-slate-400 mt-1 flex items-center gap-2 flex-wrap'>
+                  <Badge variant='info' className='bg-[#E6F1F5] text-[#0B75A4]'>{getNoticeTypeLabel(e.type)}</Badge>
                   <span>
-                    → <strong>{e.recipientCount}</strong> {t('communication.recipients')} · by{" "}
-                    <strong>{e.actor}</strong>
+                    → <strong className='text-[#1D293D] dark:text-slate-200'>{e.recipientCount}</strong> {t('communication.recipients')} · by{" "}
+                    <strong className='text-[#1D293D] dark:text-slate-200'>{e.actor}</strong>
                   </span>
                 </p>
               </div>
@@ -669,63 +676,63 @@ export const AdminCommunication: React.FC = () => {
         size='lg'
       >
         {selectedLog && (
-          <div className='space-y-4'>
-            <div className='grid grid-cols-2 gap-3 p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50'>
+          <div className='space-y-4 font-sans text-[#1D293D] dark:text-slate-100'>
+            <div className='grid grid-cols-2 gap-3 p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/50 border border-[#DEE2E6] dark:border-slate-700'>
               <div>
-                <p className='text-[11px] font-semibold text-slate-500 uppercase'>
+                <p className='text-[11px] font-semibold text-[#64748B] uppercase'>
                   {t('communication.noticeType')}
                 </p>
-                <p className='text-sm text-slate-900 dark:text-white mt-0.5'>
+                <p className='text-sm font-bold text-[#1D293D] dark:text-white mt-0.5'>
                   {getNoticeTypeLabel(selectedLog.type)}
                 </p>
               </div>
               <div>
-                <p className='text-[11px] font-semibold text-slate-500 uppercase'>
+                <p className='text-[11px] font-semibold text-[#64748B] uppercase'>
                   {t('auditLog.timestamp', 'Sent At')}
                 </p>
-                <p className='text-sm text-slate-900 dark:text-white mt-0.5'>
+                <p className='text-sm font-bold font-mono text-[#1D293D] dark:text-white mt-0.5'>
                   {new Date(selectedLog.at).toLocaleString("en-IN")}
                 </p>
               </div>
               <div>
-                <p className='text-[11px] font-semibold text-slate-500 uppercase'>
+                <p className='text-[11px] font-semibold text-[#64748B] uppercase'>
                   {t('auditLog.user', 'By')}
                 </p>
-                <p className='text-sm text-slate-900 dark:text-white mt-0.5'>
+                <p className='text-sm font-bold text-[#1D293D] dark:text-white mt-0.5'>
                   {selectedLog.actor}
                 </p>
               </div>
               <div>
-                <p className='text-[11px] font-semibold text-slate-500 uppercase'>
+                <p className='text-[11px] font-semibold text-[#64748B] uppercase'>
                   {t('communication.recipients')}
                 </p>
-                <p className='text-sm text-slate-900 dark:text-white mt-0.5'>
+                <p className='text-sm font-bold text-[#0B75A4] mt-0.5'>
                   {selectedLog.recipientCount}
                 </p>
               </div>
             </div>
 
             <div>
-              <p className='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1'>
+              <p className='text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-1'>
                 {t('communication.message')}
               </p>
-              <pre className='p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-xs whitespace-pre-wrap font-sans text-slate-700 dark:text-slate-300 max-h-48 overflow-auto'>
+              <pre className='p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/50 border border-[#DEE2E6] dark:border-slate-700 text-xs whitespace-pre-wrap font-sans text-[#1D293D] dark:text-slate-300 max-h-48 overflow-auto leading-relaxed'>
                 {selectedLog.message}
               </pre>
             </div>
 
             <div>
-              <p className='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1'>
+              <p className='text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-1'>
                 {t('communication.recipients')} ({selectedLog.recipients.length})
               </p>
-              <ul className='max-h-48 overflow-y-auto border border-slate-200 dark:border-slate-700 rounded-lg divide-y divide-slate-100 dark:divide-slate-700'>
+              <ul className='max-h-48 overflow-y-auto border border-[#DEE2E6] dark:border-slate-700 rounded-xl divide-y divide-[#DEE2E6] dark:divide-slate-700'>
                 {selectedLog.recipients.map((r) => (
                   <li
                     key={r.id}
-                    className='p-2 text-xs text-slate-700 dark:text-slate-300 flex items-center justify-between'
+                    className='p-2.5 text-xs text-[#1D293D] dark:text-slate-300 flex items-center justify-between'
                   >
-                    <span>{r.name}</span>
-                    <span className='font-mono text-slate-400'>{r.id}</span>
+                    <span className='font-medium'>{r.name}</span>
+                    <span className='font-mono text-[#64748B]'>{r.id}</span>
                   </li>
                 ))}
               </ul>

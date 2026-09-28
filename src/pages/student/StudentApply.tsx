@@ -5,7 +5,7 @@ import { VoiceInput, AutoSaveIndicator, SampleDocumentViewer } from '../../compo
 import { useAppStore } from '../../store';
 import { schemes as mockSchemes, students, type Scheme, type Student, type VaultDocument } from '../../mock/data';
 import * as realApi from '../../services/realApi';
-import { FileText, Upload, Loader2 } from 'lucide-react';
+import { FileText, Upload, Loader2, Send } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { getLocalizedScheme } from '../../utils/localizedData';
 
@@ -139,14 +139,26 @@ export const StudentApply: React.FC<{ location?: { state?: { schemeId?: string; 
   };
 
   return (
-    <div className="p-4 md:p-6 max-w-3xl mx-auto space-y-6 animate-fade-in">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{t('apply.title')}</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400">{t('apply.subtitle')}</p>
+    <div className="p-4 md:p-8 max-w-4xl mx-auto space-y-6 font-sans text-[#1D293D] dark:text-slate-100 animate-fade-in">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#DEE2E6] dark:border-slate-800 pb-5">
+        <div className="flex items-start gap-3">
+          <div className="p-2.5 rounded-xl bg-[#E6F1F5] dark:bg-[#0B75A4]/20 text-[#0B75A4] dark:text-[#1697C5] shrink-0 mt-0.5">
+            <Send size={24} />
+          </div>
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold text-[#1D293D] dark:text-white leading-tight">
+              {t('apply.title')}
+            </h1>
+            <p className="text-sm text-[#64748B] dark:text-slate-400 mt-1">
+              {t('apply.subtitle')}
+            </p>
+          </div>
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant={backendLive ? 'success' : 'warning'}>{backendLive ? t('apply.liveServer') : t('apply.demoMode')}</Badge>
+          <Badge variant={backendLive ? 'success' : 'warning'}>
+            {backendLive ? t('apply.liveServer') : t('apply.demoMode')}
+          </Badge>
           <AutoSaveIndicator lastSaved={lastSaved} saving={saving} />
           <VoiceInput onTranscript={handleVoiceInput} />
         </div>
@@ -154,37 +166,58 @@ export const StudentApply: React.FC<{ location?: { state?: { schemeId?: string; 
 
       <Stepper steps={[t('apply.stepScheme'), t('apply.stepPersonal'), t('apply.stepDocs'), t('apply.stepReview')]} currentStep={step} />
 
-      <Card>
+      <Card className="border-[#DEE2E6] dark:border-slate-700 shadow-xs">
         {step === 0 && (
           <div className="space-y-4">
-            <h3 className="font-semibold text-slate-900 dark:text-white">{t('apply.selectScheme')}</h3>
-            <div className="space-y-2">
+            <h3 className="text-lg font-bold text-[#1D293D] dark:text-white">{t('apply.selectScheme')}</h3>
+            <div className="space-y-2.5">
               {schemes.map(rawScheme => {
                 const s = getLocalizedScheme(rawScheme, i18n.language);
+                const isSelected = selectedSchemeId === s.id;
                 return (
-                  <label key={s.id} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${selectedSchemeId === s.id ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-slate-200 dark:border-slate-700 hover:border-slate-300'}`}>
-                    <input type="radio" name="scheme" value={s.id} checked={selectedSchemeId === s.id} onChange={() => setSelectedSchemeId(s.id)} className="text-blue-600" />
+                  <label
+                    key={s.id}
+                    className={`flex items-center gap-3.5 p-4 rounded-xl border cursor-pointer transition-all ${
+                      isSelected
+                        ? 'border-[#0B75A4] bg-[#E6F1F5]/40 dark:bg-[#0B75A4]/15 shadow-xs'
+                        : 'border-[#DEE2E6] dark:border-slate-700 hover:border-[#CBD5E1] bg-white dark:bg-slate-900'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="scheme"
+                      value={s.id}
+                      checked={isSelected}
+                      onChange={() => setSelectedSchemeId(s.id)}
+                      className="text-[#0B75A4] focus:ring-[#0B75A4] w-4 h-4"
+                    />
                     <div className="flex-1">
-                      <p className="text-sm font-medium text-slate-900 dark:text-white">{s.fullName}</p>
-                      <p className="text-xs text-slate-500">₹{s.amount.toLocaleString('en-IN')} | {t('schemes.deadline')}: {s.deadline}</p>
+                      <p className="text-sm font-bold text-[#1D293D] dark:text-white">{s.fullName}</p>
+                      <p className="text-xs text-[#64748B] dark:text-slate-400 mt-0.5">
+                        ₹{s.amount.toLocaleString('en-IN')} | {t('schemes.deadline')}: {s.deadline}
+                      </p>
                     </div>
                     {s.renewable && <Badge variant="success">{t('schemes.renewable')}</Badge>}
                   </label>
                 );
               })}
             </div>
-            <Button onClick={() => { void ensureDraft(); setStep(1); }} disabled={!selectedSchemeId} className="mt-4">{tc('actions.next')}</Button>
+            <div className="pt-2">
+              <Button onClick={() => { void ensureDraft(); setStep(1); }} disabled={!selectedSchemeId}>
+                {tc('actions.next')}
+              </Button>
+            </div>
           </div>
         )}
 
         {step === 1 && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-slate-900 dark:text-white">{t('apply.personalInfo')}</h3>
+              <h3 className="text-lg font-bold text-[#1D293D] dark:text-white">{t('apply.personalInfo')}</h3>
               <VoiceInput onTranscript={handleVoiceInput} />
             </div>
-            <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
-              <p className="text-xs text-blue-700 dark:text-blue-300">{t('apply.prefilledNote')}</p>
+            <div className="p-3.5 rounded-xl bg-[#E6F1F5]/50 dark:bg-slate-800/60 border border-[#0B75A4]/20 dark:border-slate-700">
+              <p className="text-xs text-[#0B75A4] dark:text-[#1697C5] font-medium">{t('apply.prefilledNote')}</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
@@ -200,15 +233,19 @@ export const StudentApply: React.FC<{ location?: { state?: { schemeId?: string; 
                 { label: t('apply.ifsc'), value: student.ifscCode, type: 'text' },
               ].map((field, i) => (
                 <div key={i}>
-                  <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">{field.label}</label>
+                  <label className="block text-xs font-semibold text-[#1D293D] dark:text-slate-300 mb-1">{field.label}</label>
                   <div className="relative">
-                    <input type={field.type} defaultValue={field.value} className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none pr-16" />
+                    <input
+                      type={field.type}
+                      defaultValue={field.value}
+                      className="w-full px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-[#1D293D] dark:text-white focus:ring-2 focus:ring-[#0B75A4] focus:border-[#0B75A4] outline-none pr-16"
+                    />
                     <VoiceInput onTranscript={handleVoiceInput} />
                   </div>
                 </div>
               ))}
             </div>
-            <div className="flex gap-2 mt-4">
+            <div className="flex gap-2.5 pt-2">
               <Button variant="outline" onClick={() => setStep(0)}>{tc('actions.back')}</Button>
               <Button variant="secondary" onClick={() => void handleSaveDraft()}>{t('apply.saveDraft')}</Button>
               <Button onClick={() => setStep(2)}>{tc('actions.next')}</Button>
@@ -218,10 +255,10 @@ export const StudentApply: React.FC<{ location?: { state?: { schemeId?: string; 
 
         {step === 2 && (
           <div className="space-y-4">
-            <h3 className="font-semibold text-slate-900 dark:text-white">{t('documents.upload')}</h3>
+            <h3 className="text-lg font-bold text-[#1D293D] dark:text-white">{t('documents.upload')}</h3>
             {selectedScheme && (
               <div className="flex items-center justify-between">
-                <p className="text-xs text-slate-500">{t('schemes.documents')}: {selectedScheme.requiredDocuments.join(', ')}</p>
+                <p className="text-xs text-[#64748B] dark:text-slate-400">{t('schemes.documents')}: {selectedScheme.requiredDocuments.join(', ')}</p>
                 <SampleDocumentViewer samples={selectedScheme.sampleDocuments} />
               </div>
             )}
@@ -229,47 +266,64 @@ export const StudentApply: React.FC<{ location?: { state?: { schemeId?: string; 
             {/* Vault Documents */}
             {vaultDocs.filter(d => d.status === 'verified').length > 0 && (
               <div className="space-y-2">
-                <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{t('apply.fromVault')}</p>
-                {vaultDocs.filter(d => d.status === 'verified').map(doc => (
-                  <label key={doc.id} className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${selectedVaultDocs.includes(doc.id) ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-slate-200 dark:border-slate-700'}`}>
-                    <input type="checkbox" checked={selectedVaultDocs.includes(doc.id)} onChange={() => setSelectedVaultDocs(prev => prev.includes(doc.id) ? prev.filter(x => x !== doc.id) : [...prev, doc.id])} className="rounded text-blue-600" />
-                    <FileText size={14} className="text-slate-400" />
-                    <span className="text-sm text-slate-700 dark:text-slate-300 flex-1">{doc.name}</span>
-                    <Badge variant="success">{tc('status.verified')} · {doc.aiScore}%</Badge>
-                  </label>
-                ))}
+                <p className="text-xs font-bold uppercase tracking-wider text-[#64748B] dark:text-slate-400">{t('apply.fromVault')}</p>
+                <div className="space-y-2">
+                  {vaultDocs.filter(d => d.status === 'verified').map(doc => {
+                    const isChecked = selectedVaultDocs.includes(doc.id);
+                    return (
+                      <label
+                        key={doc.id}
+                        className={`flex items-center gap-3 p-3.5 rounded-xl border cursor-pointer transition-all ${
+                          isChecked
+                            ? 'border-[#0B75A4] bg-[#E6F1F5]/40 dark:bg-[#0B75A4]/15'
+                            : 'border-[#DEE2E6] dark:border-slate-700 bg-white dark:bg-slate-900'
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isChecked}
+                          onChange={() => setSelectedVaultDocs(prev => prev.includes(doc.id) ? prev.filter(x => x !== doc.id) : [...prev, doc.id])}
+                          className="rounded text-[#0B75A4] focus:ring-[#0B75A4] w-4 h-4"
+                        />
+                        <FileText size={16} className="text-[#0B75A4]" />
+                        <span className="text-sm font-medium text-[#1D293D] dark:text-slate-200 flex-1">{doc.name}</span>
+                        <Badge variant="success">{tc('status.verified')} · {doc.aiScore}%</Badge>
+                      </label>
+                    );
+                  })}
+                </div>
               </div>
             )}
 
             {/* New Uploads */}
             <div className="space-y-2">
-              <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{t('apply.uploadNew')}</p>
+              <p className="text-xs font-bold uppercase tracking-wider text-[#64748B] dark:text-slate-400">{t('apply.uploadNew')}</p>
               <div
                 onClick={() => fileInputRef.current?.click()}
                 onDragOver={e => e.preventDefault()}
                 onDrop={e => { e.preventDefault(); addFiles(e.dataTransfer.files); }}
-                className="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-blue-400 rounded-xl p-6 text-center cursor-pointer"
+                className="border-2 border-dashed border-[#CBD5E1] dark:border-slate-700 hover:border-[#0B75A4] hover:bg-[#F8FAFC] dark:hover:bg-slate-800/40 rounded-xl p-6 text-center cursor-pointer transition-colors"
               >
                 <input ref={fileInputRef} type="file" multiple accept=".jpg,.jpeg,.png,.webp,.pdf" className="hidden" onChange={e => { addFiles(e.target.files); if (e.target) e.target.value = ''; }} />
-                <Upload size={22} className="mx-auto text-blue-500 mb-1" />
-                <p className="text-xs text-slate-500">{t('apply.dragDropNote')}</p>
+                <Upload size={24} className="mx-auto text-[#0B75A4] mb-1" />
+                <p className="text-xs text-[#64748B] dark:text-slate-400">{t('apply.dragDropNote')}</p>
               </div>
               {newFiles.length > 0 && (
                 <div className="space-y-2 mt-3">
                   {newFiles.map((f, i) => (
-                    <div key={`${f.name}-${i}`} className="flex items-center gap-2 p-2 rounded-lg bg-slate-50 dark:bg-slate-800">
-                      <FileText size={16} className="text-blue-500" />
-                      <span className="text-sm text-slate-700 dark:text-slate-300 flex-1">{f.name}</span>
-                      <span className="text-xs text-slate-400">{(f.size / 1024).toFixed(0)} KB</span>
+                    <div key={`${f.name}-${i}`} className="flex items-center gap-2 p-2.5 rounded-lg bg-[#F8FAFC] dark:bg-slate-800 border border-[#DEE2E6] dark:border-slate-700">
+                      <FileText size={16} className="text-[#0B75A4]" />
+                      <span className="text-sm text-[#1D293D] dark:text-slate-300 flex-1">{f.name}</span>
+                      <span className="text-xs text-[#64748B]">{(f.size / 1024).toFixed(0)} KB</span>
                       <Badge variant="info">{t('apply.staged')}</Badge>
-                      <button className="text-red-500 text-xs" onClick={() => setNewFiles(prev => prev.filter((_, j) => j !== i))}>{t('apply.remove')}</button>
+                      <button className="text-[#EF4444] text-xs font-semibold hover:underline" onClick={() => setNewFiles(prev => prev.filter((_, j) => j !== i))}>{t('apply.remove')}</button>
                     </div>
                   ))}
                 </div>
               )}
             </div>
 
-            <div className="flex gap-2 mt-4">
+            <div className="flex gap-2.5 pt-2">
               <Button variant="outline" onClick={() => setStep(1)}>{tc('actions.back')}</Button>
               <Button onClick={() => setStep(3)} disabled={selectedVaultDocs.length === 0 && newFiles.length === 0}>{tc('actions.next')}</Button>
             </div>
@@ -278,20 +332,20 @@ export const StudentApply: React.FC<{ location?: { state?: { schemeId?: string; 
 
         {step === 3 && (
           <div className="space-y-4">
-            <h3 className="font-semibold text-slate-900 dark:text-white">{t('apply.review')}</h3>
-            <div className="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50 space-y-2">
-              <div className="flex justify-between text-sm"><span className="text-slate-500">{t('tracker.scheme')}:</span><span className="font-medium text-slate-900 dark:text-white">{selectedScheme?.fullName}</span></div>
-              <div className="flex justify-between text-sm"><span className="text-slate-500">{t('apply.applicant')}:</span><span className="font-medium text-slate-900 dark:text-white">{student.name}</span></div>
-              <div className="flex justify-between text-sm"><span className="text-slate-500">{t('vault.title')}:</span><span className="font-medium text-slate-900 dark:text-white">{selectedVaultDocs.length} {t('apply.documents')}</span></div>
-              <div className="flex justify-between text-sm"><span className="text-slate-500">{t('apply.uploadNew')}:</span><span className="font-medium text-slate-900 dark:text-white">{newFiles.length} {t('apply.documents')}</span></div>
-              <div className="flex justify-between text-sm"><span className="text-slate-500">{tc('common.amount')}:</span><span className="font-medium text-emerald-600">₹{(selectedScheme?.amount ?? 0).toLocaleString('en-IN')}</span></div>
-              <div className="flex justify-between text-sm"><span className="text-slate-500">{t('apply.guardianNotified')}:</span><span className="font-medium text-slate-900 dark:text-white">{student.guardianName} ({student.guardianPhone})</span></div>
-              {appId && <div className="flex justify-between text-sm"><span className="text-slate-500">{t('apply.draftId')}:</span><span className="font-mono text-xs text-slate-600 dark:text-slate-300">{appId}</span></div>}
+            <h3 className="text-lg font-bold text-[#1D293D] dark:text-white">{t('apply.review')}</h3>
+            <div className="p-4 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/50 border border-[#DEE2E6] dark:border-slate-700 space-y-2.5">
+              <div className="flex justify-between text-sm"><span className="text-[#64748B]">{t('tracker.scheme')}:</span><span className="font-semibold text-[#1D293D] dark:text-white">{selectedScheme?.fullName}</span></div>
+              <div className="flex justify-between text-sm"><span className="text-[#64748B]">{t('apply.applicant')}:</span><span className="font-semibold text-[#1D293D] dark:text-white">{student.name}</span></div>
+              <div className="flex justify-between text-sm"><span className="text-[#64748B]">{t('vault.title')}:</span><span className="font-semibold text-[#1D293D] dark:text-white">{selectedVaultDocs.length} {t('apply.documents')}</span></div>
+              <div className="flex justify-between text-sm"><span className="text-[#64748B]">{t('apply.uploadNew')}:</span><span className="font-semibold text-[#1D293D] dark:text-white">{newFiles.length} {t('apply.documents')}</span></div>
+              <div className="flex justify-between text-sm"><span className="text-[#64748B]">{tc('common.amount')}:</span><span className="font-bold text-[#009B68]">₹{(selectedScheme?.amount ?? 0).toLocaleString('en-IN')}</span></div>
+              <div className="flex justify-between text-sm"><span className="text-[#64748B]">{t('apply.guardianNotified')}:</span><span className="font-semibold text-[#1D293D] dark:text-white">{student.guardianName} ({student.guardianPhone})</span></div>
+              {appId && <div className="flex justify-between text-sm"><span className="text-[#64748B]">{t('apply.draftId')}:</span><span className="font-mono text-xs text-[#64748B] dark:text-slate-300">{appId}</span></div>}
             </div>
-            <div className="p-3 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800">
-              <p className="text-xs text-emerald-700 dark:text-emerald-300">{t('apply.guardianAlertNote')}</p>
+            <div className="p-3.5 rounded-xl bg-[#009B68]/10 dark:bg-emerald-950/20 border border-[#009B68]/20 dark:border-emerald-800">
+              <p className="text-xs text-[#009B68] dark:text-emerald-300 font-medium">{t('apply.guardianAlertNote')}</p>
             </div>
-            <div className="flex gap-2 mt-4">
+            <div className="flex gap-2.5 pt-2">
               <Button variant="outline" onClick={() => setStep(2)}>{tc('actions.back')}</Button>
               <Button onClick={() => void handleSubmit()} loading={submitting}>
                 {submitting ? (<span className="flex items-center gap-2"><Loader2 size={14} className="animate-spin" />{t('apply.submitting')}</span>) : t('apply.submitApplication')}
@@ -303,3 +357,5 @@ export const StudentApply: React.FC<{ location?: { state?: { schemeId?: string; 
     </div>
   );
 };
+
+export default StudentApply;

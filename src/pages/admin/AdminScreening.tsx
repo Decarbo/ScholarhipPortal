@@ -534,23 +534,28 @@ export const AdminScreening: React.FC = () => {
   }
 
   return (
-    <div className='p-4 md:p-6 space-y-6 animate-fade-in max-w-7xl mx-auto'>
+    <div className='p-4 md:p-8 space-y-6 animate-fade-in max-w-7xl mx-auto font-sans text-[#1D293D] dark:text-slate-100'>
       {/* Header */}
-      <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-4'>
-        <div>
-          <h1 className='text-2xl font-bold text-slate-900 dark:text-white'>
-            {t('screening.title')}
-          </h1>
-          <p className='text-sm text-slate-500 dark:text-slate-400'>
-            {t('screening.subtitle', { count: sorted.length })}
-          </p>
-          {adminUser?.name && (
-            <p className='text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1'>
-              <MapPin size={11} />
-              {t('screening.signedInAs')} <strong>{adminUser.name}</strong>
-              {adminState ? ` · ${t('screening.scopedTo')} ${adminState}` : ""}
+      <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[#DEE2E6] dark:border-slate-800 pb-5'>
+        <div className='flex items-start gap-3'>
+          <div className='p-2.5 rounded-xl bg-[#E6F1F5] dark:bg-[#0B75A4]/20 text-[#0B75A4] dark:text-[#1697C5] shrink-0 mt-0.5'>
+            <Users size={24} />
+          </div>
+          <div>
+            <h1 className='text-2xl md:text-3xl font-bold text-[#1D293D] dark:text-white leading-tight'>
+              {t('screening.title')}
+            </h1>
+            <p className='text-sm text-[#64748B] dark:text-slate-400 mt-1'>
+              {t('screening.subtitle', { count: sorted.length })}
             </p>
-          )}
+            {adminUser?.name && (
+              <p className='text-xs text-[#64748B] dark:text-slate-400 mt-1 flex items-center gap-1 font-mono'>
+                <MapPin size={11} className='text-[#0B75A4]' />
+                {t('screening.signedInAs')} <strong className='font-sans text-[#1D293D] dark:text-slate-200'>{adminUser.name}</strong>
+                {adminState ? ` · ${t('screening.scopedTo')} ${adminState}` : ""}
+              </p>
+            )}
+          </div>
         </div>
         <div className='flex items-center gap-2 flex-wrap'>
           <Badge variant='success'>{t('communication.frontendOnly', 'Frontend-only')}</Badge>
@@ -582,179 +587,165 @@ export const AdminScreening: React.FC = () => {
       </div>
 
       {/* Stats */}
-      <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
-        <Card className='!p-3'>
-          <p className='text-[11px] font-semibold text-slate-500 uppercase tracking-wider'>
+      <div className='grid grid-cols-2 md:grid-cols-4 gap-3.5'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#64748B] dark:text-slate-400 uppercase tracking-wider'>
             {t('screening.inQueue')}
           </p>
-          <p className='text-2xl font-bold text-slate-900 dark:text-white mt-0.5'>
+          <p className='text-2xl font-bold text-[#1D293D] dark:text-white mt-1'>
             {stats.total}
           </p>
         </Card>
-        <Card className='!p-3'>
-          <p className='text-[11px] font-semibold text-emerald-600 uppercase tracking-wider'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#009B68] dark:text-emerald-400 uppercase tracking-wider'>
             {t('screening.highMerit')}
           </p>
-          <p className='text-2xl font-bold text-emerald-600 mt-0.5'>
+          <p className='text-2xl font-bold text-[#009B68] dark:text-emerald-400 mt-1'>
             {stats.high}
           </p>
         </Card>
-        <Card className='!p-3'>
-          <p className='text-[11px] font-semibold text-amber-600 uppercase tracking-wider'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#F59E0B] uppercase tracking-wider'>
             {t('screening.midMerit')}
           </p>
-          <p className='text-2xl font-bold text-amber-600 mt-0.5'>
+          <p className='text-2xl font-bold text-[#F59E0B] mt-1'>
             {stats.mid}
           </p>
         </Card>
-        <Card className='!p-3'>
-          <p className='text-[11px] font-semibold text-red-600 uppercase tracking-wider'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#EF4444] uppercase tracking-wider'>
             {t('screening.lowMerit')}
           </p>
-          <p className='text-2xl font-bold text-red-600 mt-0.5'>{stats.low}</p>
+          <p className='text-2xl font-bold text-[#EF4444] mt-1'>{stats.low}</p>
         </Card>
       </div>
 
       {/* Filters */}
-      <div className='flex flex-wrap gap-3'>
-        <div className='relative'>
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder={t('screening.searchPlaceholder')}
-            className='pl-3 pr-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-300 outline-none w-56'
-          />
-        </div>
-
-        <select
-          value={filterScheme}
-          onChange={(e) => setFilterScheme(e.target.value)}
-          className='px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-300 outline-none'
-        >
-          <option value=''>{t('screening.allSchemes')}</option>
-          {SEED_SCHEMES.map((s) => (
-            <option key={s.id} value={s.id}>
-              {getLocalizedSchemeName(s.name, i18n.language)}
-            </option>
-          ))}
-        </select>
-
-        {adminState ? (
-          <div className='px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-300 flex items-center gap-1'>
-            <MapPin size={12} className='text-slate-500' />
-            <span className='text-slate-500'>{t('screening.location')}:</span>
-            <strong>{adminState}</strong>
+      <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+        <div className='flex flex-wrap gap-3'>
+          <div className='relative'>
+            <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder={t('screening.searchPlaceholder')}
+              className='px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-300 outline-none focus:ring-2 focus:ring-[#0B75A4] focus:border-[#0B75A4] w-56'
+            />
           </div>
-        ) : (
+
           <select
-            value={filterState}
-            onChange={(e) => setFilterState(e.target.value)}
-            className='px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-300 outline-none'
+            value={filterScheme}
+            onChange={(e) => setFilterScheme(e.target.value)}
+            className='px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-300 outline-none focus:ring-2 focus:ring-[#0B75A4]'
           >
-            <option value=''>{t('screening.allStates')}</option>
-            {uniqueStates.map((s) => (
-              <option key={s} value={s}>
-                {s}
+            <option value=''>{t('screening.allSchemes')}</option>
+            {SEED_SCHEMES.map((s) => (
+              <option key={s.id} value={s.id}>
+                {getLocalizedSchemeName(s.name, i18n.language)}
               </option>
             ))}
           </select>
-        )}
 
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value as any)}
-          className='px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-300 outline-none'
-        >
-          <option value='merit'>{t('screening.sortByMerit')}</option>
-          <option value='date'>{t('screening.sortByDate')}</option>
-          <option value='name'>{t('screening.sortByName')}</option>
-          <option value='amount'>{t('screening.sortByAmount')}</option>
-        </select>
-      </div>
+          {adminState ? (
+            <div className='px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-[#F8FAFC] dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-300 flex items-center gap-1.5'>
+              <MapPin size={12} className='text-[#0B75A4]' />
+              <span className='text-[#64748B]'>{t('screening.location')}:</span>
+              <strong className='font-semibold'>{adminState}</strong>
+            </div>
+          ) : (
+            <select
+              value={filterState}
+              onChange={(e) => setFilterState(e.target.value)}
+              className='px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-300 outline-none focus:ring-2 focus:ring-[#0B75A4]'
+            >
+              <option value=''>{t('screening.allStates')}</option>
+              {uniqueStates.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </select>
+          )}
+
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as any)}
+            className='px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-300 outline-none focus:ring-2 focus:ring-[#0B75A4]'
+          >
+            <option value='merit'>{t('screening.sortByMerit')}</option>
+            <option value='date'>{t('screening.sortByDate')}</option>
+            <option value='name'>{t('screening.sortByName')}</option>
+            <option value='amount'>{t('screening.sortByAmount')}</option>
+          </select>
+        </div>
+      </Card>
 
       {/* Table */}
-      <Card padding={false}>
+      <Card padding={false} className='border-[#DEE2E6] dark:border-slate-700 shadow-xs rounded-xl overflow-hidden'>
         <div className='overflow-x-auto'>
-          <table className='w-full text-sm'>
-            <thead className='bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700'>
+          <table className='w-full text-xs'>
+            <thead className='bg-[#F8FAFC] dark:bg-slate-800/50 border-b border-[#DEE2E6] dark:border-slate-700 uppercase tracking-wider text-[#475569] dark:text-slate-400 font-semibold'>
               <tr>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
-                  #
-                </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
-                  {t('screening.studentName')}
-                </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
-                  {t('screening.scheme')}
-                </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
-                  {t('screening.location')}
-                </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
-                  {t('screening.merit')}
-                </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
-                  {t('screening.amount')}
-                </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
-                  {t('screening.status')}
-                </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
-                  {t('screening.action')}
-                </th>
+                <th className='p-3.5 text-left'>#</th>
+                <th className='p-3.5 text-left'>{t('screening.studentName')}</th>
+                <th className='p-3.5 text-left'>{t('screening.scheme')}</th>
+                <th className='p-3.5 text-left'>{t('screening.location')}</th>
+                <th className='p-3.5 text-left'>{t('screening.merit')}</th>
+                <th className='p-3.5 text-left'>{t('screening.amount')}</th>
+                <th className='p-3.5 text-left'>{t('screening.status')}</th>
+                <th className='p-3.5 text-right'>{t('screening.action')}</th>
               </tr>
             </thead>
-            <tbody className='divide-y divide-slate-100 dark:divide-slate-700'>
+            <tbody className='divide-y divide-[#DEE2E6] dark:divide-slate-800'>
               {sorted.map((app, i) => (
                 <tr
                   key={app.id}
-                  className='hover:bg-slate-50 dark:hover:bg-slate-800/30 cursor-pointer'
+                  className='hover:bg-[#F8FAFC] dark:hover:bg-slate-800/30 cursor-pointer transition-colors'
                   onClick={() => setSelectedAppId(app.id)}
                 >
-                  <td className='p-3 text-slate-500'>{i + 1}</td>
-                  <td className='p-3'>
-                    <p className='font-medium text-slate-900 dark:text-white'>
+                  <td className='p-3.5 text-[#64748B] font-mono'>{i + 1}</td>
+                  <td className='p-3.5'>
+                    <p className='font-bold text-[#1D293D] dark:text-white'>
                       {app.studentName}
                     </p>
-                    <p className='text-[11px] font-mono text-slate-500'>
+                    <p className='text-[11px] font-mono text-[#64748B]'>
                       {app.id}
                     </p>
                   </td>
-                  <td className='p-3'>
-                    <Badge variant='info'>{getLocalizedSchemeName(app.schemeName, i18n.language)}</Badge>
+                  <td className='p-3.5'>
+                    <Badge variant='info' className='bg-[#E6F1F5] text-[#0B75A4] dark:bg-[#0B75A4]/20 dark:text-[#1697C5]'>
+                      {getLocalizedSchemeName(app.schemeName, i18n.language)}
+                    </Badge>
                   </td>
-                  <td className='p-3 text-slate-600 dark:text-slate-400'>
+                  <td className='p-3.5 text-[#64748B] dark:text-slate-400 font-medium'>
                     {app.state}
                   </td>
-                  <td className='p-3'>
+                  <td className='p-3.5'>
                     <span
-                      className={`font-semibold ${
+                      className={`font-bold font-mono ${
                         app.merit >= 85
-                          ? "text-emerald-600"
+                          ? "text-[#009B68]"
                           : app.merit >= 60
-                            ? "text-amber-600"
+                            ? "text-[#F59E0B]"
                             : app.merit > 0
-                              ? "text-red-600"
-                              : "text-slate-400"
+                              ? "text-[#EF4444]"
+                              : "text-[#94A3B8]"
                       }`}
                     >
                       {app.merit ? `${app.merit.toFixed(0)}%` : "—"}
                     </span>
                   </td>
-                  <td className='p-3 text-slate-900 dark:text-white'>
+                  <td className='p-3.5 text-[#1D293D] dark:text-white font-bold font-mono'>
                     ₹{Number(app.amount).toLocaleString("en-IN")}
                   </td>
-                  <td className='p-3'>
+                  <td className='p-3.5'>
                     <StatusBadge status={app.status} />
                   </td>
-                  <td className='p-3'>
+                  <td className='p-3.5 text-right'>
                     <div
-                      className='flex gap-1'
+                      className='flex items-center justify-end gap-1'
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <Button
-                        size='sm'
-                        variant='ghost'
+                      <button
                         disabled={busyId === app.id}
                         onClick={() =>
                           changeStatus(
@@ -764,23 +755,21 @@ export const AdminScreening: React.FC = () => {
                           )
                         }
                         title={t('screening.selectCandidate')}
+                        className='p-1.5 rounded-lg hover:bg-[#009B68]/10 text-[#009B68] transition-colors disabled:opacity-50'
                       >
-                        <CheckCircle size={16} className='text-emerald-500' />
-                      </Button>
-                      <Button
-                        size='sm'
-                        variant='ghost'
+                        <CheckCircle size={16} />
+                      </button>
+                      <button
                         disabled={busyId === app.id}
                         onClick={() =>
                           changeStatus(app, "waitlisted", "Placed on waitlist")
                         }
                         title={t('screening.waitlistCandidate')}
+                        className='p-1.5 rounded-lg hover:bg-[#F59E0B]/10 text-[#F59E0B] transition-colors disabled:opacity-50'
                       >
-                        <History size={16} className='text-amber-500' />
-                      </Button>
-                      <Button
-                        size='sm'
-                        variant='ghost'
+                        <History size={16} />
+                      </button>
+                      <button
                         disabled={busyId === app.id}
                         onClick={() =>
                           changeStatus(
@@ -790,17 +779,17 @@ export const AdminScreening: React.FC = () => {
                           )
                         }
                         title={t('screening.rejectCandidate')}
+                        className='p-1.5 rounded-lg hover:bg-[#EF4444]/10 text-[#EF4444] transition-colors disabled:opacity-50'
                       >
-                        <XCircle size={16} className='text-red-500' />
-                      </Button>
-                      <Button
-                        size='sm'
-                        variant='ghost'
+                        <XCircle size={16} />
+                      </button>
+                      <button
                         onClick={() => setSelectedAppId(app.id)}
                         title={t('screening.details')}
+                        className='p-1.5 rounded-lg hover:bg-[#0B75A4]/10 text-[#0B75A4] transition-colors'
                       >
-                        <Eye size={16} className='text-slate-500' />
-                      </Button>
+                        <Eye size={16} />
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -812,7 +801,7 @@ export const AdminScreening: React.FC = () => {
         {sorted.length === 0 && (
           <div className='py-12'>
             <EmptyState
-              icon={<Users size={40} />}
+              icon={<Users size={40} className='text-[#94A3B8]' />}
               title={t('screening.queueEmpty')}
               description={t('screening.queueEmptyDesc')}
             />
@@ -847,27 +836,27 @@ export const AdminScreening: React.FC = () => {
         size='lg'
       >
         {audit.length === 0 ? (
-          <p className='text-sm text-slate-500 italic'>{t('auditLog.noLogs')}</p>
+          <p className='text-sm text-[#94A3B8] italic'>{t('auditLog.noLogs')}</p>
         ) : (
           <div className='space-y-2 max-h-[60vh] overflow-y-auto'>
             {audit.map((e) => (
               <div
                 key={e.id}
-                className='p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700'
+                className='p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/50 border border-[#DEE2E6] dark:border-slate-700'
               >
                 <div className='flex items-center justify-between gap-2'>
-                  <span className='text-xs font-semibold text-slate-800 dark:text-slate-200'>
+                  <span className='text-xs font-bold text-[#1D293D] dark:text-slate-200'>
                     {e.action}
                   </span>
-                  <span className='text-[10px] text-slate-500'>
+                  <span className='text-[10px] text-[#64748B] font-mono'>
                     {new Date(e.at).toLocaleString("en-IN")}
                   </span>
                 </div>
-                <p className='text-xs text-slate-600 dark:text-slate-400 mt-1'>
-                  {e.target} · by <strong>{e.actor}</strong>
+                <p className='text-xs text-[#64748B] dark:text-slate-400 mt-1'>
+                  {e.target} · by <strong className='text-[#1D293D] dark:text-slate-200'>{e.actor}</strong>
                 </p>
                 {e.remark && (
-                  <p className='text-[11px] text-slate-500 mt-1 italic'>
+                  <p className='text-[11px] text-[#64748B] mt-1 italic'>
                     "{e.remark}"
                   </p>
                 )}
@@ -893,98 +882,98 @@ const ScreeningDetail: React.FC<{
   const merit = computeMerit(app);
 
   return (
-    <div className='space-y-5'>
+    <div className='space-y-5 font-sans text-[#1D293D] dark:text-slate-100'>
       {/* Summary */}
-      <div className='grid grid-cols-2 md:grid-cols-4 gap-3 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/60'>
+      <div className='grid grid-cols-2 md:grid-cols-4 gap-3 p-4 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/60 border border-[#DEE2E6] dark:border-slate-700'>
         <div>
-          <p className='text-[11px] font-semibold text-slate-500 uppercase tracking-wider'>
+          <p className='text-[11px] font-semibold text-[#64748B] uppercase tracking-wider'>
             {t('screening.studentName')}
           </p>
-          <p className='text-sm font-semibold text-slate-900 dark:text-white mt-0.5'>
+          <p className='text-sm font-bold text-[#1D293D] dark:text-white mt-0.5'>
             {app.studentName}
           </p>
-          <p className='text-[10px] text-slate-500 font-mono'>{app.id}</p>
+          <p className='text-[10px] text-[#64748B] font-mono'>{app.id}</p>
         </div>
         <div>
-          <p className='text-[11px] font-semibold text-slate-500 uppercase tracking-wider'>
+          <p className='text-[11px] font-semibold text-[#64748B] uppercase tracking-wider'>
             {t('screening.scheme')}
           </p>
-          <p className='text-sm font-semibold text-slate-900 dark:text-white mt-0.5'>
+          <p className='text-sm font-bold text-[#1D293D] dark:text-white mt-0.5'>
             {getLocalizedSchemeName(app.schemeName, i18n.language)}
           </p>
         </div>
         <div>
-          <p className='text-[11px] font-semibold text-slate-500 uppercase tracking-wider'>
+          <p className='text-[11px] font-semibold text-[#64748B] uppercase tracking-wider'>
             {t('screening.location')}
           </p>
-          <p className='text-sm font-semibold text-slate-900 dark:text-white mt-0.5'>
+          <p className='text-sm font-bold text-[#1D293D] dark:text-white mt-0.5'>
             {app.district}, {app.state}
           </p>
         </div>
         <div>
-          <p className='text-[11px] font-semibold text-slate-500 uppercase tracking-wider'>
+          <p className='text-[11px] font-semibold text-[#64748B] uppercase tracking-wider'>
             {t('screening.amount')}
           </p>
-          <p className='text-sm font-semibold font-mono text-slate-900 dark:text-white mt-0.5'>
+          <p className='text-sm font-bold font-mono text-[#009B68] mt-0.5'>
             ₹{Number(app.amount).toLocaleString("en-IN")}
           </p>
         </div>
       </div>
 
       {/* Merit bar */}
-      <div>
-        <p className='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2'>
+      <div className='p-4 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/40 border border-[#DEE2E6] dark:border-slate-700'>
+        <p className='text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-2'>
           {t('screening.meritScore')}
         </p>
-        <div className='w-full bg-slate-200 dark:bg-slate-700 rounded-full h-3 overflow-hidden'>
+        <div className='w-full bg-[#DEE2E6] dark:bg-slate-700 rounded-full h-3 overflow-hidden'>
           <div
-            className={`h-full ${
+            className={`h-full transition-all duration-500 ${
               merit >= 85
-                ? "bg-emerald-500"
+                ? "bg-[#009B68]"
                 : merit >= 60
-                  ? "bg-amber-500"
-                  : "bg-red-500"
+                  ? "bg-[#F59E0B]"
+                  : "bg-[#EF4444]"
             }`}
             style={{ width: `${Math.min(100, merit)}%` }}
           />
         </div>
-        <p className='text-xs text-slate-500 mt-1'>
-          {merit.toFixed(1)}% —{" "}
+        <p className='text-xs font-semibold text-[#64748B] mt-1.5'>
+          <span className='font-mono font-bold text-[#1D293D] dark:text-white'>{merit.toFixed(1)}%</span> —{" "}
           {merit >= 85 ? t('screening.highMerit') : merit >= 60 ? t('screening.midMerit') : t('screening.lowMerit')}
         </p>
       </div>
 
       {/* Documents */}
       <div>
-        <p className='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2'>
+        <p className='text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-2'>
           {t('screening.documents')}
         </p>
         <div className='space-y-2'>
           {app.documents.length === 0 && (
-            <p className='text-xs text-slate-500 italic'>
+            <p className='text-xs text-[#64748B] italic'>
               {t('screening.queueEmptyDesc')}
             </p>
           )}
           {app.documents.map((doc) => (
             <div
               key={doc.id}
-              className='flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40'
+              className='flex items-center justify-between p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/40 border border-[#DEE2E6] dark:border-slate-700/60'
             >
-              <div className='flex items-center gap-2'>
-                <FileText size={14} className='text-slate-400' />
+              <div className='flex items-center gap-2.5'>
+                <FileText size={16} className='text-[#0B75A4]' />
                 <div>
-                  <p className='text-xs font-medium text-slate-800 dark:text-slate-200'>
+                  <p className='text-xs font-bold text-[#1D293D] dark:text-slate-200'>
                     {doc.name}
                   </p>
                   {doc.aiFeedback && (
-                    <p className='text-[11px] text-slate-500 mt-0.5'>
+                    <p className='text-[11px] text-[#64748B] mt-0.5'>
                       {doc.aiFeedback}
                     </p>
                   )}
                 </div>
               </div>
               <div className='flex items-center gap-3'>
-                <span className='text-xs font-mono text-slate-500'>
+                <span className='text-xs font-mono text-[#64748B]'>
                   AI: {doc.aiScore}%
                 </span>
                 <StatusBadge status={doc.status} />
@@ -997,26 +986,26 @@ const ScreeningDetail: React.FC<{
       {/* AI flags */}
       {app.aiFlags.length > 0 && (
         <div>
-          <p className='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1'>
-            <AlertTriangle size={14} className='text-amber-600' /> {t('screening.aiFlags')}
+          <p className='text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-2 flex items-center gap-1.5'>
+            <AlertTriangle size={15} className='text-[#EF4444]' /> {t('screening.aiFlags')}
           </p>
           <div className='space-y-2'>
             {app.aiFlags.map((flag) => (
               <div
                 key={flag.id}
-                className={`p-3 rounded-lg border ${
+                className={`p-3.5 rounded-xl border ${
                   flag.severity === "high"
-                    ? "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800"
+                    ? "bg-red-50/80 dark:bg-red-950/20 border-red-200 dark:border-red-800/60"
                     : flag.severity === "medium"
-                      ? "bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800"
-                      : "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800"
+                      ? "bg-amber-50/80 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/60"
+                      : "bg-[#E6F1F5]/60 dark:bg-blue-950/20 border-[#0B75A4]/20 dark:border-blue-800/60"
                 }`}
               >
-                <p className='text-xs font-medium text-slate-800 dark:text-slate-200'>
+                <p className='text-xs font-bold text-[#1D293D] dark:text-slate-200'>
                   {flag.message}
                 </p>
                 {flag.suggestion && (
-                  <p className='text-[11px] text-slate-600 dark:text-slate-400 mt-1'>
+                  <p className='text-[11px] text-[#64748B] dark:text-slate-400 mt-1'>
                     💡 {flag.suggestion}
                   </p>
                 )}
@@ -1028,7 +1017,7 @@ const ScreeningDetail: React.FC<{
 
       {/* Admin remark */}
       <div>
-        <label className='text-xs font-semibold text-slate-500 uppercase tracking-wider'>
+        <label className='text-xs font-semibold text-[#1D293D] dark:text-slate-200 uppercase tracking-wider block mb-1'>
           {t('screening.remarks')}
         </label>
         <textarea
@@ -1036,13 +1025,13 @@ const ScreeningDetail: React.FC<{
           value={remark}
           onChange={(e) => setRemark(e.target.value)}
           placeholder={t('screening.remarksPlaceholder')}
-          className='mt-1 w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-slate-800 dark:text-slate-200 outline-none focus:ring-2 focus:ring-blue-500 resize-none'
+          className='w-full px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-200 outline-none focus:ring-2 focus:ring-[#0B75A4] focus:border-[#0B75A4] resize-none'
         />
       </div>
 
       {/* Actions */}
-      <div className='flex flex-wrap items-center gap-2 pt-2 border-t border-slate-200 dark:border-slate-700'>
-        <p className='text-xs text-slate-500 mr-auto'>{t('screening.actions')}:</p>
+      <div className='flex flex-wrap items-center gap-2.5 pt-3 border-t border-[#DEE2E6] dark:border-slate-800'>
+        <p className='text-xs text-[#64748B] mr-auto font-medium'>{t('screening.actions')}:</p>
         <Button
           variant='outline'
           disabled={busy}

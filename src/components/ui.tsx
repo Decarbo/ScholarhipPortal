@@ -1,23 +1,24 @@
-// Core UI Components - Redesigned with calm, official design language
-import React, { type ReactNode, type ButtonHTMLAttributes, useRef, useState } from 'react';
+// Core UI Components - Redesigned and standardized with UDAAN Global Design System
+import React, { type ReactNode, type ButtonHTMLAttributes, type SelectHTMLAttributes, useRef, useState } from 'react';
 import { X, Check, AlertCircle, Info, Clock, Moon, Sun, Globe, Upload, FileText, Menu, ChevronDown, ChevronLeft, ChevronRight, GraduationCap } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { useAppStore, useAuthStore } from '../store';
 import { ConnectionStatus } from './ConnectionStatus';
 
-// ============ STATUS PILL ============
-type StatusType = 'done' | 'progress' | 'neutral' | 'error';
+// ============ STATUS PILL & BADGES ============
+export type StatusType = 'verified' | 'pending' | 'rejected' | 'review' | 'draft';
 
-export const StatusPill: React.FC<{ status: StatusType; label: string }> = ({ status, label }) => {
-  const colors = {
-    done: 'bg-[#38C88B]/15 text-[#1e7a54] dark:text-[#38C88B] border-[#38C88B]/40',
-    progress: 'bg-[#E25A18]/15 text-[#b0400d] dark:text-[#ff8a50] border-[#E25A18]/40',
-    neutral: 'bg-slate-100 text-slate-700 border-[#DEE2E6] dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700',
-    error: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800',
+export const StatusPill: React.FC<{ status: StatusType; label: string; className?: string }> = ({ status, label, className = '' }) => {
+  const colors: Record<StatusType, string> = {
+    verified: 'bg-[#009B68]/12 text-[#006045] dark:text-[#38C88B] border-[#009B68]/30 dark:border-[#009B68]/40',
+    pending: 'bg-[#FEF3C7] text-[#B45309] dark:text-[#FBBF24] border-[#F59E0B]/30 dark:border-[#F59E0B]/40 dark:bg-[#F59E0B]/15',
+    rejected: 'bg-[#FEE2E2] text-[#B91C1C] dark:text-[#F87171] border-[#EF4444]/30 dark:border-[#EF4444]/40 dark:bg-[#EF4444]/15',
+    review: 'bg-[#E6F1F5] text-[#0B75A4] dark:text-[#7EC5E2] border-[#0B75A4]/30 dark:border-[#0B75A4]/40 dark:bg-[#0B75A4]/15',
+    draft: 'bg-[#F1F5F9] text-[#475569] dark:text-slate-300 border-[#DEE2E6] dark:border-slate-700 dark:bg-slate-800',
   };
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 text-xs font-semibold border rounded-full ${colors[status]}`}>
+    <span className={`inline-flex items-center px-2.5 py-0.5 text-xs font-semibold border rounded-full transition-colors ${colors[status] || colors.draft} ${className}`}>
       {label}
     </span>
   );
@@ -25,46 +26,93 @@ export const StatusPill: React.FC<{ status: StatusType; label: string }> = ({ st
 
 export const getStatusType = (status: string): StatusType => {
   const map: Record<string, StatusType> = {
-    submitted: 'progress', under_scrutiny: 'progress', screening: 'progress',
-    selected: 'done', waitlisted: 'neutral', rejected: 'error',
-    verified: 'done', pending: 'progress', flagged: 'error', missing: 'error',
-    processed: 'done', failed: 'error', open: 'progress', in_progress: 'progress',
-    resolved: 'done', closed: 'neutral', draft: 'neutral',
+    selected: 'verified',
+    verified: 'verified',
+    approved: 'verified',
+    sanctioned: 'verified',
+    disbursed: 'verified',
+    processed: 'verified',
+    resolved: 'verified',
+    done: 'verified',
+    completed: 'verified',
+
+    submitted: 'review',
+    under_scrutiny: 'review',
+    screening: 'review',
+    under_review: 'review',
+    more_info_required: 'review',
+    info: 'review',
+
+    pending: 'pending',
+    waitlisted: 'pending',
+    open: 'pending',
+    in_progress: 'pending',
+    retry_queued: 'pending',
+    progress: 'pending',
+    disbursal_pending: 'pending',
+
+    rejected: 'rejected',
+    failed: 'rejected',
+    flagged: 'rejected',
+    missing: 'rejected',
+    error: 'rejected',
+    danger: 'rejected',
+
+    draft: 'draft',
+    closed: 'draft',
+    neutral: 'draft',
   };
-  return map[status] || 'neutral';
+  return map[status] || 'draft';
 };
 
 export const getStatusLabel = (status: string): string => {
   const t = (key: string) => i18next.t(key, { ns: 'common' });
   const map: Record<string, string> = {
-    submitted: t('status.submitted'), under_scrutiny: t('status.under_scrutiny'), screening: t('status.screening'),
-    selected: t('status.selected'), waitlisted: t('status.waitlisted'), rejected: t('status.rejected'),
-    verified: t('status.verified'), pending: t('status.pending'), flagged: t('status.flagged'), missing: t('status.missing'),
-    processed: t('status.processed'), failed: t('status.failed'), open: t('status.open'), in_progress: t('status.in_progress'),
-    resolved: t('status.resolved'), closed: t('status.closed'), draft: t('status.draft'),
+    submitted: t('status.submitted'),
+    under_scrutiny: t('status.under_scrutiny'),
+    screening: t('status.screening'),
+    selected: t('status.selected'),
+    waitlisted: t('status.waitlisted'),
+    rejected: t('status.rejected'),
+    verified: t('status.verified'),
+    pending: t('status.pending'),
+    flagged: t('status.flagged'),
+    missing: t('status.missing'),
+    processed: t('status.processed'),
+    failed: t('status.failed'),
+    open: t('status.open'),
+    in_progress: t('status.in_progress'),
+    resolved: t('status.resolved'),
+    closed: t('status.closed'),
+    draft: t('status.draft'),
   };
-  return map[status] || status;
+  return map[status] || status.replace(/_/g, ' ');
 };
 
 // Backwards-compatible Badge component
 export const Badge: React.FC<{ variant?: string; children: ReactNode; className?: string }> = ({ variant, children, className = '' }) => {
   const variantMap: Record<string, StatusType> = {
-    success: 'done', warning: 'progress', danger: 'error', info: 'progress', neutral: 'neutral', purple: 'progress',
+    success: 'verified',
+    done: 'verified',
+    warning: 'pending',
+    progress: 'pending',
+    danger: 'rejected',
+    error: 'rejected',
+    info: 'review',
+    review: 'review',
+    neutral: 'draft',
+    purple: 'review',
+    outline: 'draft',
   };
-  return <StatusPill status={variantMap[variant || 'neutral'] || 'neutral'} label={typeof children === 'string' ? children : ''} />;
+  const status = variantMap[variant || 'neutral'] || 'draft';
+  return (
+    <StatusPill status={status} label={typeof children === 'string' ? children : String(children ?? '')} className={className} />
+  );
 };
 
 // Backwards-compatible StatusBadge
-export const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
-  const { t } = useTranslation('common');
-  const map: Record<string, string> = {
-    submitted: t('status.submitted'), under_scrutiny: t('status.under_scrutiny'), screening: t('status.screening'),
-    selected: t('status.selected'), waitlisted: t('status.waitlisted'), rejected: t('status.rejected'),
-    verified: t('status.verified'), pending: t('status.pending'), flagged: t('status.flagged'), missing: t('status.missing'),
-    processed: t('status.processed'), failed: t('status.failed'), open: t('status.open'), in_progress: t('status.in_progress'),
-    resolved: t('status.resolved'), closed: t('status.closed'), draft: t('status.draft'),
-  };
-  return <StatusPill status={getStatusType(status)} label={map[status] || status} />;
+export const StatusBadge: React.FC<{ status: string; className?: string }> = ({ status, className = '' }) => {
+  return <StatusPill status={getStatusType(status)} label={getStatusLabel(status)} className={className} />;
 };
 
 // ============ PROGRESS TIMELINE ============
@@ -73,10 +121,10 @@ export const ProgressTimeline: React.FC<{
   currentStep: number;
   labels?: string[];
 }> = ({ steps, currentStep, labels }) => {
-  const progressPercent = (currentStep / (steps.length - 1)) * 100;
+  const progressPercent = steps.length > 1 ? (currentStep / (steps.length - 1)) * 100 : 100;
   return (
     <div className="w-full">
-      <div className="relative h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+      <div className="relative h-1.5 bg-[#DEE2E6] dark:bg-slate-700 rounded-full overflow-hidden">
         <div className="absolute left-0 top-0 h-full bg-[#0B75A4] animate-progress" style={{ width: `${progressPercent}%` }} />
       </div>
       <div className="relative flex justify-between mt-2">
@@ -85,12 +133,15 @@ export const ProgressTimeline: React.FC<{
           const isCurrent = i === currentStep;
           return (
             <div key={i} className="flex flex-col items-center" style={{ width: `${100 / steps.length}%` }}>
-              <div className={`w-3.5 h-3.5 rounded-full border-2 -mt-2.5 transition-all ${
+              <div className={`w-4 h-4 rounded-full border-2 -mt-2.5 transition-all flex items-center justify-center ${
                 isCompleted ? 'bg-[#0B75A4] border-[#0B75A4]' : 'bg-white border-[#DEE2E6] dark:bg-slate-800 dark:border-slate-600'
-              } ${isCurrent ? 'ring-4 ring-[#0B75A4]/25' : ''}`}>
-                {isCompleted && i < currentStep && <Check size={8} className="text-white mx-auto mt-0.5" />}
+              } ${isCurrent ? 'ring-4 ring-[#0B75A4]/20' : ''}`}>
+                {isCompleted && i < currentStep && <Check size={10} className="text-white" />}
+                {isCurrent && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
               </div>
-              <span className={`text-[10px] mt-1 text-center leading-tight ${isCompleted ? 'text-[#0B75A4] dark:text-[#1697C5] font-semibold' : 'text-slate-500 dark:text-slate-400'}`}>
+              <span className={`text-[11px] mt-1.5 text-center leading-tight ${
+                isCompleted ? 'text-[#0B75A4] dark:text-[#7EC5E2] font-semibold' : 'text-[#64748B] dark:text-slate-400'
+              }`}>
                 {labels ? labels[i] : step}
               </span>
             </div>
@@ -115,20 +166,22 @@ export const DocumentRow: React.FC<{
   actionLabel?: string;
 }> = ({ name, status, explanation, onAction, actionLabel }) => {
   const icons = {
-    verified: <Check size={16} className="text-teal-600 dark:text-teal-400" />,
-    pending: <Clock size={16} className="text-amber-600 dark:text-amber-400" />,
-    flagged: <AlertCircle size={16} className="text-red-600 dark:text-red-400" />,
-    missing: <AlertCircle size={16} className="text-slate-400" />,
+    verified: <Check size={16} className="text-[#009B68]" />,
+    pending: <Clock size={16} className="text-[#F59E0B]" />,
+    flagged: <AlertCircle size={16} className="text-[#EF4444]" />,
+    missing: <AlertCircle size={16} className="text-[#94A3B8]" />,
   };
   return (
-    <div className="flex items-start gap-3 py-3 border-b border-slate-200 dark:border-slate-700 last:border-0">
+    <div className="flex items-start gap-3 py-3 border-b border-[#DEE2E6] dark:border-slate-700/80 last:border-0">
       <div className="mt-0.5 flex-shrink-0">{icons[status]}</div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm text-slate-900 dark:text-slate-100">{name}</p>
-        {explanation && <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">{explanation}</p>}
+        <p className="text-sm font-medium text-[#1D293D] dark:text-slate-100">{name}</p>
+        {explanation && <p className="text-xs text-[#64748B] dark:text-slate-400 mt-0.5">{explanation}</p>}
       </div>
       {onAction && actionLabel && (
-        <button onClick={onAction} className="text-xs text-teal-700 dark:text-teal-400 hover:text-teal-800 font-medium flex-shrink-0">{actionLabel}</button>
+        <button onClick={onAction} className="text-xs text-[#0B75A4] hover:text-[#09658E] dark:text-[#7EC5E2] font-semibold flex-shrink-0 transition-colors">
+          {actionLabel}
+        </button>
       )}
     </div>
   );
@@ -141,18 +194,18 @@ export const MetricDisplay: React.FC<{
 }> = ({ hero, supporting }) => (
   <div>
     <div className="mb-6">
-      <p className="text-sm text-slate-600 dark:text-slate-400 mb-1">{hero.label}</p>
-      <p className="text-4xl font-semibold text-slate-900 dark:text-slate-100">
+      <p className="text-xs font-semibold text-[#64748B] dark:text-slate-400 uppercase tracking-wider mb-1">{hero.label}</p>
+      <p className="text-3xl sm:text-4xl font-bold text-[#1D293D] dark:text-slate-100">
         {typeof hero.value === 'number' ? hero.value.toLocaleString('en-IN') : hero.value}
       </p>
-      {hero.subtitle && <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{hero.subtitle}</p>}
+      {hero.subtitle && <p className="text-xs text-[#64748B] dark:text-slate-400 mt-1">{hero.subtitle}</p>}
     </div>
     {supporting && supporting.length > 0 && (
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-slate-200 dark:border-slate-700">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-5 border-t border-[#DEE2E6] dark:border-slate-700">
         {supporting.map((m, i) => (
           <div key={i}>
-            <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">{m.label}</p>
-            <p className="text-xl font-medium text-slate-900 dark:text-slate-100">
+            <p className="text-xs text-[#64748B] dark:text-slate-400 mb-0.5">{m.label}</p>
+            <p className="text-lg font-semibold text-[#1D293D] dark:text-slate-100">
               {typeof m.value === 'number' ? m.value.toLocaleString('en-IN') : m.value}
             </p>
           </div>
@@ -180,29 +233,57 @@ export const DataTable: React.FC<{
     onSelectionChange(selectedRows.length === data.length ? [] : data.map(row => row.id as string));
   };
   return (
-    <div className="overflow-x-auto rounded-xl border border-[#DEE2E6] dark:border-slate-700/80 bg-white dark:bg-slate-800/80 shadow-xs">
+    <div className="overflow-x-auto rounded-xl border border-[#DEE2E6] dark:border-slate-700 bg-white dark:bg-slate-800 shadow-xs">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-[#DEE2E6] dark:border-slate-700 bg-slate-50/80 dark:bg-slate-850">
+          <tr className="border-b border-[#DEE2E6] dark:border-slate-700 bg-[#F8FAFC] dark:bg-slate-900/60">
             {selectable && (
-              <th className="text-left py-2.5 px-3 w-10">
-                <input type="checkbox" checked={selectedRows.length === data.length && data.length > 0} onChange={handleSelectAll} className="rounded border-[#DEE2E6] text-[#0B75A4] focus:ring-[#0B75A4]" />
+              <th className="text-left py-3 px-3.5 w-10">
+                <input 
+                  type="checkbox" 
+                  checked={selectedRows.length === data.length && data.length > 0} 
+                  onChange={handleSelectAll} 
+                  className="rounded border-[#CBD5E1] text-[#0B75A4] focus:ring-[#0B75A4]" 
+                />
               </th>
             )}
             {columns.map(col => (
-              <th key={col.key} className="text-left py-2.5 px-3 font-semibold text-slate-700 dark:text-slate-300 text-xs uppercase tracking-wider" style={col.width ? { width: col.width } : undefined}>{col.label}</th>
+              <th 
+                key={col.key} 
+                className="text-left py-3 px-3.5 font-semibold text-[#475569] dark:text-slate-300 text-xs uppercase tracking-wider" 
+                style={col.width ? { width: col.width } : undefined}
+              >
+                {col.label}
+              </th>
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-[#DEE2E6]/60 dark:divide-slate-700/60">
+        <tbody className="divide-y divide-[#F1F5F9] dark:divide-slate-700/60">
           {data.map((row, i) => (
-            <tr key={i} className={`transition-colors ${onRowClick ? 'cursor-pointer hover:bg-[#0B75A4]/5 dark:hover:bg-[#0B75A4]/15' : 'hover:bg-slate-50/60'}`} onClick={() => onRowClick?.(row)}>
+            <tr 
+              key={i} 
+              className={`transition-colors bg-white dark:bg-slate-800 ${
+                onRowClick 
+                  ? 'cursor-pointer hover:bg-[#F8FAFC] dark:hover:bg-slate-750' 
+                  : 'hover:bg-[#F8FAFC] dark:hover:bg-slate-750/70'
+              }`} 
+              onClick={() => onRowClick?.(row)}
+            >
               {selectable && (
-                <td className="py-2.5 px-3">
-                  <input type="checkbox" checked={selectedRows.includes(row.id as string)} onChange={(e) => { e.stopPropagation(); handleSelect(row.id as string); }} className="rounded border-[#DEE2E6] text-[#0B75A4] focus:ring-[#0B75A4]" />
+                <td className="py-3 px-3.5">
+                  <input 
+                    type="checkbox" 
+                    checked={selectedRows.includes(row.id as string)} 
+                    onChange={(e) => { e.stopPropagation(); handleSelect(row.id as string); }} 
+                    className="rounded border-[#CBD5E1] text-[#0B75A4] focus:ring-[#0B75A4]" 
+                  />
                 </td>
               )}
-              {columns.map(col => <td key={col.key} className="py-2.5 px-3 text-slate-700 dark:text-slate-300">{row[col.key]}</td>)}
+              {columns.map(col => (
+                <td key={col.key} className="py-3 px-3.5 text-[#1D293D] dark:text-slate-200">
+                  {row[col.key]}
+                </td>
+              ))}
             </tr>
           ))}
         </tbody>
@@ -211,35 +292,58 @@ export const DataTable: React.FC<{
   );
 };
 
-// ============ CARD (minimal - only for bounded objects) ============
-export const Card: React.FC<{ children: ReactNode; className?: string; padding?: boolean }> = ({ children, className = '', padding = true }) => (
-  <div className={`bg-white dark:bg-slate-800 border border-[#DEE2E6] dark:border-slate-700/80 rounded-xl shadow-xs hover:shadow-md transition-all duration-300 ${padding ? 'p-4 md:p-5' : ''} ${className}`}>
+// ============ CARD ============
+export const Card: React.FC<{ children: ReactNode; className?: string; padding?: boolean; onClick?: () => void }> = ({ 
+  children, 
+  className = '', 
+  padding = true,
+  onClick
+}) => (
+  <div 
+    onClick={onClick}
+    className={`bg-white dark:bg-slate-800 border border-[#DEE2E6] dark:border-slate-700 rounded-xl shadow-xs transition-all duration-200 ${
+      onClick ? 'cursor-pointer hover:border-[#0B75A4]/50 hover:shadow-sm' : ''
+    } ${padding ? 'p-4 md:p-5' : ''} ${className}`}
+  >
     {children}
   </div>
 );
 
 // ============ BUTTON ============
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
   icon?: ReactNode;
 }
 
-export const Button: React.FC<ButtonProps> = ({ variant = 'primary', size = 'md', loading, icon, children, className = '', disabled, ...props }) => {
-  const base = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer active:scale-95 shadow-xs';
+export const Button: React.FC<ButtonProps> = ({ 
+  variant = 'primary', 
+  size = 'md', 
+  loading, 
+  icon, 
+  children, 
+  className = '', 
+  disabled, 
+  ...props 
+}) => {
+  const base = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-xs active:scale-[0.98]';
   const variants: Record<string, string> = {
-    primary: 'bg-[#0B75A4] text-white hover:bg-[#056C9A] active:bg-[#024969] focus:ring-[#0B75A4]/40 shadow-xs hover:shadow',
-    secondary: 'bg-white text-slate-700 border border-[#DEE2E6] hover:bg-slate-50 hover:border-[#0B75A4]/40 focus:ring-[#0B75A4]/30 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 dark:hover:bg-slate-700',
-    outline: 'bg-white text-[#0B75A4] border border-[#DEE2E6] hover:bg-[#0B75A4]/5 hover:border-[#0B75A4] focus:ring-[#0B75A4]/30 dark:bg-slate-800 dark:text-[#1697C5] dark:border-slate-700',
-    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 shadow-xs',
-    ghost: 'text-slate-600 hover:bg-[#0B75A4]/10 hover:text-[#0B75A4] focus:ring-[#0B75A4]/30 dark:text-slate-300 dark:hover:bg-slate-800',
+    primary: 'bg-[#0B75A4] hover:bg-[#09658E] active:bg-[#064E70] text-white border border-[#0B75A4] focus:ring-[#0B75A4]/30',
+    secondary: 'bg-white text-[#475569] border border-[#DEE2E6] hover:bg-[#F8FAFC] hover:text-[#0B75A4] hover:border-[#0B75A4]/40 focus:ring-[#0B75A4]/20 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 dark:hover:bg-slate-700',
+    outline: 'bg-white text-[#0B75A4] border border-[#DEE2E6] hover:bg-[#E6F1F5] hover:border-[#0B75A4] focus:ring-[#0B75A4]/20 dark:bg-slate-800 dark:text-[#7EC5E2] dark:border-slate-700 dark:hover:bg-slate-700',
+    danger: 'bg-[#EF4444] hover:bg-[#DC2626] active:bg-[#B91C1C] text-white border border-[#EF4444] focus:ring-[#EF4444]/30',
+    ghost: 'text-[#475569] hover:bg-[#F1F5F9] hover:text-[#0B75A4] focus:ring-[#0B75A4]/20 dark:text-slate-300 dark:hover:bg-slate-800',
   };
-  const sizes: Record<string, string> = { sm: 'px-3 py-1.5 text-xs gap-1.5', md: 'px-4 py-2 text-sm gap-2', lg: 'px-6 py-2.5 text-sm gap-2' };
+  const sizes: Record<string, string> = { 
+    sm: 'px-3 py-1.5 text-xs gap-1.5 h-8', 
+    md: 'px-4 py-2 text-sm gap-2 h-9', 
+    lg: 'px-5 py-2.5 text-sm gap-2 h-10' 
+  };
   return (
     <button className={`${base} ${variants[variant]} ${sizes[size]} ${className}`} disabled={disabled || loading} {...props}>
-      {loading && <span className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full" />}
-      {icon && !loading && icon}
+      {loading && <span className="animate-spin h-3.5 w-3.5 border-2 border-current border-t-transparent rounded-full" />}
+      {icon && !loading && <span className="shrink-0">{icon}</span>}
       {children}
     </button>
   );
@@ -251,13 +355,15 @@ export const Modal: React.FC<{ isOpen: boolean; onClose: () => void; title: stri
   const sizes = { sm: 'max-w-md', md: 'max-w-lg', lg: 'max-w-2xl', xl: 'max-w-4xl' };
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" role="dialog" aria-modal="true">
-      <div className="fixed inset-0 bg-black/50" onClick={onClose} />
-      <div className={`relative bg-white dark:bg-slate-900 w-full ${sizes[size]} max-h-[90vh] overflow-y-auto animate-fade-in`}>
-        <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-700">
-          <h2 className="text-lg font-medium text-slate-900 dark:text-slate-100">{title}</h2>
-          <button onClick={onClose} className="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded" aria-label="Close"><X size={20} className="text-slate-500" /></button>
+      <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs transition-opacity" onClick={onClose} />
+      <div className={`relative bg-white dark:bg-slate-900 w-full ${sizes[size]} max-h-[90vh] overflow-y-auto rounded-xl border border-[#DEE2E6] dark:border-slate-800 shadow-2xl animate-fade-in`}>
+        <div className="flex items-center justify-between p-4 border-b border-[#DEE2E6] dark:border-slate-800">
+          <h2 className="text-base sm:text-lg font-semibold text-[#1D293D] dark:text-slate-100">{title}</h2>
+          <button onClick={onClose} className="p-1 hover:bg-[#F8FAFC] dark:hover:bg-slate-800 rounded-lg text-[#64748B] hover:text-[#1D293D] transition-colors" aria-label="Close">
+            <X size={18} />
+          </button>
         </div>
-        <div className="p-4">{children}</div>
+        <div className="p-4 sm:p-5">{children}</div>
       </div>
     </div>
   );
@@ -267,15 +373,15 @@ export const Modal: React.FC<{ isOpen: boolean; onClose: () => void; title: stri
 export const ToastContainer: React.FC = () => {
   const { toasts, removeToast } = useAppStore();
   return (
-    <div className="fixed top-4 right-4 z-[9999] space-y-2" aria-live="polite">
+    <div className="fixed top-4 right-4 z-[9999] space-y-2 max-w-sm w-full" aria-live="polite">
       {toasts.map(toast => (
-        <div key={toast.id} className="flex items-center gap-2 px-4 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-lg animate-fade-in">
-          {toast.type === 'success' && <Check size={16} className="text-teal-600" />}
-          {toast.type === 'error' && <AlertCircle size={16} className="text-red-600" />}
-          {toast.type === 'info' && <Info size={16} className="text-slate-600" />}
-          {toast.type === 'warning' && <AlertCircle size={16} className="text-amber-600" />}
-          <span className="text-sm text-slate-900 dark:text-slate-100">{toast.message}</span>
-          <button onClick={() => removeToast(toast.id)} className="ml-2 text-slate-400 hover:text-slate-600"><X size={14} /></button>
+        <div key={toast.id} className="flex items-center gap-2.5 px-4 py-3 bg-white dark:bg-slate-800 border border-[#DEE2E6] dark:border-slate-700 shadow-lg rounded-xl animate-fade-in">
+          {toast.type === 'success' && <Check size={16} className="text-[#009B68] shrink-0" />}
+          {toast.type === 'error' && <AlertCircle size={16} className="text-[#EF4444] shrink-0" />}
+          {toast.type === 'info' && <Info size={16} className="text-[#0B75A4] shrink-0" />}
+          {toast.type === 'warning' && <AlertCircle size={16} className="text-[#F59E0B] shrink-0" />}
+          <span className="text-sm font-medium text-[#1D293D] dark:text-slate-100 flex-1">{toast.message}</span>
+          <button onClick={() => removeToast(toast.id)} className="text-[#94A3B8] hover:text-[#1D293D] transition-colors"><X size={14} /></button>
         </div>
       ))}
     </div>
@@ -284,21 +390,21 @@ export const ToastContainer: React.FC = () => {
 
 // ============ EMPTY STATE ============
 export const EmptyState: React.FC<{ icon?: ReactNode; title: string; description?: string; action?: ReactNode }> = ({ icon, title, description, action }) => (
-  <div className="flex flex-col items-center justify-center py-12 text-center">
-    {icon && <div className="mb-4 text-slate-400">{icon}</div>}
-    <h3 className="text-base font-medium text-slate-900 dark:text-slate-100">{title}</h3>
-    {description && <p className="mt-1 text-sm text-slate-600 dark:text-slate-400 max-w-sm">{description}</p>}
+  <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
+    {icon && <div className="mb-3 text-[#94A3B8] dark:text-slate-500">{icon}</div>}
+    <h3 className="text-base font-semibold text-[#1D293D] dark:text-slate-100">{title}</h3>
+    {description && <p className="mt-1 text-sm text-[#64748B] dark:text-slate-400 max-w-sm">{description}</p>}
     {action && <div className="mt-4">{action}</div>}
   </div>
 );
 
 // ============ SKELETON ============
 export const Skeleton: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <div className={`animate-pulse bg-slate-200 dark:bg-slate-700 rounded ${className}`} />
+  <div className={`animate-pulse bg-[#F1F5F9] dark:bg-slate-800 rounded-lg ${className}`} />
 );
 
 // ============ INPUT ============
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   icon?: ReactNode;
@@ -306,17 +412,38 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 export const Input: React.FC<InputProps> = ({ label, error, icon, className = '', ...props }) => (
   <div className="space-y-1">
-    {label && <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">{label}</label>}
+    {label && <label className="block text-xs font-semibold text-[#475569] dark:text-slate-300">{label}</label>}
     <div className="relative">
-      {icon && <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">{icon}</div>}
+      {icon && <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8] pointer-events-none">{icon}</div>}
       <input
         className={`w-full ${icon ? 'pl-9' : 'pl-3'} pr-3 py-2 rounded-lg border ${
-          error ? 'border-red-400 dark:border-red-700 ring-1 ring-red-400' : 'border-[#DEE2E6] dark:border-slate-750'
-        } bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 outline-none focus:border-[#0B75A4] focus:ring-2 focus:ring-[#0B75A4]/20 transition-all ${className}`}
+          error ? 'border-[#EF4444] ring-1 ring-[#EF4444]' : 'border-[#CBD5E1] dark:border-slate-700'
+        } bg-white dark:bg-slate-800 text-sm text-[#1D293D] dark:text-white placeholder:text-[#94A3B8] outline-none focus:border-[#0B75A4] focus:ring-2 focus:ring-[#0B75A4]/20 transition-all ${className}`}
         {...props}
       />
     </div>
-    {error && <p className="text-xs text-red-600 dark:text-red-400">{error}</p>}
+    {error && <p className="text-xs text-[#EF4444] mt-0.5">{error}</p>}
+  </div>
+);
+
+// ============ SELECT ============
+export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+  label?: string;
+  error?: string;
+}
+
+export const Select: React.FC<SelectProps> = ({ label, error, children, className = '', ...props }) => (
+  <div className="space-y-1">
+    {label && <label className="block text-xs font-semibold text-[#475569] dark:text-slate-300">{label}</label>}
+    <select
+      className={`w-full px-3 py-2 rounded-lg border ${
+        error ? 'border-[#EF4444] ring-1 ring-[#EF4444]' : 'border-[#CBD5E1] dark:border-slate-700'
+      } bg-white dark:bg-slate-800 text-sm text-[#1D293D] dark:text-slate-200 outline-none focus:border-[#0B75A4] focus:ring-2 focus:ring-[#0B75A4]/20 transition-all ${className}`}
+      {...props}
+    >
+      {children}
+    </select>
+    {error && <p className="text-xs text-[#EF4444] mt-0.5">{error}</p>}
   </div>
 );
 
@@ -331,33 +458,77 @@ export const TableSkeleton: React.FC<{ rows?: number; cols?: number }> = ({ rows
 );
 
 // ============ PROGRESS BAR ============
-export const ProgressBar: React.FC<{ value: number; max?: number; label?: string; color?: string }> = ({ value, max = 100, label, color = 'bg-[#0B75A4]' }) => {
+export const ProgressBar: React.FC<{ value: number; max?: number; label?: string; color?: string }> = ({ 
+  value, 
+  max = 100, 
+  label, 
+  color = 'bg-[#0B75A4]' 
+}) => {
   const pct = Math.min((value / max) * 100, 100);
   return (
     <div className="w-full">
-      {label && <div className="flex justify-between text-xs mb-1"><span className="text-slate-600 dark:text-slate-400">{label}</span><span className="font-medium text-slate-700 dark:text-slate-300">{Math.round(pct)}%</span></div>}
-      <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+      {label && (
+        <div className="flex justify-between text-xs mb-1">
+          <span className="text-[#64748B] dark:text-slate-400">{label}</span>
+          <span className="font-semibold text-[#1D293D] dark:text-slate-200">{Math.round(pct)}%</span>
+        </div>
+      )}
+      <div className="w-full h-1.5 bg-[#DEE2E6] dark:bg-slate-700 rounded-full overflow-hidden">
         <div className={`h-full rounded-full transition-all duration-500 ${color}`} style={{ width: `${pct}%` }} />
       </div>
     </div>
   );
 };
 
-// ============ STAT CARD (backwards compat) ============
-export const StatCard: React.FC<{ title: string; value: string | number; icon?: ReactNode; trend?: string; trendUp?: boolean; color?: string }> = ({ title, value }) => (
-  <div className="py-3">
-    <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">{title}</p>
-    <p className="text-xl font-medium text-slate-900 dark:text-slate-100">{typeof value === 'number' ? value.toLocaleString('en-IN') : value}</p>
+// ============ STAT CARD ============
+export const StatCard: React.FC<{ 
+  title: string; 
+  value: string | number; 
+  icon?: ReactNode; 
+  trend?: string; 
+  trendUp?: boolean; 
+  color?: string;
+  onClick?: () => void;
+}> = ({ title, value, icon, trend, trendUp, onClick }) => (
+  <div 
+    onClick={onClick}
+    className={`bg-white dark:bg-slate-800 border border-[#DEE2E6] dark:border-slate-700 rounded-xl p-4 shadow-xs transition-all duration-200 ${
+      onClick ? 'cursor-pointer hover:border-[#0B75A4]/50 hover:shadow-sm' : ''
+    }`}
+  >
+    <div className="flex items-center justify-between">
+      <p className="text-xs font-semibold text-[#64748B] dark:text-slate-400 uppercase tracking-wider">{title}</p>
+      {icon && <div className="text-[#0B75A4] dark:text-[#7EC5E2] p-1.5 rounded-lg bg-[#E6F1F5] dark:bg-[#0B75A4]/20">{icon}</div>}
+    </div>
+    <p className="text-2xl font-bold text-[#1D293D] dark:text-white mt-1">
+      {typeof value === 'number' ? value.toLocaleString('en-IN') : value}
+    </p>
+    {trend && (
+      <p className={`text-[11px] mt-1.5 font-medium flex items-center gap-1 ${
+        trendUp ? 'text-[#009B68]' : 'text-[#EF4444]'
+      }`}>
+        {trend}
+      </p>
+    )}
   </div>
 );
 
 // ============ FILE UPLOAD ============
-export const FileUpload: React.FC<{ onUpload: (files: File[]) => void; accept?: string; multiple?: boolean; label?: string }> = ({ onUpload, accept = '.pdf,.jpg,.jpeg,.png', multiple = true, label = 'Upload documents' }) => {
+export const FileUpload: React.FC<{ onUpload: (files: File[]) => void; accept?: string; multiple?: boolean; label?: string }> = ({ 
+  onUpload, 
+  accept = '.pdf,.jpg,.jpeg,.png', 
+  multiple = true, 
+  label = 'Upload documents' 
+}) => {
   const [dragging, setDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   return (
     <div
-      className={`border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer ${dragging ? 'border-[#0B75A4] bg-[#0B75A4]/10 dark:bg-[#0B75A4]/20' : 'border-[#DEE2E6] dark:border-slate-700 hover:border-[#0B75A4] hover:bg-[#0B75A4]/5'}`}
+      className={`border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer ${
+        dragging 
+          ? 'border-[#0B75A4] bg-[#E6F1F5] dark:bg-[#0B75A4]/20' 
+          : 'border-[#CBD5E1] dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-[#0B75A4] hover:bg-[#F8FAFC] dark:hover:bg-slate-800/80'
+      }`}
       onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
       onDragLeave={() => setDragging(false)}
       onDrop={(e) => { e.preventDefault(); setDragging(false); if (e.dataTransfer.files.length) onUpload(Array.from(e.dataTransfer.files)); }}
@@ -365,9 +536,9 @@ export const FileUpload: React.FC<{ onUpload: (files: File[]) => void; accept?: 
       role="button"
       tabIndex={0}
     >
-      <Upload size={24} className="mx-auto text-[#0B75A4] dark:text-[#1697C5] mb-2" />
-      <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{label}</p>
-      <p className="text-xs text-slate-500 mt-1">{i18next.t('fileUpload.dragDrop', { ns: 'common' })}</p>
+      <Upload size={24} className="mx-auto text-[#0B75A4] dark:text-[#7EC5E2] mb-2" />
+      <p className="text-sm font-semibold text-[#1D293D] dark:text-slate-200">{label}</p>
+      <p className="text-xs text-[#64748B] mt-1">{i18next.t('fileUpload.dragDrop', { ns: 'common' })}</p>
       <input ref={inputRef} type="file" accept={accept} multiple={multiple} className="hidden" onChange={(e) => { if (e.target.files) onUpload(Array.from(e.target.files)); }} />
     </div>
   );
@@ -390,12 +561,12 @@ export const LanguageSelector: React.FC<{ className?: string; showLabel?: boolea
       <button
         type="button"
         onClick={() => setLangOpen(!langOpen)}
-        className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 bg-white/90 dark:bg-slate-800/90 hover:bg-slate-100 hover:border-[#0B75A4]/50 dark:hover:bg-slate-700 border border-[#DEE2E6] dark:border-slate-700 rounded-lg shadow-xs transition-all cursor-pointer"
+        className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-[#475569] dark:text-slate-200 bg-white dark:bg-slate-800 hover:bg-[#F8FAFC] hover:text-[#0B75A4] hover:border-[#0B75A4]/40 dark:hover:bg-slate-700 border border-[#DEE2E6] dark:border-slate-700 rounded-lg shadow-xs transition-all cursor-pointer"
         aria-label={t('language.toggle')}
       >
-        <Globe size={14} className="text-[#0B75A4] dark:text-[#1697C5] flex-shrink-0" />
+        <Globe size={14} className="text-[#0B75A4] dark:text-[#7EC5E2] flex-shrink-0" />
         {showLabel && <span>{languages.find((l) => l.code === language)?.native || 'English'}</span>}
-        <ChevronDown size={12} className="text-slate-400" />
+        <ChevronDown size={12} className="text-[#94A3B8]" />
       </button>
 
       {langOpen && (
@@ -412,12 +583,12 @@ export const LanguageSelector: React.FC<{ className?: string; showLabel?: boolea
                 }}
                 className={`w-full text-left flex items-center justify-between px-3 py-2 text-xs transition-colors cursor-pointer ${
                   language === lang.code
-                    ? 'text-[#0B75A4] dark:text-[#1697C5] font-semibold bg-[#0B75A4]/10 dark:bg-[#0B75A4]/25'
-                    : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+                    ? 'text-[#0B75A4] dark:text-[#7EC5E2] font-semibold bg-[#E6F1F5] dark:bg-[#0B75A4]/25'
+                    : 'text-[#475569] dark:text-slate-300 hover:bg-[#F8FAFC] dark:hover:bg-slate-700'
                 }`}
               >
                 <span>{lang.native}</span>
-                {language === lang.code && <Check size={12} className="text-[#0B75A4] dark:text-[#1697C5]" />}
+                {language === lang.code && <Check size={12} className="text-[#0B75A4] dark:text-[#7EC5E2]" />}
               </button>
             ))}
           </div>
@@ -427,59 +598,71 @@ export const LanguageSelector: React.FC<{ className?: string; showLabel?: boolea
   );
 };
 
-// ============ HEADER ============
+// ============ HEADER (TOP NAVBAR) ============
 export const Header: React.FC<{ title?: string }> = ({ title }) => {
   const { theme, toggleTheme, toggleSidebar, sidebarOpen } = useAppStore();
   const { user, logout } = useAuthStore();
   const { t } = useTranslation('common');
 
   return (
-    <header className="w-full shrink-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-[#DEE2E6] dark:border-slate-800 shadow-xs">
-      <div className="flex items-center justify-between px-3 sm:px-4 h-14">
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* Sidebar Toggle Button (Desktop: collapse to icons, Mobile: slide drawer) */}
-          <button
-            type="button"
-            onClick={toggleSidebar}
-            className="p-1.5 sm:p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-[#0B75A4]/10 hover:text-[#0B75A4] dark:hover:bg-slate-800 dark:hover:text-[#1697C5] transition-colors cursor-pointer"
-            aria-label="Toggle navigation menu"
-            title={sidebarOpen ? t('actions.collapse', 'Collapse sidebar') : t('actions.expand', 'Expand sidebar')}
-          >
-            <Menu size={20} />
-          </button>
-
+    <header className="w-full shrink-0 z-40 bg-white dark:bg-slate-900 border-b border-[#DEE2E6] dark:border-slate-800 shadow-xs">
+      <div className="flex items-center justify-between px-3 sm:px-5 h-14">
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          {/* UDAAN Logo */}
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#024969] via-[#056C9A] to-[#0B75A4] flex items-center justify-center shadow-sm shadow-[#0B75A4]/20 text-white flex-shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-[#0B75A4] flex items-center justify-center text-white shadow-xs flex-shrink-0">
               <GraduationCap size={18} className="stroke-[2.3]" />
             </div>
             <div className="flex flex-col leading-none">
               <div className="flex items-center gap-1.5">
-                <span className="font-extrabold text-sm tracking-tight text-[#024969] dark:text-white">UDAAN</span>
-                <span className="text-[9px] font-bold px-1.5 py-0.2 bg-[#E0F0F7] dark:bg-[#0B75A4]/20 text-[#056C9A] dark:text-[#1697C5] rounded tracking-wider border border-[#B8DEEE]/60 dark:border-[#0B75A4]/40">MoTA</span>
+                <span className="font-bold text-sm tracking-tight text-[#1D293D] dark:text-white">UDAAN</span>
+                <span className="text-[9px] font-semibold px-1.5 py-0.5 bg-[#E6F1F5] dark:bg-[#0B75A4]/20 text-[#0B75A4] dark:text-[#7EC5E2] rounded tracking-wider border border-[#0B75A4]/20">MoTA</span>
               </div>
-              <span className="text-[8px] font-bold tracking-widest text-[#0B75A4] dark:text-[#1697C5] uppercase mt-0.5">SCHOLAR PORTAL</span>
+              <span className="text-[8px] font-bold tracking-widest text-[#0B75A4] dark:text-[#7EC5E2] uppercase mt-0.5">SCHOLAR PORTAL</span>
             </div>
           </div>
+
+          {/* Sidebar Collapse/Hamburger Button */}
+          <button
+            type="button"
+            onClick={toggleSidebar}
+            className="w-10 h-10 flex items-center justify-center rounded-lg bg-transparent hover:bg-[#E6F1F5] text-[#0B75A4] dark:text-[#7EC5E2] dark:hover:bg-slate-800 transition-colors cursor-pointer"
+            aria-label="Toggle navigation menu"
+            title={sidebarOpen ? t('actions.collapse', 'Collapse sidebar') : t('actions.expand', 'Expand sidebar')}
+          >
+            <Menu size={20} className="text-[#0B75A4] dark:text-[#7EC5E2]" />
+          </button>
+
+          {/* Divider & Portal Title */}
           {title && (
-            <div className="hidden sm:flex items-center pl-3 border-l border-[#DEE2E6] dark:border-slate-700">
-              <h1 className="text-xs font-semibold text-slate-700 dark:text-slate-300">{title}</h1>
+            <div className="flex items-center pl-2.5 sm:pl-3 border-l border-[#DEE2E6] dark:border-slate-700">
+              <h1 className="text-xs font-semibold text-[#1D293D] dark:text-slate-200">{title}</h1>
             </div>
           )}
         </div>
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <ConnectionStatus />
           {/* Reusable Language selector */}
           <LanguageSelector />
-          <button onClick={toggleTheme} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-600 dark:text-amber-400 transition-colors" aria-label={t('theme.toggle')}>
+          <button 
+            onClick={toggleTheme} 
+            className="p-2 hover:bg-[#F8FAFC] dark:hover:bg-slate-800 rounded-lg text-[#64748B] dark:text-amber-400 hover:text-[#0B75A4] transition-colors cursor-pointer" 
+            aria-label={t('theme.toggle')}
+          >
             {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
           </button>
           {user && (
             <div className="flex items-center gap-2 ml-1">
               <div className="hidden sm:block text-right">
-                <p className="text-xs font-medium text-slate-700 dark:text-slate-300">{user.name}</p>
-                <p className="text-[10px] text-slate-500 capitalize">{user.role.replace('_', ' ')}</p>
+                <p className="text-xs font-semibold text-[#1D293D] dark:text-slate-200">{user.name}</p>
+                <p className="text-[10px] text-[#64748B] capitalize">{user.role.replace('_', ' ')}</p>
               </div>
-              <button onClick={logout} className="px-2 py-1 text-xs text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">{t('actions.logout')}</button>
+              <button 
+                onClick={logout} 
+                className="px-2.5 py-1 text-xs font-medium text-[#475569] dark:text-slate-300 hover:bg-[#F8FAFC] hover:text-[#EF4444] dark:hover:bg-slate-800 rounded-lg border border-transparent hover:border-[#DEE2E6] transition-colors cursor-pointer"
+              >
+                {t('actions.logout')}
+              </button>
             </div>
           )}
         </div>
@@ -489,8 +672,13 @@ export const Header: React.FC<{ title?: string }> = ({ title }) => {
 };
 
 // ============ SIDEBAR ============
-interface SidebarItem { label: string; icon: ReactNode; path: string; badge?: number; }
-export const Sidebar: React.FC<{ items: SidebarItem[]; currentPath: string; onNavigate: (path: string) => void }> = ({ items, currentPath, onNavigate }) => {
+export interface SidebarItem { label: string; icon: ReactNode; path: string; badge?: number; }
+
+export const Sidebar: React.FC<{ items: SidebarItem[]; currentPath: string; onNavigate: (path: string) => void }> = ({ 
+  items, 
+  currentPath, 
+  onNavigate 
+}) => {
   const { sidebarOpen, toggleSidebar, mobileSidebarOpen, setMobileSidebarOpen } = useAppStore();
   const { t } = useTranslation('common');
 
@@ -499,35 +687,35 @@ export const Sidebar: React.FC<{ items: SidebarItem[]; currentPath: string; onNa
       {/* Mobile Drawer Backdrop */}
       {mobileSidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-xs md:hidden transition-opacity duration-300 animate-fade-in"
+          className="fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-xs md:hidden transition-opacity duration-300 animate-fade-in"
           onClick={() => setMobileSidebarOpen(false)}
           aria-hidden="true"
         />
       )}
 
-      {/* Main Sidebar (Desktop Collapsible + Mobile Slide-in Drawer) */}
+      {/* Main Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 max-w-[80vw] bg-white dark:bg-slate-900 border-r border-[#DEE2E6] dark:border-slate-800 shadow-2xl flex flex-col justify-between transition-all duration-300
-          md:relative md:inset-auto md:z-30 md:h-full md:shadow-xs md:shrink-0
+        className={`fixed inset-y-0 left-0 z-50 w-64 max-w-[80vw] bg-white dark:bg-slate-900 border-r border-[#DEE2E6] dark:border-slate-800 shadow-xl flex flex-col justify-between transition-all duration-300
+          md:relative md:inset-auto md:z-30 md:h-full md:shadow-none md:shrink-0
           ${sidebarOpen ? 'md:w-56' : 'md:w-16'}
           ${mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}
       >
-        {/* Mobile Drawer Header with Close Button */}
-        <div className="flex items-center justify-between p-3.5 border-b border-[#DEE2E6] dark:border-slate-800 md:hidden bg-[#F8F8F8] dark:bg-slate-800/80">
+        {/* Mobile Drawer Header */}
+        <div className="flex items-center justify-between p-3.5 border-b border-[#DEE2E6] dark:border-slate-800 md:hidden bg-[#F8FAFC] dark:bg-slate-800/80">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-[#024969] via-[#056C9A] to-[#0B75A4] flex items-center justify-center text-white shadow-xs">
+            <div className="w-7 h-7 rounded-lg bg-[#0B75A4] flex items-center justify-center text-white shadow-xs">
               <GraduationCap size={16} />
             </div>
             <div className="flex flex-col leading-none">
-              <span className="font-extrabold text-xs text-[#024969] dark:text-white">UDAAN PORTAL</span>
-              <span className="text-[8px] font-bold text-[#0B75A4] dark:text-[#1697C5]">MoTA</span>
+              <span className="font-bold text-xs text-[#1D293D] dark:text-white">UDAAN PORTAL</span>
+              <span className="text-[8px] font-bold text-[#0B75A4] dark:text-[#7EC5E2]">MoTA</span>
             </div>
           </div>
           <button
             type="button"
             onClick={() => setMobileSidebarOpen(false)}
-            className="p-1.5 rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-[#64748B] hover:text-[#1D293D] hover:bg-[#DEE2E6]/60 dark:hover:bg-slate-700 transition-colors cursor-pointer"
             aria-label="Close menu"
           >
             <X size={18} />
@@ -548,8 +736,8 @@ export const Sidebar: React.FC<{ items: SidebarItem[]; currentPath: string; onNa
                   }}
                   className={`w-full flex items-center rounded-lg transition-all duration-150 cursor-pointer ${
                     active
-                      ? 'bg-[#0B75A4]/10 text-[#0B75A4] dark:bg-[#0B75A4]/20 dark:text-[#1697C5] font-semibold border-l-4 border-[#0B75A4]'
-                      : 'text-slate-600 hover:bg-slate-50 hover:text-[#0B75A4] dark:text-slate-400 dark:hover:bg-slate-800/80 dark:hover:text-slate-200 border-l-4 border-transparent'
+                      ? 'bg-[#E6F1F5] text-[#0B75A4] dark:bg-[#0B75A4]/20 dark:text-[#7EC5E2] font-semibold border-l-4 border-[#0B75A4]'
+                      : 'text-[#475569] hover:bg-[#F1F5F9] hover:text-[#0B75A4] dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-200 border-l-4 border-transparent'
                   } ${
                     sidebarOpen
                       ? 'gap-2.5 px-3 py-2 text-sm'
@@ -557,11 +745,11 @@ export const Sidebar: React.FC<{ items: SidebarItem[]; currentPath: string; onNa
                   }`}
                   aria-label={item.label}
                 >
-                  <span className={`shrink-0 ${active ? 'text-[#0B75A4] dark:text-[#1697C5]' : 'text-slate-500'}`}>
+                  <span className={`shrink-0 ${active ? 'text-[#0B75A4] dark:text-[#7EC5E2]' : 'text-[#64748B] group-hover:text-[#0B75A4]'}`}>
                     {item.icon}
                   </span>
 
-                  {/* Label: Full visibility on expanded desktop & always on mobile drawer */}
+                  {/* Label */}
                   <span
                     className={`text-left truncate transition-opacity duration-200 ${
                       sidebarOpen
@@ -572,10 +760,10 @@ export const Sidebar: React.FC<{ items: SidebarItem[]; currentPath: string; onNa
                     {item.label}
                   </span>
 
-                  {/* Badge: in expanded mode & mobile drawer */}
+                  {/* Badge in expanded mode */}
                   {item.badge && item.badge > 0 && (
                     <span
-                      className={`px-1.5 py-0.5 text-[10px] font-bold bg-[#E25A18]/15 text-[#E25A18] rounded-full border border-[#E25A18]/30 ${
+                      className={`px-1.5 py-0.5 text-[10px] font-bold bg-[#F59E0B]/15 text-[#B45309] rounded-full border border-[#F59E0B]/30 ${
                         sidebarOpen ? 'inline-block' : 'md:hidden inline-block'
                       }`}
                     >
@@ -583,9 +771,9 @@ export const Sidebar: React.FC<{ items: SidebarItem[]; currentPath: string; onNa
                     </span>
                   )}
 
-                  {/* Badge dot: on collapsed desktop icons */}
+                  {/* Badge dot on collapsed mode */}
                   {!sidebarOpen && item.badge && item.badge > 0 && (
-                    <span className="hidden md:block absolute top-1.5 right-2 w-2 h-2 rounded-full bg-[#E25A18] ring-2 ring-white dark:ring-slate-900" />
+                    <span className="hidden md:block absolute top-1.5 right-2 w-2 h-2 rounded-full bg-[#F59E0B] ring-2 ring-white dark:ring-slate-900" />
                   )}
                 </button>
 
@@ -594,7 +782,7 @@ export const Sidebar: React.FC<{ items: SidebarItem[]; currentPath: string; onNa
                   <div className="hidden md:group-hover:flex absolute left-full ml-3 top-1/2 -translate-y-1/2 z-50 items-center px-2.5 py-1 bg-slate-900 text-white text-xs font-medium rounded-md shadow-lg whitespace-nowrap pointer-events-none animate-fade-in">
                     {item.label}
                     {item.badge && item.badge > 0 && (
-                      <span className="ml-1.5 px-1.5 py-0.2 text-[9px] font-bold bg-[#E25A18] text-white rounded-full">
+                      <span className="ml-1.5 px-1.5 py-0.2 text-[9px] font-bold bg-[#F59E0B] text-white rounded-full">
                         {item.badge}
                       </span>
                     )}
@@ -613,7 +801,7 @@ export const Sidebar: React.FC<{ items: SidebarItem[]; currentPath: string; onNa
             onClick={toggleSidebar}
             className={`w-full flex items-center ${
               sidebarOpen ? 'justify-between px-3' : 'justify-center px-0'
-            } py-2 text-xs font-semibold text-slate-500 hover:text-[#0B75A4] dark:hover:text-[#1697C5] hover:bg-[#0B75A4]/5 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer`}
+            } py-2 text-xs font-medium text-[#64748B] hover:text-[#0B75A4] dark:hover:text-[#7EC5E2] hover:bg-[#F8FAFC] dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer`}
             title={sidebarOpen ? t('actions.collapse', 'Collapse') : t('actions.expand', 'Expand')}
             aria-label={sidebarOpen ? t('actions.collapse', 'Collapse sidebar') : t('actions.expand', 'Expand sidebar')}
           >

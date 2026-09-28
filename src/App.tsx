@@ -141,8 +141,8 @@ const StudentLayout: React.FC<{ children: React.ReactNode }> = ({
               onClick={() => navigate(item.path)}
               className={`flex flex-col items-center p-1.5 transition-colors cursor-pointer ${
                 path === item.path
-                  ? "text-[#0B75A4] dark:text-[#1697C5] font-semibold"
-                  : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                  ? "text-[#0B75A4] dark:text-[#7EC5E2] font-semibold"
+                  : "text-[#64748B] hover:text-[#0B75A4] dark:text-slate-400 dark:hover:text-slate-200"
               }`}
             >
               {item.icon}

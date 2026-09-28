@@ -78,7 +78,7 @@ export const CalliflyBot: React.FC<CalliflyBotProps> = ({
       {/* ---------- TOGGLE BUTTON WITH 'X' ---------- */}
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className={`fixed bottom-4 ${positionClass} z-[9999] p-3.5 bg-teal-600 text-white dark:bg-white dark:text-slate-900 rounded-full shadow-xl transition-transform active:scale-95 hover:scale-105 flex items-center justify-center`}
+        className={`fixed bottom-4 ${positionClass} z-[9999] p-3.5 bg-[#0B75A4] hover:bg-[#09658E] text-white rounded-full shadow-lg shadow-[#0B75A4]/30 transition-transform active:scale-95 hover:scale-105 flex items-center justify-center cursor-pointer`}
         aria-label={open ? "Close Callifly Bot" : "Open Callifly Bot"}
       >
         {open ? <X size={22} /> : <MessageSquare size={22} />}

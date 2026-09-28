@@ -433,23 +433,28 @@ export const AdminAuditLog: React.FC = () => {
   }
 
   return (
-    <div className='p-4 md:p-6 space-y-6 animate-fade-in max-w-7xl mx-auto'>
+    <div className='p-4 md:p-8 space-y-6 animate-fade-in max-w-7xl mx-auto font-sans text-[#1D293D] dark:text-slate-100'>
       {/* Header */}
-      <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-4'>
-        <div>
-          <h1 className='text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2'>
-            <History size={22} /> {t('auditLog.title')}
-          </h1>
-          <p className='text-sm text-slate-500 dark:text-slate-400'>
-            {t('auditLog.subtitle')}
-          </p>
-          {adminUser?.name && (
-            <p className='text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1'>
-              <MapPin size={11} />
-              {t('screening.signedInAs')} <strong>{adminUser.name}</strong>
-              {adminState ? ` · ${t('screening.scopedTo')} ${adminState}` : ""}
+      <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[#DEE2E6] dark:border-slate-800 pb-5'>
+        <div className='flex items-start gap-3'>
+          <div className='p-2.5 rounded-xl bg-[#E6F1F5] dark:bg-[#0B75A4]/20 text-[#0B75A4] dark:text-[#1697C5] shrink-0 mt-0.5'>
+            <History size={24} />
+          </div>
+          <div>
+            <h1 className='text-2xl md:text-3xl font-bold text-[#1D293D] dark:text-white leading-tight'>
+              {t('auditLog.title')}
+            </h1>
+            <p className='text-sm text-[#64748B] dark:text-slate-400 mt-1'>
+              {t('auditLog.subtitle')}
             </p>
-          )}
+            {adminUser?.name && (
+              <p className='text-xs text-[#64748B] dark:text-slate-400 mt-1 flex items-center gap-1 font-mono'>
+                <MapPin size={11} className='text-[#0B75A4]' />
+                {t('screening.signedInAs')} <strong className='font-sans text-[#1D293D] dark:text-slate-200'>{adminUser.name}</strong>
+                {adminState ? ` · ${t('screening.scopedTo')} ${adminState}` : ""}
+              </p>
+            )}
+          </div>
         </div>
         <div className='flex items-center gap-2 flex-wrap'>
           <Badge variant='success'>{t('auditLog.frontendOnly')}</Badge>
@@ -481,39 +486,39 @@ export const AdminAuditLog: React.FC = () => {
       </div>
 
       {/* Stats cards */}
-      <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
-        <Card className='!p-3'>
-          <p className='text-[11px] font-semibold text-slate-500 uppercase tracking-wider'>
+      <div className='grid grid-cols-2 md:grid-cols-4 gap-3.5'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#64748B] dark:text-slate-400 uppercase tracking-wider'>
             {t('auditLog.total')}
           </p>
-          <p className='text-2xl font-bold text-slate-900 dark:text-white mt-0.5'>
+          <p className='text-2xl font-bold text-[#1D293D] dark:text-white mt-1'>
             {stats.total}
           </p>
         </Card>
-        <Card className='!p-3'>
-          <p className='text-[11px] font-semibold text-emerald-600 uppercase tracking-wider'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#009B68] dark:text-emerald-400 uppercase tracking-wider'>
             {t('auditLog.positive')}
           </p>
-          <p className='text-2xl font-bold text-emerald-600 mt-0.5'>
+          <p className='text-2xl font-bold text-[#009B68] dark:text-emerald-400 mt-1'>
             {(stats.byAction["Approved"] ?? 0) +
               (stats.byAction["Selected"] ?? 0) +
               (stats.byAction["Verified"] ?? 0)}
           </p>
         </Card>
-        <Card className='!p-3'>
-          <p className='text-[11px] font-semibold text-red-600 uppercase tracking-wider'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#EF4444] uppercase tracking-wider'>
             {t('auditLog.negative')}
           </p>
-          <p className='text-2xl font-bold text-red-600 mt-0.5'>
+          <p className='text-2xl font-bold text-[#EF4444] mt-1'>
             {(stats.byAction["Rejected"] ?? 0) +
               (stats.byAction["Flagged"] ?? 0)}
           </p>
         </Card>
-        <Card className='!p-3'>
-          <p className='text-[11px] font-semibold text-amber-600 uppercase tracking-wider'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#F59E0B] uppercase tracking-wider'>
             {t('auditLog.pending')}
           </p>
-          <p className='text-2xl font-bold text-amber-600 mt-0.5'>
+          <p className='text-2xl font-bold text-[#F59E0B] mt-1'>
             {(stats.byAction["Waitlisted"] ?? 0) +
               (stats.byAction["Requested Resubmission"] ?? 0)}
           </p>
@@ -521,25 +526,25 @@ export const AdminAuditLog: React.FC = () => {
       </div>
 
       {/* Filters */}
-      <Card className='!p-4'>
+      <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
         <div className='flex flex-wrap gap-3'>
           <div className='flex-1 relative min-w-[220px]'>
             <Search
               size={16}
-              className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-400'
+              className='absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8]'
             />
             <input
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               placeholder={t('auditLog.searchPlaceholder')}
-              className='w-full pl-9 pr-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500'
+              className='w-full pl-9 pr-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-white outline-none focus:ring-2 focus:ring-[#0B75A4] focus:border-[#0B75A4]'
             />
           </div>
 
           <select
             value={actionFilter}
             onChange={(e) => setActionFilter(e.target.value)}
-            className='px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-300 outline-none'
+            className='px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-300 outline-none focus:ring-2 focus:ring-[#0B75A4]'
           >
             <option value=''>{t('auditLog.allActions')}</option>
             {uniqueActions.map((a) => (
@@ -550,15 +555,15 @@ export const AdminAuditLog: React.FC = () => {
           </select>
 
           {adminState ? (
-            <div className='px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-300 flex items-center gap-1'>
-              <MapPin size={12} className='text-slate-500' />
-              <strong>{adminState}</strong>
+            <div className='px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-[#F8FAFC] dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-300 flex items-center gap-1.5'>
+              <MapPin size={12} className='text-[#0B75A4]' />
+              <strong className='font-semibold'>{adminState}</strong>
             </div>
           ) : (
             <select
               value={stateFilter}
               onChange={(e) => setStateFilter(e.target.value)}
-              className='px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-300 outline-none'
+              className='px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-300 outline-none focus:ring-2 focus:ring-[#0B75A4]'
             >
               <option value=''>{t('auditLog.allStates')}</option>
               {uniqueStates.map((s) => (
@@ -572,76 +577,76 @@ export const AdminAuditLog: React.FC = () => {
       </Card>
 
       {/* Table */}
-      <Card padding={false}>
+      <Card padding={false} className='border-[#DEE2E6] dark:border-slate-700 shadow-xs rounded-xl overflow-hidden'>
         <div className='overflow-x-auto'>
-          <table className='w-full text-sm'>
-            <thead className='bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700'>
+          <table className='w-full text-xs'>
+            <thead className='bg-[#F8FAFC] dark:bg-slate-800/50 border-b border-[#DEE2E6] dark:border-slate-700 uppercase tracking-wider text-[#475569] dark:text-slate-400 font-semibold'>
               <tr>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
+                <th className='p-3.5 text-left'>
                   {t('auditLog.tableTime')}
                 </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
+                <th className='p-3.5 text-left'>
                   {t('auditLog.tableOfficer')}
                 </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
+                <th className='p-3.5 text-left'>
                   {t('auditLog.tableState')}
                 </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
+                <th className='p-3.5 text-left'>
                   {t('auditLog.tableAction')}
                 </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
+                <th className='p-3.5 text-left'>
                   {t('auditLog.tableAppId')}
                 </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
+                <th className='p-3.5 text-left'>
                   {t('auditLog.tableStudent')}
                 </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
+                <th className='p-3.5 text-left'>
                   {t('auditLog.tableDetails')}
                 </th>
-                <th className='p-3 text-right font-medium text-slate-600 dark:text-slate-400'>
+                <th className='p-3.5 text-right'>
                   {t('auditLog.viewDetails')}
                 </th>
               </tr>
             </thead>
-            <tbody className='divide-y divide-slate-100 dark:divide-slate-700'>
+            <tbody className='divide-y divide-[#DEE2E6] dark:divide-slate-800'>
               {filtered.map((entry) => (
                 <tr
                   key={entry.id}
-                  className='hover:bg-slate-50 dark:hover:bg-slate-800/30 cursor-pointer'
+                  className='hover:bg-[#F8FAFC] dark:hover:bg-slate-800/30 cursor-pointer transition-colors'
                   onClick={() => setSelected(entry)}
                 >
-                  <td className='p-3 text-xs text-slate-500 whitespace-nowrap'>
+                  <td className='p-3.5 text-xs text-[#64748B] whitespace-nowrap font-mono'>
                     {fmtTs(entry.timestamp)}
                   </td>
-                  <td className='p-3 text-slate-900 dark:text-white'>
+                  <td className='p-3.5 text-[#1D293D] dark:text-white font-bold'>
                     {entry.adminName}
                   </td>
-                  <td className='p-3 text-xs text-slate-600 dark:text-slate-400'>
+                  <td className='p-3.5 text-xs text-[#64748B] dark:text-slate-400 font-medium'>
                     {entry.adminState ?? "—"}
                   </td>
-                  <td className='p-3'>
+                  <td className='p-3.5'>
                     <Badge variant={actionVariant(entry.action)}>
                       {entry.action}
                     </Badge>
                   </td>
-                  <td className='p-3 text-slate-600 dark:text-slate-400 font-mono text-xs'>
+                  <td className='p-3.5 text-[#64748B] dark:text-slate-400 font-mono text-xs'>
                     {entry.applicationId}
                   </td>
-                  <td className='p-3 text-slate-900 dark:text-white'>
+                  <td className='p-3.5 text-[#1D293D] dark:text-white font-medium'>
                     {entry.studentName}
                   </td>
-                  <td className='p-3 text-xs text-slate-500 max-w-xs truncate'>
+                  <td className='p-3.5 text-xs text-[#64748B] max-w-xs truncate'>
                     {entry.details}
                   </td>
-                  <td className='p-3 text-right'>
+                  <td className='p-3.5 text-right'>
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelected(entry);
                       }}
-                      className='p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500'
+                      className='p-1.5 rounded-lg hover:bg-[#0B75A4]/10 text-[#0B75A4] transition-colors'
                     >
-                      <Eye size={14} />
+                      <Eye size={16} />
                     </button>
                   </td>
                 </tr>
@@ -653,7 +658,7 @@ export const AdminAuditLog: React.FC = () => {
         {filtered.length === 0 && (
           <div className='py-12'>
             <EmptyState
-              icon={<Filter size={36} className='text-slate-400' />}
+              icon={<Filter size={36} className='text-[#94A3B8]' />}
               title={t('auditLog.noLogs')}
               description={t('auditLog.noLogsDesc')}
             />
@@ -669,35 +674,35 @@ export const AdminAuditLog: React.FC = () => {
         size='lg'
       >
         {selected && (
-          <div className='space-y-4'>
+          <div className='space-y-4 font-sans text-[#1D293D] dark:text-slate-100'>
             {/* Header strip */}
-            <div className='flex items-center gap-3 p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700'>
+            <div className='flex items-center gap-3 p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/50 border border-[#DEE2E6] dark:border-slate-700'>
               <div
-                className={`p-2 rounded-lg ${
+                className={`p-2.5 rounded-xl ${
                   selected.action === "Selected" ||
                   selected.action === "Approved"
-                    ? "bg-emerald-100 dark:bg-emerald-900/30"
+                    ? "bg-[#009B68]/15 dark:bg-emerald-900/30 text-[#009B68]"
                     : selected.action === "Rejected" ||
                         selected.action === "Flagged"
-                      ? "bg-red-100 dark:bg-red-900/30"
-                      : "bg-amber-100 dark:bg-amber-900/30"
+                      ? "bg-[#EF4444]/15 dark:bg-red-900/30 text-[#EF4444]"
+                      : "bg-[#F59E0B]/15 dark:bg-amber-900/30 text-[#F59E0B]"
                 }`}
               >
                 {selected.action === "Selected" ||
                 selected.action === "Approved" ? (
-                  <CheckCircle2 size={20} className='text-emerald-600' />
+                  <CheckCircle2 size={20} />
                 ) : selected.action === "Rejected" ||
                   selected.action === "Flagged" ? (
-                  <XCircle size={20} className='text-red-600' />
+                  <XCircle size={20} />
                 ) : (
-                  <AlertTriangle size={20} className='text-amber-600' />
+                  <AlertTriangle size={20} />
                 )}
               </div>
               <div className='flex-1 min-w-0'>
-                <p className='text-sm font-semibold text-slate-900 dark:text-white'>
+                <p className='text-sm font-bold text-[#1D293D] dark:text-white'>
                   {selected.action}
                 </p>
-                <p className='text-xs text-slate-500'>
+                <p className='text-xs text-[#64748B] font-mono mt-0.5'>
                   {fmtTs(selected.timestamp)}
                 </p>
               </div>
@@ -708,54 +713,54 @@ export const AdminAuditLog: React.FC = () => {
 
             {/* Meta grid */}
             <div className='grid grid-cols-2 md:grid-cols-3 gap-3'>
-              <div className='p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40'>
-                <p className='text-[10px] font-semibold text-slate-500 uppercase tracking-wider'>
+              <div className='p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/40 border border-[#DEE2E6] dark:border-slate-700'>
+                <p className='text-[10px] font-semibold text-[#64748B] uppercase tracking-wider'>
                   {t('auditLog.tableOfficer')}
                 </p>
-                <p className='text-sm font-medium text-slate-900 dark:text-white mt-0.5'>
+                <p className='text-sm font-bold text-[#1D293D] dark:text-white mt-0.5'>
                   {selected.adminName}
                 </p>
                 {selected.adminState && (
-                  <p className='text-[11px] text-slate-500 mt-0.5'>
+                  <p className='text-xs text-[#64748B] mt-0.5'>
                     {selected.adminState}
                   </p>
                 )}
               </div>
-              <div className='p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40'>
-                <p className='text-[10px] font-semibold text-slate-500 uppercase tracking-wider'>
+              <div className='p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/40 border border-[#DEE2E6] dark:border-slate-700'>
+                <p className='text-[10px] font-semibold text-[#64748B] uppercase tracking-wider'>
                   {t('auditLog.tableAppId')}
                 </p>
-                <p className='text-sm font-mono text-slate-900 dark:text-white mt-0.5'>
+                <p className='text-sm font-mono font-bold text-[#1D293D] dark:text-white mt-0.5'>
                   {selected.applicationId}
                 </p>
               </div>
-              <div className='p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40'>
-                <p className='text-[10px] font-semibold text-slate-500 uppercase tracking-wider'>
+              <div className='p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/40 border border-[#DEE2E6] dark:border-slate-700'>
+                <p className='text-[10px] font-semibold text-[#64748B] uppercase tracking-wider'>
                   {t('auditLog.tableStudent')}
                 </p>
-                <p className='text-sm font-medium text-slate-900 dark:text-white mt-0.5'>
+                <p className='text-sm font-bold text-[#1D293D] dark:text-white mt-0.5'>
                   {selected.studentName}
                 </p>
               </div>
             </div>
 
             {/* Details */}
-            <div>
-              <p className='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1'>
+            <div className='p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/40 border border-[#DEE2E6] dark:border-slate-700'>
+              <p className='text-xs font-semibold text-[#64748B] uppercase tracking-wider mb-1'>
                 {t('auditLog.tableDetails')}
               </p>
-              <p className='text-sm text-slate-700 dark:text-slate-300 whitespace-pre-wrap'>
+              <p className='text-sm text-[#1D293D] dark:text-slate-300 leading-relaxed whitespace-pre-wrap'>
                 {selected.details}
               </p>
             </div>
 
             {/* Remark */}
             {selected.remark && (
-              <div>
-                <p className='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1'>
+              <div className='p-3.5 rounded-xl bg-amber-50/80 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/60'>
+                <p className='text-xs font-bold text-[#F59E0B] uppercase tracking-wider mb-1'>
                   {t('auditLog.officerRemarks')}
                 </p>
-                <p className='text-sm text-slate-700 dark:text-slate-300 italic p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800'>
+                <p className='text-sm text-[#1D293D] dark:text-slate-300 italic leading-relaxed'>
                   "{selected.remark}"
                 </p>
               </div>
