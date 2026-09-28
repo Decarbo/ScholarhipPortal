@@ -1,6 +1,6 @@
 // Core UI Components - Redesigned with calm, official design language
 import React, { type ReactNode, type ButtonHTMLAttributes, useRef, useState } from 'react';
-import { X, Check, AlertCircle, Info, Clock, Moon, Sun, Globe, Upload, FileText, Menu, ChevronDown, GraduationCap } from 'lucide-react';
+import { X, Check, AlertCircle, Info, Clock, Moon, Sun, Globe, Upload, FileText, Menu, ChevronDown, ChevronLeft, ChevronRight, GraduationCap } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { useAppStore, useAuthStore } from '../store';
@@ -429,14 +429,25 @@ export const LanguageSelector: React.FC<{ className?: string; showLabel?: boolea
 
 // ============ HEADER ============
 export const Header: React.FC<{ title?: string }> = ({ title }) => {
-  const { theme, toggleTheme } = useAppStore();
+  const { theme, toggleTheme, toggleSidebar, sidebarOpen } = useAppStore();
   const { user, logout } = useAuthStore();
   const { t } = useTranslation('common');
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-[#DEE2E6] dark:border-slate-800 shadow-xs">
-      <div className="flex items-center justify-between px-4 h-14">
-        <div className="flex items-center gap-3">
+    <header className="w-full shrink-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-[#DEE2E6] dark:border-slate-800 shadow-xs">
+      <div className="flex items-center justify-between px-3 sm:px-4 h-14">
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Sidebar Toggle Button (Desktop: collapse to icons, Mobile: slide drawer) */}
+          <button
+            type="button"
+            onClick={toggleSidebar}
+            className="p-1.5 sm:p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-[#0B75A4]/10 hover:text-[#0B75A4] dark:hover:bg-slate-800 dark:hover:text-[#1697C5] transition-colors cursor-pointer"
+            aria-label="Toggle navigation menu"
+            title={sidebarOpen ? t('actions.collapse', 'Collapse sidebar') : t('actions.expand', 'Expand sidebar')}
+          >
+            <Menu size={20} />
+          </button>
+
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#024969] via-[#056C9A] to-[#0B75A4] flex items-center justify-center shadow-sm shadow-[#0B75A4]/20 text-white flex-shrink-0">
               <GraduationCap size={18} className="stroke-[2.3]" />
@@ -468,7 +479,7 @@ export const Header: React.FC<{ title?: string }> = ({ title }) => {
                 <p className="text-xs font-medium text-slate-700 dark:text-slate-300">{user.name}</p>
                 <p className="text-[10px] text-slate-500 capitalize">{user.role.replace('_', ' ')}</p>
               </div>
-              <button onClick={logout} className="px-2 py-1 text-xs text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded">{t('actions.logout')}</button>
+              <button onClick={logout} className="px-2 py-1 text-xs text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer">{t('actions.logout')}</button>
             </div>
           )}
         </div>
@@ -480,34 +491,137 @@ export const Header: React.FC<{ title?: string }> = ({ title }) => {
 // ============ SIDEBAR ============
 interface SidebarItem { label: string; icon: ReactNode; path: string; badge?: number; }
 export const Sidebar: React.FC<{ items: SidebarItem[]; currentPath: string; onNavigate: (path: string) => void }> = ({ items, currentPath, onNavigate }) => {
-  const { sidebarOpen } = useAppStore();
+  const { sidebarOpen, toggleSidebar, mobileSidebarOpen, setMobileSidebarOpen } = useAppStore();
+  const { t } = useTranslation('common');
+
   return (
-    <aside className={`fixed left-0 top-14 bottom-0 z-30 bg-white dark:bg-slate-900 border-r border-[#DEE2E6] dark:border-slate-800 transition-all duration-300 shadow-xs ${sidebarOpen ? 'w-56' : 'w-0 overflow-hidden lg:w-14'}`}>
-      <nav className="p-2 space-y-1">
-        {items.map(item => {
-          const active = currentPath === item.path;
-          return (
-            <button
-              key={item.path}
-              onClick={() => onNavigate(item.path)}
-              className={`w-full flex items-center gap-2.5 px-3 py-2 text-sm rounded-lg transition-all duration-150 cursor-pointer ${
-                active
-                  ? 'bg-[#0B75A4]/10 text-[#0B75A4] dark:bg-[#0B75A4]/20 dark:text-[#1697C5] font-semibold border-l-4 border-[#0B75A4]'
-                  : 'text-slate-600 hover:bg-slate-50 hover:text-[#0B75A4] dark:text-slate-400 dark:hover:bg-slate-800/80 dark:hover:text-slate-200'
-              }`}
-              aria-label={item.label}
-            >
-              <span className={active ? 'text-[#0B75A4] dark:text-[#1697C5]' : 'text-slate-500'}>{item.icon}</span>
-              {sidebarOpen && <span className="flex-1 text-left">{item.label}</span>}
-              {sidebarOpen && item.badge && item.badge > 0 && (
-                <span className="px-1.5 py-0.5 text-[10px] font-bold bg-[#E25A18]/15 text-[#E25A18] rounded-full border border-[#E25A18]/30">
-                  {item.badge}
-                </span>
-              )}
-            </button>
-          );
-        })}
-      </nav>
-    </aside>
+    <>
+      {/* Mobile Drawer Backdrop */}
+      {mobileSidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-xs md:hidden transition-opacity duration-300 animate-fade-in"
+          onClick={() => setMobileSidebarOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Main Sidebar (Desktop Collapsible + Mobile Slide-in Drawer) */}
+      <aside
+        className={`fixed inset-y-0 left-0 z-50 w-64 max-w-[80vw] bg-white dark:bg-slate-900 border-r border-[#DEE2E6] dark:border-slate-800 shadow-2xl flex flex-col justify-between transition-all duration-300
+          md:relative md:inset-auto md:z-30 md:h-full md:shadow-xs md:shrink-0
+          ${sidebarOpen ? 'md:w-56' : 'md:w-16'}
+          ${mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+        `}
+      >
+        {/* Mobile Drawer Header with Close Button */}
+        <div className="flex items-center justify-between p-3.5 border-b border-[#DEE2E6] dark:border-slate-800 md:hidden bg-[#F8F8F8] dark:bg-slate-800/80">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-[#024969] via-[#056C9A] to-[#0B75A4] flex items-center justify-center text-white shadow-xs">
+              <GraduationCap size={16} />
+            </div>
+            <div className="flex flex-col leading-none">
+              <span className="font-extrabold text-xs text-[#024969] dark:text-white">UDAAN PORTAL</span>
+              <span className="text-[8px] font-bold text-[#0B75A4] dark:text-[#1697C5]">MoTA</span>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => setMobileSidebarOpen(false)}
+            className="p-1.5 rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-200/60 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+            aria-label="Close menu"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        {/* Navigation Items List */}
+        <nav className="p-2 space-y-1 overflow-y-auto flex-1 min-h-0">
+          {items.map(item => {
+            const active = currentPath === item.path;
+            return (
+              <div key={item.path} className="relative group">
+                <button
+                  type="button"
+                  onClick={() => {
+                    onNavigate(item.path);
+                    setMobileSidebarOpen(false);
+                  }}
+                  className={`w-full flex items-center rounded-lg transition-all duration-150 cursor-pointer ${
+                    active
+                      ? 'bg-[#0B75A4]/10 text-[#0B75A4] dark:bg-[#0B75A4]/20 dark:text-[#1697C5] font-semibold border-l-4 border-[#0B75A4]'
+                      : 'text-slate-600 hover:bg-slate-50 hover:text-[#0B75A4] dark:text-slate-400 dark:hover:bg-slate-800/80 dark:hover:text-slate-200 border-l-4 border-transparent'
+                  } ${
+                    sidebarOpen
+                      ? 'gap-2.5 px-3 py-2 text-sm'
+                      : 'justify-center md:px-0 px-3 py-2 md:py-2.5 text-sm md:gap-0 gap-2.5'
+                  }`}
+                  aria-label={item.label}
+                >
+                  <span className={`shrink-0 ${active ? 'text-[#0B75A4] dark:text-[#1697C5]' : 'text-slate-500'}`}>
+                    {item.icon}
+                  </span>
+
+                  {/* Label: Full visibility on expanded desktop & always on mobile drawer */}
+                  <span
+                    className={`text-left truncate transition-opacity duration-200 ${
+                      sidebarOpen
+                        ? 'flex-1 opacity-100'
+                        : 'md:hidden flex-1 opacity-100'
+                    }`}
+                  >
+                    {item.label}
+                  </span>
+
+                  {/* Badge: in expanded mode & mobile drawer */}
+                  {item.badge && item.badge > 0 && (
+                    <span
+                      className={`px-1.5 py-0.5 text-[10px] font-bold bg-[#E25A18]/15 text-[#E25A18] rounded-full border border-[#E25A18]/30 ${
+                        sidebarOpen ? 'inline-block' : 'md:hidden inline-block'
+                      }`}
+                    >
+                      {item.badge}
+                    </span>
+                  )}
+
+                  {/* Badge dot: on collapsed desktop icons */}
+                  {!sidebarOpen && item.badge && item.badge > 0 && (
+                    <span className="hidden md:block absolute top-1.5 right-2 w-2 h-2 rounded-full bg-[#E25A18] ring-2 ring-white dark:ring-slate-900" />
+                  )}
+                </button>
+
+                {/* Floating tooltip on collapsed desktop hover */}
+                {!sidebarOpen && (
+                  <div className="hidden md:group-hover:flex absolute left-full ml-3 top-1/2 -translate-y-1/2 z-50 items-center px-2.5 py-1 bg-slate-900 text-white text-xs font-medium rounded-md shadow-lg whitespace-nowrap pointer-events-none animate-fade-in">
+                    {item.label}
+                    {item.badge && item.badge > 0 && (
+                      <span className="ml-1.5 px-1.5 py-0.2 text-[9px] font-bold bg-[#E25A18] text-white rounded-full">
+                        {item.badge}
+                      </span>
+                    )}
+                    <div className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-slate-900" />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </nav>
+
+        {/* Desktop Collapse / Expand Toggle Button in Sidebar Footer */}
+        <div className="p-2 border-t border-[#DEE2E6] dark:border-slate-800 shrink-0 hidden md:block">
+          <button
+            type="button"
+            onClick={toggleSidebar}
+            className={`w-full flex items-center ${
+              sidebarOpen ? 'justify-between px-3' : 'justify-center px-0'
+            } py-2 text-xs font-semibold text-slate-500 hover:text-[#0B75A4] dark:hover:text-[#1697C5] hover:bg-[#0B75A4]/5 dark:hover:bg-slate-800 rounded-lg transition-colors cursor-pointer`}
+            title={sidebarOpen ? t('actions.collapse', 'Collapse') : t('actions.expand', 'Expand')}
+            aria-label={sidebarOpen ? t('actions.collapse', 'Collapse sidebar') : t('actions.expand', 'Expand sidebar')}
+          >
+            {sidebarOpen && <span className="truncate">{t('actions.collapse', 'Collapse')}</span>}
+            {sidebarOpen ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
+          </button>
+        </div>
+      </aside>
+    </>
   );
 };

@@ -73,14 +73,15 @@ html[lang="sat"] * {
   font-family: 'Noto Sans Ol Chiki', 'Inter', system-ui, sans-serif;
 }
 
-html {
+html, body {
+  height: 100%;
+  overflow-x: hidden;
   background-color: var(--surface-bg);
   color: var(--text-primary);
 }
 
-body {
-  background-color: var(--surface-bg);
-  color: var(--text-primary);
+#root {
+  height: 100%;
 }
 
 /* Custom scrollbar - subtle */

@@ -130,8 +130,9 @@ const StudentLayout: React.FC<{ children: React.ReactNode }> = ({
   ];
 
   return (
-    <div className='min-h-screen bg-[#F8F8F8] dark:bg-slate-900 transition-colors'>
+    <div className='h-screen w-full overflow-hidden flex flex-col bg-[#F8F8F8] dark:bg-slate-900 transition-colors'>
       <Header title={t("portal.student")} />
+      {/* Mobile Bottom Quick Bar for Students */}
       <nav className='fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-slate-900 border-t border-[#DEE2E6] dark:border-slate-800 md:hidden shadow-lg'>
         <div className='flex items-center justify-around py-2'>
           {navItems.slice(0, 5).map((item) => (
@@ -150,16 +151,17 @@ const StudentLayout: React.FC<{ children: React.ReactNode }> = ({
           ))}
         </div>
       </nav>
-      <div className='hidden md:block'>
+      {/* Responsive Sidebar (Full/Icons on desktop, slide drawer on mobile) */}
+      <div className='flex-1 flex overflow-hidden relative w-full'>
         <Sidebar
           items={navItems}
           currentPath={path}
           onNavigate={(p) => navigate(p)}
         />
+        <main className='flex-1 h-full overflow-y-auto overflow-x-hidden min-w-0 pb-16 md:pb-0'>
+          {children}
+        </main>
       </div>
-      <main className='pb-16 md:pb-0 md:ml-56 transition-all duration-300'>
-        {children}
-      </main>
     </div>
   );
 };
@@ -209,14 +211,16 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   ];
 
   return (
-    <div className='min-h-screen bg-[#F8F8F8] dark:bg-slate-900 transition-colors'>
+    <div className='h-screen w-full overflow-hidden flex flex-col bg-[#F8F8F8] dark:bg-slate-900 transition-colors'>
       <Header title={t("portal.admin")} />
-      <Sidebar
-        items={navItems}
-        currentPath={path}
-        onNavigate={(p) => navigate(p)}
-      />
-      <main className='md:ml-56 transition-all duration-300'>{children}</main>
+      <div className='flex-1 flex overflow-hidden relative w-full'>
+        <Sidebar
+          items={navItems}
+          currentPath={path}
+          onNavigate={(p) => navigate(p)}
+        />
+        <main className='flex-1 h-full overflow-y-auto overflow-x-hidden min-w-0'>{children}</main>
+      </div>
     </div>
   );
 };
@@ -253,14 +257,16 @@ const GovernmentLayout: React.FC<{ children: React.ReactNode }> = ({
   ];
 
   return (
-    <div className='min-h-screen bg-[#F8F8F8] dark:bg-slate-900 transition-colors'>
+    <div className='h-screen w-full overflow-hidden flex flex-col bg-[#F8F8F8] dark:bg-slate-900 transition-colors'>
       <Header title={t("portal.government")} />
-      <Sidebar
-        items={navItems}
-        currentPath={path}
-        onNavigate={(p) => navigate(p)}
-      />
-      <main className='md:ml-64 transition-all duration-300'>{children}</main>
+      <div className='flex-1 flex overflow-hidden relative w-full'>
+        <Sidebar
+          items={navItems}
+          currentPath={path}
+          onNavigate={(p) => navigate(p)}
+        />
+        <main className='flex-1 h-full overflow-y-auto overflow-x-hidden min-w-0'>{children}</main>
+      </div>
     </div>
   );
 };

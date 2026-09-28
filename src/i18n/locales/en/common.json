@@ -76,7 +76,9 @@
     "approve": "Approve",
     "reject": "Reject",
     "resolve": "Resolve",
-    "retry": "Retry"
+    "retry": "Retry",
+    "collapse": "Collapse",
+    "expand": "Expand"
   },
   "fileUpload": {
     "label": "Upload documents",
