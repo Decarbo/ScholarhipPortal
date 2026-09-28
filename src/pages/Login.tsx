@@ -3,9 +3,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Button } from "../components/ui";
+import { Button, LanguageSelector } from "../components/ui";
 import {
   useAuthStore,
+  useAppStore,
   DEMO_ACCOUNTS,
   type UserRole,
   type DemoAccount,
@@ -21,6 +22,8 @@ import {
   MapPin,
   Lock,
   User,
+  Moon,
+  Sun,
 } from "lucide-react";
 
 const Login: React.FC = () => {
@@ -127,18 +130,41 @@ const Login: React.FC = () => {
   const accountsForRole = DEMO_ACCOUNTS.filter((a) => a.role === selectedRole);
   const shownError = localError || error || "";
 
+  const theme = useAppStore((s) => s.theme);
+  const toggleTheme = useAppStore((s) => s.toggleTheme);
+
   return (
-    <div className='min-h-screen bg-white dark:bg-slate-900 flex items-center justify-center p-4'>
+    <div className='relative min-h-screen bg-[#F8F8F8] dark:bg-slate-900 flex items-center justify-center p-4 transition-colors'>
+      {/* Top Controls: Language Change & Theme */}
+      <div className='absolute top-4 right-4 flex items-center gap-2 z-20'>
+        <LanguageSelector />
+        <button
+          type='button'
+          onClick={toggleTheme}
+          className='p-2 bg-white/90 dark:bg-slate-800/90 hover:bg-slate-100 dark:hover:bg-slate-700 border border-[#DEE2E6] dark:border-slate-700 rounded-lg shadow-xs transition-colors text-slate-600 dark:text-amber-400 cursor-pointer'
+          aria-label={tc('theme.toggle')}
+        >
+          {theme === 'light' ? <Moon size={15} /> : <Sun size={15} />}
+        </button>
+      </div>
+
       <div className='w-full max-w-sm'>
         {/* Logo & Header */}
-        <div className='mb-8'>
-          <div className='w-8 h-8 bg-teal-600 flex items-center justify-center mb-4'>
-            <span className='text-white font-semibold text-xs'>MoTA</span>
+        <div className='mb-8 text-center'>
+          <div className='inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-tr from-[#024969] via-[#056C9A] to-[#0B75A4] text-white shadow-md shadow-[#0B75A4]/25 mb-3'>
+            <GraduationCap size={26} className="stroke-[2.2]" />
           </div>
-          <h1 className='text-xl font-medium text-slate-900 dark:text-slate-100'>
+          <div className="flex flex-col items-center mb-2">
+            <div className="flex items-center gap-1.5">
+              <span className="text-2xl font-extrabold tracking-tight text-[#024969] dark:text-white">UDAAN</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.5 bg-[#0B75A4]/10 dark:bg-[#0B75A4]/25 text-[#056C9A] dark:text-[#1697C5] rounded tracking-wider border border-[#0B75A4]/20">MoTA</span>
+            </div>
+            <span className="text-[10px] font-bold tracking-widest text-[#0B75A4] dark:text-[#1697C5] uppercase mt-0.5">SCHOLAR PORTAL</span>
+          </div>
+          <h1 className='text-lg font-semibold text-slate-800 dark:text-slate-100'>
             {t('title')}
           </h1>
-          <p className='text-sm text-slate-600 dark:text-slate-400 mt-1'>
+          <p className='text-xs text-slate-500 dark:text-slate-400 mt-1'>
             {tc('ministry')}
           </p>
         </div>
@@ -150,7 +176,7 @@ const Login: React.FC = () => {
             <label className='block text-sm text-slate-700 dark:text-slate-300 mb-2'>
               {t('signInAs')}
             </label>
-            <div className='flex border-b border-slate-200 dark:border-slate-700'>
+            <div className='flex border-b border-[#DEE2E6] dark:border-slate-700'>
               {roles.map((role) => (
                 <button
                   key={role.value}
@@ -159,9 +185,9 @@ const Login: React.FC = () => {
                     setSelectedRole(role.value);
                     setLocalError("");
                   }}
-                  className={`flex items-center gap-1.5 px-3 py-2 text-sm border-b-2 transition-colors -mb-px ${
+                  className={`flex items-center gap-1.5 px-3 py-2 text-sm border-b-2 transition-colors -mb-px cursor-pointer ${
                     selectedRole === role.value
-                      ? "border-teal-600 text-teal-700 dark:border-teal-500 dark:text-teal-400 font-medium"
+                      ? "border-[#0B75A4] text-[#0B75A4] dark:border-[#1697C5] dark:text-[#1697C5] font-semibold"
                       : "border-transparent text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
                   }`}
                 >
@@ -176,11 +202,11 @@ const Login: React.FC = () => {
           </div>
 
           {/* Demo accounts picker */}
-          <div className='rounded-lg border border-slate-200 dark:border-slate-700 overflow-hidden'>
+          <div className='rounded-lg border border-[#DEE2E6] dark:border-slate-700 overflow-hidden bg-white dark:bg-slate-800'>
             <button
               type='button'
               onClick={() => setShowAccounts((v) => !v)}
-              className='w-full flex items-center justify-between px-3 py-2 text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800'
+              className='w-full flex items-center justify-between px-3 py-2 text-xs text-slate-600 dark:text-slate-300 bg-[#F8F8F8] dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer'
             >
               <span>
                 👤 {t('demoAccounts', { role: selectedRole, count: accountsForRole.length })}
@@ -188,13 +214,13 @@ const Login: React.FC = () => {
               <span className='text-slate-400'>{showAccounts ? "▾" : "▸"}</span>
             </button>
             {showAccounts && (
-              <div className='divide-y divide-slate-200 dark:divide-slate-700'>
+              <div className='divide-y divide-[#DEE2E6] dark:divide-slate-700'>
                 {accountsForRole.map((acc) => (
                   <button
                     key={acc.id}
                     type='button'
                     onClick={() => fillAccount(acc)}
-                    className='w-full text-left px-3 py-2 hover:bg-teal-50 dark:hover:bg-teal-900/20 transition-colors'
+                    className='w-full text-left px-3 py-2 hover:bg-[#0B75A4]/10 dark:hover:bg-[#0B75A4]/20 transition-colors cursor-pointer'
                   >
                     <div className='flex items-center justify-between gap-2'>
                       <div className='min-w-0'>
@@ -219,7 +245,7 @@ const Login: React.FC = () => {
                           </p>
                         )}
                       </div>
-                      <span className='text-[10px] text-teal-600 dark:text-teal-400 shrink-0'>
+                      <span className='text-[10px] text-[#0B75A4] dark:text-[#1697C5] font-semibold shrink-0'>
                         {t('use')}
                       </span>
                     </div>
@@ -249,7 +275,7 @@ const Login: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder={t('emailPlaceholder')}
-                className='w-full pl-9 pr-3 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 rounded focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none'
+                className='w-full pl-9 pr-3 py-2 border border-[#DEE2E6] dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 rounded-lg focus:ring-2 focus:ring-[#0B75A4]/40 focus:border-[#0B75A4] outline-none transition-all'
               />
             </div>
           </div>
@@ -274,12 +300,12 @@ const Login: React.FC = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder={t('passwordPlaceholder')}
-                className='w-full pl-9 pr-10 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 rounded focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none'
+                className='w-full pl-9 pr-10 py-2 border border-[#DEE2E6] dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 rounded-lg focus:ring-2 focus:ring-[#0B75A4]/40 focus:border-[#0B75A4] outline-none transition-all'
               />
               <button
                 type='button'
                 onClick={() => setShowPassword((v) => !v)}
-                className='absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'
+                className='absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 cursor-pointer'
                 aria-label={showPassword ? t('hidePassword') : t('showPassword')}
               >
                 {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
@@ -293,7 +319,7 @@ const Login: React.FC = () => {
               type='checkbox'
               checked={remember}
               onChange={(e) => setRemember(e.target.checked)}
-              className='rounded text-teal-600 focus:ring-teal-500'
+              className='rounded text-[#0B75A4] focus:ring-[#0B75A4]'
             />
             {t('rememberEmail')}
           </label>
@@ -313,9 +339,9 @@ const Login: React.FC = () => {
 
           {/* Lock warning */}
           {lockRemaining > 0 && (
-            <div className='p-3 rounded border border-amber-200 bg-amber-50 dark:bg-amber-900/20 dark:border-amber-800 flex items-center gap-2'>
-              <Lock size={14} className='text-amber-600' />
-              <p className='text-sm text-amber-700 dark:text-amber-300'>
+            <div className='p-3 rounded border border-[#E25A18]/30 bg-[#E25A18]/10 dark:bg-[#E25A18]/20 dark:border-[#E25A18]/40 flex items-center gap-2'>
+              <Lock size={14} className='text-[#E25A18]' />
+              <p className='text-sm text-[#b0400d] dark:text-[#ff8a50]'>
                 {t('locked', { seconds: lockRemaining })}
               </p>
             </div>
@@ -331,7 +357,7 @@ const Login: React.FC = () => {
           </Button>
 
           <p className='text-xs text-slate-500 text-center flex items-center justify-center gap-1'>
-            <CheckCircle2 size={12} className='text-teal-500' />
+            <CheckCircle2 size={12} className='text-[#38C88B]' />
             {tc('common.frontendDemo')}
           </p>
 
@@ -341,7 +367,7 @@ const Login: React.FC = () => {
               <button
                 type='button'
                 onClick={() => navigate("/register")}
-                className='text-teal-600 dark:text-teal-400 font-medium hover:underline'
+                className='text-[#0B75A4] dark:text-[#1697C5] font-semibold hover:underline cursor-pointer'
               >
                 {tc('actions.createAccount')}
               </button>
@@ -350,7 +376,7 @@ const Login: React.FC = () => {
         </form>
 
         {/* Footer */}
-        <div className='mt-8 pt-6 border-t border-slate-200 dark:border-slate-700'>
+        <div className='mt-8 pt-6 border-t border-[#DEE2E6] dark:border-slate-700'>
           <p className='text-xs text-slate-400 text-center'>
             {tc('common.nationalPortal')}
           </p>

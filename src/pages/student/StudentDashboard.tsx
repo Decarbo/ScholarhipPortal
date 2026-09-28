@@ -5,7 +5,13 @@ import { applications, schemes, students, notifications, grievances as mockGriev
 import { FileText, Bell, AlertTriangle, BookOpen, Send, RefreshCw, ChevronRight, FolderOpen, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import type { Application, Notification } from '../../mock/data';
-
+import {
+  PrimeMinisterHero,
+  AboutUdaanSection,
+  GovernmentEventsSection,
+  StudentReviewSlider,
+  UdaanGovernmentFooter,
+} from './UdaanHomeSections';
 
 export const StudentDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -31,7 +37,7 @@ export const StudentDashboard: React.FC = () => {
   const renewalReminders = myNotifs.filter(n => n.type === 'renewal_reminder' && !n.read);
 
   return (
-    <div className="p-4 md:p-6 space-y-6 animate-fade-in">
+    <div className="p-4 md:p-6 space-y-8 animate-fade-in max-w-7xl mx-auto">
       {/* Welcome */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -45,24 +51,39 @@ export const StudentDashboard: React.FC = () => {
         </div>
       </div>
 
+      {/* Prime Minister & National Vision Hero */}
+      <PrimeMinisterHero />
+
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <Card className="!p-4"><p className="text-xs text-slate-500 dark:text-slate-400">{t('dashboard.pendingApplications')}</p><p className="text-xl font-bold text-slate-900 dark:text-white mt-1">{myApps.length}</p></Card>
-        <Card className="!p-4"><p className="text-xs text-slate-500 dark:text-slate-400">{tc('status.selected')}</p><p className="text-xl font-bold text-emerald-600 mt-1">{myApps.filter(a => a.status === 'selected').length}</p></Card>
-        <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm p-4 cursor-pointer hover:shadow-md transition-shadow" onClick={() => navigate('/student/tracker')}><p className="text-xs text-slate-500 dark:text-slate-400">{tc('status.draft')}</p><p className="text-xl font-bold text-blue-600 mt-1">{drafts.length}</p></div>
-        <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm p-4 cursor-pointer hover:shadow-md transition-shadow relative" onClick={() => navigate('/student/notifications')}>
-          <div className="flex items-center gap-2"><Bell size={16} className="text-slate-400" /><p className="text-xs text-slate-500 dark:text-slate-400">{t('notifications.title')}</p></div>
-          <p className="text-xl font-bold text-blue-600 mt-1">{unreadNotifs} <span className="text-xs font-normal text-slate-400">{t('notifications.unread')}</span></p>
+        <Card className="!p-4 hover:shadow-md transition-shadow">
+          <p className="text-xs text-slate-500 dark:text-slate-400">{t('dashboard.pendingApplications')}</p>
+          <p className="text-xl font-bold text-slate-900 dark:text-white mt-1">{myApps.length}</p>
+        </Card>
+        <Card className="!p-4 hover:shadow-md transition-shadow">
+          <p className="text-xs text-slate-500 dark:text-slate-400">{tc('status.selected')}</p>
+          <p className="text-xl font-bold text-[#38C88B] mt-1">{myApps.filter(a => a.status === 'selected').length}</p>
+        </Card>
+        <div className="bg-white dark:bg-slate-800 rounded-xl border border-[#DEE2E6] dark:border-slate-700 shadow-xs p-4 cursor-pointer hover:shadow-md hover:border-[#0B75A4] transition-all" onClick={() => navigate('/student/tracker')}>
+          <p className="text-xs text-slate-500 dark:text-slate-400">{tc('status.draft')}</p>
+          <p className="text-xl font-bold text-[#0B75A4] dark:text-[#1697C5] mt-1">{drafts.length}</p>
+        </div>
+        <div className="bg-white dark:bg-slate-800 rounded-xl border border-[#DEE2E6] dark:border-slate-700 shadow-xs p-4 cursor-pointer hover:shadow-md hover:border-[#E25A18] transition-all relative" onClick={() => navigate('/student/notifications')}>
+          <div className="flex items-center gap-2">
+            <Bell size={16} className="text-[#E25A18]" />
+            <p className="text-xs text-slate-500 dark:text-slate-400">{t('notifications.title')}</p>
+          </div>
+          <p className="text-xl font-bold text-[#E25A18] mt-1">{unreadNotifs} <span className="text-xs font-normal text-slate-400">{t('notifications.unread')}</span></p>
         </div>
       </div>
 
       {/* Renewal Reminders */}
       {renewalReminders.length > 0 && (
-        <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-4 flex items-start gap-3">
-          <Calendar size={20} className="text-purple-600 mt-0.5 flex-shrink-0" />
+        <div className="bg-[#0B75A4]/10 dark:bg-[#0B75A4]/20 border border-[#0B75A4]/30 rounded-xl p-4 flex items-start gap-3 shadow-xs hover:shadow-md transition-shadow">
+          <Calendar size={20} className="text-[#0B75A4] dark:text-[#1697C5] mt-0.5 flex-shrink-0" />
           <div className="flex-1">
-            <p className="text-sm font-medium text-purple-800 dark:text-purple-300">⏰ {t('renewal.deadline')}!</p>
-            <p className="text-xs text-purple-600 dark:text-purple-400 mt-1">{renewalReminders[0].message}</p>
+            <p className="text-sm font-semibold text-[#056C9A] dark:text-[#1697C5]">⏰ {t('renewal.deadline')}!</p>
+            <p className="text-xs text-[#0B75A4] dark:text-slate-300 mt-1">{renewalReminders[0].message}</p>
           </div>
           <Button size="sm" onClick={() => navigate('/student/renewal')}>{t('renewal.renewNow')}</Button>
         </div>
@@ -70,23 +91,26 @@ export const StudentDashboard: React.FC = () => {
 
       {/* Deficiency Banner */}
       {myApps.some(a => a.deficiencyNotices.some(d => !d.resolved)) && (
-        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4 flex items-start gap-3">
-          <AlertTriangle size={20} className="text-amber-600 mt-0.5 flex-shrink-0" />
+        <div className="bg-[#E25A18]/10 dark:bg-[#E25A18]/20 border border-[#E25A18]/30 rounded-xl p-4 flex items-start gap-3 shadow-xs hover:shadow-md transition-shadow">
+          <AlertTriangle size={20} className="text-[#E25A18] mt-0.5 flex-shrink-0" />
           <div className="flex-1">
-            <p className="text-sm font-medium text-amber-800 dark:text-amber-300">{t('documents.pending')}</p>
-            <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">{t('documents.upload')}</p>
+            <p className="text-sm font-semibold text-[#b0400d] dark:text-[#ff8a50]">{t('documents.pending')}</p>
+            <p className="text-xs text-[#b0400d] dark:text-slate-300 mt-1">{t('documents.upload')}</p>
           </div>
           <Button size="sm" variant="outline" onClick={() => navigate('/student/tracker')}>{t('tracker.viewDetails')}</Button>
         </div>
       )}
 
+      {/* About UDAAN SCHOLAR PORTAL */}
+      <AboutUdaanSection />
+
       {/* Draft Applications */}
       {drafts.length > 0 && (
-        <Card>
+        <Card className="hover:shadow-md transition-shadow">
           <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-3">📝 {tc('status.draft')}</h2>
           <div className="space-y-2">
             {drafts.map(app => (
-              <div key={app.id} className="flex items-center justify-between p-3 rounded-lg border border-blue-100 dark:border-blue-900 bg-blue-50/50 dark:bg-blue-900/10">
+              <div key={app.id} className="flex items-center justify-between p-3 rounded-lg border border-[#DEE2E6] dark:border-slate-700 bg-[#0B75A4]/5 hover:bg-[#0B75A4]/10 transition-colors">
                 <div>
                   <p className="text-sm font-medium text-slate-900 dark:text-white">{app.schemeName}</p>
                   <p className="text-xs text-slate-500">{app.draftProgress}% {app.draftLastSaved && `| ${app.draftLastSaved}`}</p>
@@ -102,7 +126,7 @@ export const StudentDashboard: React.FC = () => {
       )}
 
       {/* Recent Applications */}
-      <Card>
+      <Card className="hover:shadow-md transition-shadow">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-slate-900 dark:text-white">{t('tracker.title')}</h2>
           <Button variant="ghost" size="sm" onClick={() => navigate('/student/tracker')}>{tc('actions.view')} <ChevronRight size={14} /></Button>
@@ -112,7 +136,7 @@ export const StudentDashboard: React.FC = () => {
         ) : (
           <div className="space-y-3">
             {myApps.filter(a => a.status !== 'draft').slice(0, 3).map(app => (
-              <div key={app.id} className="flex items-center justify-between p-3 rounded-lg border border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors cursor-pointer" onClick={() => navigate('/student/tracker')}>
+              <div key={app.id} className="flex items-center justify-between p-3 rounded-lg border border-[#DEE2E6] dark:border-slate-700 hover:bg-[#F8F8F8] dark:hover:bg-slate-800/50 transition-colors cursor-pointer" onClick={() => navigate('/student/tracker')}>
                 <div>
                   <p className="text-sm font-medium text-slate-900 dark:text-white">{app.schemeName}</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">{t('tracker.submittedOn')}: {app.submittedDate || tc('status.draft')}</p>
@@ -128,27 +152,36 @@ export const StudentDashboard: React.FC = () => {
       </Card>
 
       {/* Quick Actions */}
-      <Card>
+      <Card className="hover:shadow-md transition-shadow">
         <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-3">{t('dashboard.quickActions')}</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <button onClick={() => navigate('/student/vault')} className="p-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-center transition-colors">
-            <FolderOpen size={24} className="mx-auto text-blue-500 mb-1" />
-            <p className="text-xs font-medium text-slate-700 dark:text-slate-300">{t('documents.title')}</p>
+          <button onClick={() => navigate('/student/vault')} className="p-3.5 rounded-xl border border-[#DEE2E6] dark:border-slate-700 hover:bg-[#0B75A4]/5 hover:border-[#0B75A4] text-center transition-all hover:scale-[1.02] hover:shadow-xs cursor-pointer">
+            <FolderOpen size={24} className="mx-auto text-[#0B75A4] dark:text-[#1697C5] mb-1" />
+            <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">{t('documents.title')}</p>
           </button>
-          <button onClick={() => navigate('/student/notifications')} className="p-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-center transition-colors">
-            <Bell size={24} className="mx-auto text-amber-500 mb-1" />
-            <p className="text-xs font-medium text-slate-700 dark:text-slate-300">{t('notifications.title')}</p>
+          <button onClick={() => navigate('/student/notifications')} className="p-3.5 rounded-xl border border-[#DEE2E6] dark:border-slate-700 hover:bg-[#E25A18]/5 hover:border-[#E25A18] text-center transition-all hover:scale-[1.02] hover:shadow-xs cursor-pointer">
+            <Bell size={24} className="mx-auto text-[#E25A18] mb-1" />
+            <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">{t('notifications.title')}</p>
           </button>
-          <button onClick={() => navigate('/student/grievances')} className="p-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-center transition-colors">
-            <Send size={24} className="mx-auto text-purple-500 mb-1" />
-            <p className="text-xs font-medium text-slate-700 dark:text-slate-300">{t('grievances.raise')}</p>
+          <button onClick={() => navigate('/student/grievances')} className="p-3.5 rounded-xl border border-[#DEE2E6] dark:border-slate-700 hover:bg-[#056C9A]/5 hover:border-[#056C9A] text-center transition-all hover:scale-[1.02] hover:shadow-xs cursor-pointer">
+            <Send size={24} className="mx-auto text-[#056C9A] dark:text-[#1697C5] mb-1" />
+            <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">{t('grievances.raise')}</p>
           </button>
-          <button onClick={() => navigate('/student/renewal')} className="p-3 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 text-center transition-colors">
-            <RefreshCw size={24} className="mx-auto text-emerald-500 mb-1" />
-            <p className="text-xs font-medium text-slate-700 dark:text-slate-300">{t('renewal.title')}</p>
+          <button onClick={() => navigate('/student/renewal')} className="p-3.5 rounded-xl border border-[#DEE2E6] dark:border-slate-700 hover:bg-[#38C88B]/5 hover:border-[#38C88B] text-center transition-all hover:scale-[1.02] hover:shadow-xs cursor-pointer">
+            <RefreshCw size={24} className="mx-auto text-[#38C88B] mb-1" />
+            <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">{t('renewal.title')}</p>
           </button>
         </div>
       </Card>
+
+      {/* Government Events & Updates */}
+      <GovernmentEventsSection />
+
+      {/* Student Reviews & Testimonials Slider */}
+      <StudentReviewSlider />
+
+      {/* Official Government Portal Footer */}
+      <UdaanGovernmentFooter />
     </div>
   );
 };
