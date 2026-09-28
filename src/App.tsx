@@ -58,6 +58,7 @@ import { OfflineIndicator } from "./components/accessibility";
 import StudentVaultOCR from "./pages/student/StudentVaultOCR";
 import Tracker from "./pages/student/Tracker";
 import Issues from "./pages/student/Issues";
+import CalliflyBot from "./components/CalliflyBot";
 
 /* ============================================================
  *  HELPERS
@@ -77,52 +78,60 @@ const StudentLayout: React.FC<{ children: React.ReactNode }> = ({
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname;
-  const { t } = useTranslation('common');
+  const { t } = useTranslation("common");
 
   const navItems = [
     {
-      label: t('nav.dashboard'),
+      label: t("nav.dashboard"),
       icon: <LayoutDashboard size={18} />,
       path: "/student",
     },
-    { label: t('nav.tracker'), icon: <FileText size={18} />, path: "/student/track" },
     {
-      label: t('nav.schemes'),
+      label: t("nav.tracker"),
+      icon: <FileText size={18} />,
+      path: "/student/track",
+    },
+    {
+      label: t("nav.schemes"),
       icon: <BookOpen size={18} />,
       path: "/student/schemes",
     },
-    { label: t('nav.apply'), icon: <Send size={18} />, path: "/student/apply" },
+    { label: t("nav.apply"), icon: <Send size={18} />, path: "/student/apply" },
     {
-      label: t('nav.documents'),
+      label: t("nav.documents"),
       icon: <FolderOpen size={18} />,
       path: "/student/vault/ocr",
     },
     {
-      label: t('nav.disbursal'),
+      label: t("nav.disbursal"),
       icon: <Wallet size={18} />,
       path: "/student/disbursal",
     },
     {
-      label: t('nav.notifications'),
+      label: t("nav.notifications"),
       icon: <Bell size={18} />,
       path: "/student/notifications",
     },
     {
-      label: t('nav.issue'),
+      label: t("nav.issue"),
       icon: <AlertCircle size={18} />,
       path: "/student/issues",
     },
     {
-      label: t('nav.renewal'),
+      label: t("nav.renewal"),
       icon: <RefreshCw size={18} />,
       path: "/student/renewal",
     },
-    { label: t('nav.profile'), icon: <User size={18} />, path: "/student/profile" },
+    {
+      label: t("nav.profile"),
+      icon: <User size={18} />,
+      path: "/student/profile",
+    },
   ];
 
   return (
     <div className='min-h-screen bg-slate-50 dark:bg-slate-900'>
-      <Header title={t('portal.student')} />
+      <Header title={t("portal.student")} />
       <nav className='fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 md:hidden'>
         <div className='flex items-center justify-around py-2'>
           {navItems.slice(0, 5).map((item) => (
@@ -159,33 +168,41 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname;
-  const { t } = useTranslation('common');
+  const { t } = useTranslation("common");
 
   const navItems = [
-    { label: t('nav.dashboard'), icon: <LayoutDashboard size={18} />, path: "/admin" },
     {
-      label: t('nav.schemeConfig'),
+      label: t("nav.dashboard"),
+      icon: <LayoutDashboard size={18} />,
+      path: "/admin",
+    },
+    {
+      label: t("nav.schemeConfig"),
       icon: <Settings size={18} />,
       path: "/admin/schemes",
     },
     {
-      label: t('nav.screening'),
+      label: t("nav.screening"),
       icon: <ClipboardList size={18} />,
       path: "/admin/screening",
     },
     {
-      label: t('nav.communication'),
+      label: t("nav.communication"),
       icon: <Mail size={18} />,
       path: "/admin/communication",
     },
-    { label: t('nav.auditLog'), icon: <History size={18} />, path: "/admin/audit" },
     {
-      label: t('nav.disbursals'),
+      label: t("nav.auditLog"),
+      icon: <History size={18} />,
+      path: "/admin/audit",
+    },
+    {
+      label: t("nav.disbursals"),
       icon: <IndianRupee size={18} />,
       path: "/admin/disbursal",
     },
     {
-      label: t('nav.grievances'),
+      label: t("nav.grievances"),
       icon: <MessageSquare size={18} />,
       path: "/admin/grievances",
     },
@@ -193,7 +210,7 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   return (
     <div className='min-h-screen bg-slate-50 dark:bg-slate-900'>
-      <Header title={t('portal.admin')} />
+      <Header title={t("portal.admin")} />
       <Sidebar
         items={navItems}
         currentPath={path}
@@ -210,26 +227,26 @@ const GovernmentLayout: React.FC<{ children: React.ReactNode }> = ({
   const navigate = useNavigate();
   const location = useLocation();
   const path = location.pathname;
-  const { t } = useTranslation('common');
+  const { t } = useTranslation("common");
 
   const navItems = [
     {
-      label: t('nav.dashboard'),
+      label: t("nav.dashboard"),
       icon: <LayoutDashboard size={18} />,
       path: "/government",
     },
     {
-      label: t('nav.schemePerformance'),
+      label: t("nav.schemePerformance"),
       icon: <BarChart3 size={18} />,
       path: "/government/performance",
     },
     {
-      label: t('nav.budgetTracker'),
+      label: t("nav.budgetTracker"),
       icon: <IndianRupee size={18} />,
       path: "/government/budget",
     },
     {
-      label: t('nav.reports'),
+      label: t("nav.reports"),
       icon: <PieChart size={18} />,
       path: "/government/reports",
     },
@@ -237,7 +254,7 @@ const GovernmentLayout: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <div className='min-h-screen bg-slate-50 dark:bg-slate-900'>
-      <Header title={t('portal.government')} />
+      <Header title={t("portal.government")} />
       <Sidebar
         items={navItems}
         currentPath={path}
@@ -580,6 +597,7 @@ function App() {
       <AppRoutes />
       <ToastContainer />
       <OfflineIndicator />
+      <CalliflyBot />
     </HashRouter>
   );
 }
