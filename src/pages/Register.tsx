@@ -1,14 +1,14 @@
-// Register Page - Student Registration
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Card, Button, Input } from '../components/ui';
-import { useAuthStore } from '../store';
-import { User, Mail, Lock, Phone, MapPin, GraduationCap, CreditCard, Users } from 'lucide-react';
+import { Card, Button, Input, LanguageSelector } from '../components/ui';
+import { useAuthStore, useAppStore } from '../store';
+import { User, Mail, Lock, Phone, MapPin, GraduationCap, CreditCard, Users, Moon, Sun } from 'lucide-react';
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
   const { register } = useAuthStore();
+  const { theme, toggleTheme } = useAppStore();
   const { t } = useTranslation('auth');
   const { t: tc } = useTranslation('common');
   const [loading, setLoading] = useState(false);
@@ -155,15 +155,35 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 dark:from-slate-900 dark:via-slate-900 dark:to-blue-950 flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl">
+    <div className="relative min-h-screen bg-[#F8F8F8] dark:bg-slate-900 flex items-center justify-center p-4 transition-colors">
+      {/* Top Controls: Language Selector & Theme */}
+      <div className="absolute top-4 right-4 flex items-center gap-2 z-20">
+        <LanguageSelector />
+        <button
+          type="button"
+          onClick={toggleTheme}
+          className="p-2 bg-white/90 dark:bg-slate-800/90 hover:bg-slate-100 dark:hover:bg-slate-700 border border-[#DEE2E6] dark:border-slate-700 rounded-lg shadow-xs transition-colors text-slate-600 dark:text-amber-400 cursor-pointer"
+          aria-label={tc('theme.toggle')}
+        >
+          {theme === 'light' ? <Moon size={15} /> : <Sun size={15} />}
+        </button>
+      </div>
+
+      <div className="w-full max-w-2xl py-8">
         {/* Header */}
         <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-800 to-blue-600 shadow-lg shadow-blue-500/20 mb-4">
-            <GraduationCap size={32} className="text-white" />
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#024969] via-[#056C9A] to-[#0B75A4] text-white shadow-lg shadow-[#0B75A4]/25 mb-3">
+            <GraduationCap size={28} className="stroke-[2.2]" />
           </div>
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{t('register.title')}</h1>
-          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+          <div className="flex flex-col items-center mb-2">
+            <div className="flex items-center gap-1.5">
+              <span className="text-2xl font-extrabold tracking-tight text-[#024969] dark:text-white">UDAAN</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.5 bg-[#0B75A4]/10 dark:bg-[#0B75A4]/25 text-[#056C9A] dark:text-[#1697C5] rounded tracking-wider border border-[#0B75A4]/20">MoTA</span>
+            </div>
+            <span className="text-[10px] font-bold tracking-widest text-[#0B75A4] dark:text-[#1697C5] uppercase mt-0.5">SCHOLAR PORTAL</span>
+          </div>
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white">{t('register.title')}</h1>
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
             {t('register.subtitle')}
           </p>
         </div>
@@ -172,18 +192,18 @@ const Register: React.FC = () => {
         <div className="flex items-center justify-center mb-6">
           {[1, 2, 3, 4, 5].map((s) => (
             <React.Fragment key={s}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
-                s <= step ? 'bg-blue-800 text-white' : 'bg-slate-200 text-slate-400'
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
+                s <= step ? 'bg-[#0B75A4] text-white shadow-xs' : 'bg-white dark:bg-slate-800 text-slate-400 border border-[#DEE2E6] dark:border-slate-700'
               }`}>
                 {s}
               </div>
-              {s < 5 && <div className={`w-12 h-0.5 ${s < step ? 'bg-blue-800' : 'bg-slate-200'}`} />}
+              {s < 5 && <div className={`w-12 h-0.5 transition-colors ${s < step ? 'bg-[#0B75A4]' : 'bg-[#DEE2E6] dark:bg-slate-700'}`} />}
             </React.Fragment>
           ))}
         </div>
 
         {/* Form Card */}
-        <Card className="shadow-xl border-0">
+        <Card className="shadow-lg border border-[#DEE2E6] dark:border-slate-700">
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Step 1: Personal Details */}
             {step === 1 && (
@@ -479,7 +499,7 @@ const Register: React.FC = () => {
             {/* Login Link */}
             <p className="text-center text-sm text-slate-500 dark:text-slate-400 pt-2">
               {t('register.alreadyHaveAccount')}{' '}
-              <button type="button" onClick={() => navigate('/login')} className="text-blue-600 dark:text-blue-400 font-medium hover:underline">
+              <button type="button" onClick={() => navigate('/login')} className="text-[#0B75A4] dark:text-[#1697C5] font-semibold hover:underline cursor-pointer">
                 {t('register.signIn')}
               </button>
             </p>

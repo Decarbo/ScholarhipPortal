@@ -130,18 +130,18 @@ const StudentLayout: React.FC<{ children: React.ReactNode }> = ({
   ];
 
   return (
-    <div className='min-h-screen bg-slate-50 dark:bg-slate-900'>
+    <div className='min-h-screen bg-[#F8F8F8] dark:bg-slate-900 transition-colors'>
       <Header title={t("portal.student")} />
-      <nav className='fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700 md:hidden'>
+      <nav className='fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-slate-900 border-t border-[#DEE2E6] dark:border-slate-800 md:hidden shadow-lg'>
         <div className='flex items-center justify-around py-2'>
           {navItems.slice(0, 5).map((item) => (
             <button
               key={item.path}
               onClick={() => navigate(item.path)}
-              className={`flex flex-col items-center p-1 ${
+              className={`flex flex-col items-center p-1.5 transition-colors cursor-pointer ${
                 path === item.path
-                  ? "text-blue-700 dark:text-blue-400"
-                  : "text-slate-400"
+                  ? "text-[#0B75A4] dark:text-[#1697C5] font-semibold"
+                  : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
               }`}
             >
               {item.icon}
@@ -157,7 +157,7 @@ const StudentLayout: React.FC<{ children: React.ReactNode }> = ({
           onNavigate={(p) => navigate(p)}
         />
       </div>
-      <main className='pb-16 md:pb-0 md:ml-64 transition-all duration-300'>
+      <main className='pb-16 md:pb-0 md:ml-56 transition-all duration-300'>
         {children}
       </main>
     </div>
@@ -209,14 +209,14 @@ const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   ];
 
   return (
-    <div className='min-h-screen bg-slate-50 dark:bg-slate-900'>
+    <div className='min-h-screen bg-[#F8F8F8] dark:bg-slate-900 transition-colors'>
       <Header title={t("portal.admin")} />
       <Sidebar
         items={navItems}
         currentPath={path}
         onNavigate={(p) => navigate(p)}
       />
-      <main className='md:ml-64 transition-all duration-300'>{children}</main>
+      <main className='md:ml-56 transition-all duration-300'>{children}</main>
     </div>
   );
 };
@@ -253,7 +253,7 @@ const GovernmentLayout: React.FC<{ children: React.ReactNode }> = ({
   ];
 
   return (
-    <div className='min-h-screen bg-slate-50 dark:bg-slate-900'>
+    <div className='min-h-screen bg-[#F8F8F8] dark:bg-slate-900 transition-colors'>
       <Header title={t("portal.government")} />
       <Sidebar
         items={navItems}

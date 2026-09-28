@@ -1,6 +1,6 @@
 // Core UI Components - Redesigned with calm, official design language
 import React, { type ReactNode, type ButtonHTMLAttributes, useRef, useState } from 'react';
-import { X, Check, AlertCircle, Info, Clock, Moon, Sun, Globe, Upload, FileText, Menu, ChevronDown } from 'lucide-react';
+import { X, Check, AlertCircle, Info, Clock, Moon, Sun, Globe, Upload, FileText, Menu, ChevronDown, GraduationCap } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { useAppStore, useAuthStore } from '../store';
@@ -11,13 +11,13 @@ type StatusType = 'done' | 'progress' | 'neutral' | 'error';
 
 export const StatusPill: React.FC<{ status: StatusType; label: string }> = ({ status, label }) => {
   const colors = {
-    done: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-900/20 dark:text-teal-300 dark:border-teal-800',
-    progress: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/20 dark:text-amber-300 dark:border-amber-800',
-    neutral: 'bg-slate-50 text-slate-600 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700',
-    error: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-300 dark:border-red-800',
+    done: 'bg-[#38C88B]/15 text-[#1e7a54] dark:text-[#38C88B] border-[#38C88B]/40',
+    progress: 'bg-[#E25A18]/15 text-[#b0400d] dark:text-[#ff8a50] border-[#E25A18]/40',
+    neutral: 'bg-slate-100 text-slate-700 border-[#DEE2E6] dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700',
+    error: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800',
   };
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 text-xs font-medium border rounded ${colors[status]}`}>
+    <span className={`inline-flex items-center px-2.5 py-0.5 text-xs font-semibold border rounded-full ${colors[status]}`}>
       {label}
     </span>
   );
@@ -77,7 +77,7 @@ export const ProgressTimeline: React.FC<{
   return (
     <div className="w-full">
       <div className="relative h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-        <div className="absolute left-0 top-0 h-full bg-teal-600 dark:bg-teal-500 animate-progress" style={{ width: `${progressPercent}%` }} />
+        <div className="absolute left-0 top-0 h-full bg-[#0B75A4] animate-progress" style={{ width: `${progressPercent}%` }} />
       </div>
       <div className="relative flex justify-between mt-2">
         {steps.map((step, i) => {
@@ -86,11 +86,11 @@ export const ProgressTimeline: React.FC<{
           return (
             <div key={i} className="flex flex-col items-center" style={{ width: `${100 / steps.length}%` }}>
               <div className={`w-3.5 h-3.5 rounded-full border-2 -mt-2.5 transition-all ${
-                isCompleted ? 'bg-teal-600 border-teal-600 dark:bg-teal-500 dark:border-teal-500' : 'bg-white border-slate-300 dark:bg-slate-800 dark:border-slate-600'
-              } ${isCurrent ? 'ring-4 ring-teal-100 dark:ring-teal-900/30' : ''}`}>
+                isCompleted ? 'bg-[#0B75A4] border-[#0B75A4]' : 'bg-white border-[#DEE2E6] dark:bg-slate-800 dark:border-slate-600'
+              } ${isCurrent ? 'ring-4 ring-[#0B75A4]/25' : ''}`}>
                 {isCompleted && i < currentStep && <Check size={8} className="text-white mx-auto mt-0.5" />}
               </div>
-              <span className={`text-[10px] mt-1 text-center leading-tight ${isCompleted ? 'text-teal-700 dark:text-teal-300 font-medium' : 'text-slate-500 dark:text-slate-400'}`}>
+              <span className={`text-[10px] mt-1 text-center leading-tight ${isCompleted ? 'text-[#0B75A4] dark:text-[#1697C5] font-semibold' : 'text-slate-500 dark:text-slate-400'}`}>
                 {labels ? labels[i] : step}
               </span>
             </div>
@@ -180,29 +180,29 @@ export const DataTable: React.FC<{
     onSelectionChange(selectedRows.length === data.length ? [] : data.map(row => row.id as string));
   };
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto rounded-xl border border-[#DEE2E6] dark:border-slate-700/80 bg-white dark:bg-slate-800/80 shadow-xs">
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-slate-200 dark:border-slate-700">
+          <tr className="border-b border-[#DEE2E6] dark:border-slate-700 bg-slate-50/80 dark:bg-slate-850">
             {selectable && (
-              <th className="text-left py-2 px-3 w-10">
-                <input type="checkbox" checked={selectedRows.length === data.length && data.length > 0} onChange={handleSelectAll} className="rounded border-slate-300 dark:border-slate-600" />
+              <th className="text-left py-2.5 px-3 w-10">
+                <input type="checkbox" checked={selectedRows.length === data.length && data.length > 0} onChange={handleSelectAll} className="rounded border-[#DEE2E6] text-[#0B75A4] focus:ring-[#0B75A4]" />
               </th>
             )}
             {columns.map(col => (
-              <th key={col.key} className="text-left py-2 px-3 font-medium text-slate-600 dark:text-slate-400" style={col.width ? { width: col.width } : undefined}>{col.label}</th>
+              <th key={col.key} className="text-left py-2.5 px-3 font-semibold text-slate-700 dark:text-slate-300 text-xs uppercase tracking-wider" style={col.width ? { width: col.width } : undefined}>{col.label}</th>
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="divide-y divide-[#DEE2E6]/60 dark:divide-slate-700/60">
           {data.map((row, i) => (
-            <tr key={i} className={`border-b border-slate-100 dark:border-slate-800 ${onRowClick ? 'cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50' : ''}`} onClick={() => onRowClick?.(row)}>
+            <tr key={i} className={`transition-colors ${onRowClick ? 'cursor-pointer hover:bg-[#0B75A4]/5 dark:hover:bg-[#0B75A4]/15' : 'hover:bg-slate-50/60'}`} onClick={() => onRowClick?.(row)}>
               {selectable && (
-                <td className="py-2 px-3">
-                  <input type="checkbox" checked={selectedRows.includes(row.id as string)} onChange={(e) => { e.stopPropagation(); handleSelect(row.id as string); }} className="rounded border-slate-300 dark:border-slate-600" />
+                <td className="py-2.5 px-3">
+                  <input type="checkbox" checked={selectedRows.includes(row.id as string)} onChange={(e) => { e.stopPropagation(); handleSelect(row.id as string); }} className="rounded border-[#DEE2E6] text-[#0B75A4] focus:ring-[#0B75A4]" />
                 </td>
               )}
-              {columns.map(col => <td key={col.key} className="py-2 px-3 text-slate-700 dark:text-slate-300">{row[col.key]}</td>)}
+              {columns.map(col => <td key={col.key} className="py-2.5 px-3 text-slate-700 dark:text-slate-300">{row[col.key]}</td>)}
             </tr>
           ))}
         </tbody>
@@ -213,7 +213,7 @@ export const DataTable: React.FC<{
 
 // ============ CARD (minimal - only for bounded objects) ============
 export const Card: React.FC<{ children: ReactNode; className?: string; padding?: boolean }> = ({ children, className = '', padding = true }) => (
-  <div className={`bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 ${padding ? 'p-4' : ''} ${className}`}>
+  <div className={`bg-white dark:bg-slate-800 border border-[#DEE2E6] dark:border-slate-700/80 rounded-xl shadow-xs hover:shadow-md transition-all duration-300 ${padding ? 'p-4 md:p-5' : ''} ${className}`}>
     {children}
   </div>
 );
@@ -227,13 +227,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export const Button: React.FC<ButtonProps> = ({ variant = 'primary', size = 'md', loading, icon, children, className = '', disabled, ...props }) => {
-  const base = 'inline-flex items-center justify-center font-medium rounded transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+  const base = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer active:scale-95 shadow-xs';
   const variants: Record<string, string> = {
-    primary: 'bg-teal-600 text-white hover:bg-teal-700 focus:ring-teal-500 dark:bg-teal-600 dark:hover:bg-teal-700',
-    secondary: 'bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 focus:ring-slate-400 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600 dark:hover:bg-slate-700',
-    outline: 'bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 focus:ring-slate-400 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-600 dark:hover:bg-slate-700',
-    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
-    ghost: 'text-slate-600 hover:bg-slate-100 focus:ring-slate-400 dark:text-slate-300 dark:hover:bg-slate-800',
+    primary: 'bg-[#0B75A4] text-white hover:bg-[#056C9A] active:bg-[#024969] focus:ring-[#0B75A4]/40 shadow-xs hover:shadow',
+    secondary: 'bg-white text-slate-700 border border-[#DEE2E6] hover:bg-slate-50 hover:border-[#0B75A4]/40 focus:ring-[#0B75A4]/30 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 dark:hover:bg-slate-700',
+    outline: 'bg-white text-[#0B75A4] border border-[#DEE2E6] hover:bg-[#0B75A4]/5 hover:border-[#0B75A4] focus:ring-[#0B75A4]/30 dark:bg-slate-800 dark:text-[#1697C5] dark:border-slate-700',
+    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 shadow-xs',
+    ghost: 'text-slate-600 hover:bg-[#0B75A4]/10 hover:text-[#0B75A4] focus:ring-[#0B75A4]/30 dark:text-slate-300 dark:hover:bg-slate-800',
   };
   const sizes: Record<string, string> = { sm: 'px-3 py-1.5 text-xs gap-1.5', md: 'px-4 py-2 text-sm gap-2', lg: 'px-6 py-2.5 text-sm gap-2' };
   return (
@@ -306,13 +306,13 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 export const Input: React.FC<InputProps> = ({ label, error, icon, className = '', ...props }) => (
   <div className="space-y-1">
-    {label && <label className="block text-xs font-medium text-slate-600 dark:text-slate-400">{label}</label>}
+    {label && <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">{label}</label>}
     <div className="relative">
       {icon && <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">{icon}</div>}
       <input
         className={`w-full ${icon ? 'pl-9' : 'pl-3'} pr-3 py-2 rounded-lg border ${
-          error ? 'border-red-300 dark:border-red-700' : 'border-slate-300 dark:border-slate-600'
-        } bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all ${className}`}
+          error ? 'border-red-400 dark:border-red-700 ring-1 ring-red-400' : 'border-[#DEE2E6] dark:border-slate-750'
+        } bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white placeholder:text-slate-400 outline-none focus:border-[#0B75A4] focus:ring-2 focus:ring-[#0B75A4]/20 transition-all ${className}`}
         {...props}
       />
     </div>
@@ -331,7 +331,7 @@ export const TableSkeleton: React.FC<{ rows?: number; cols?: number }> = ({ rows
 );
 
 // ============ PROGRESS BAR ============
-export const ProgressBar: React.FC<{ value: number; max?: number; label?: string; color?: string }> = ({ value, max = 100, label, color = 'bg-teal-600' }) => {
+export const ProgressBar: React.FC<{ value: number; max?: number; label?: string; color?: string }> = ({ value, max = 100, label, color = 'bg-[#0B75A4]' }) => {
   const pct = Math.min((value / max) * 100, 100);
   return (
     <div className="w-full">
@@ -357,7 +357,7 @@ export const FileUpload: React.FC<{ onUpload: (files: File[]) => void; accept?: 
   const inputRef = useRef<HTMLInputElement>(null);
   return (
     <div
-      className={`border border-dashed rounded p-6 text-center transition-all cursor-pointer ${dragging ? 'border-teal-500 bg-teal-50/50 dark:bg-teal-900/10' : 'border-slate-300 dark:border-slate-600 hover:border-slate-400'}`}
+      className={`border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer ${dragging ? 'border-[#0B75A4] bg-[#0B75A4]/10 dark:bg-[#0B75A4]/20' : 'border-[#DEE2E6] dark:border-slate-700 hover:border-[#0B75A4] hover:bg-[#0B75A4]/5'}`}
       onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
       onDragLeave={() => setDragging(false)}
       onDrop={(e) => { e.preventDefault(); setDragging(false); if (e.dataTransfer.files.length) onUpload(Array.from(e.dataTransfer.files)); }}
@@ -365,70 +365,102 @@ export const FileUpload: React.FC<{ onUpload: (files: File[]) => void; accept?: 
       role="button"
       tabIndex={0}
     >
-      <Upload size={24} className="mx-auto text-slate-400 mb-2" />
-      <p className="text-sm text-slate-700 dark:text-slate-300">{label}</p>
+      <Upload size={24} className="mx-auto text-[#0B75A4] dark:text-[#1697C5] mb-2" />
+      <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{label}</p>
       <p className="text-xs text-slate-500 mt-1">{i18next.t('fileUpload.dragDrop', { ns: 'common' })}</p>
       <input ref={inputRef} type="file" accept={accept} multiple={multiple} className="hidden" onChange={(e) => { if (e.target.files) onUpload(Array.from(e.target.files)); }} />
     </div>
   );
 };
 
-// ============ HEADER ============
-export const Header: React.FC<{ title?: string }> = ({ title }) => {
-  const { theme, toggleTheme, language, setLanguage } = useAppStore();
-  const { user, logout } = useAuthStore();
+// ============ LANGUAGE SELECTOR ============
+export const LanguageSelector: React.FC<{ className?: string; showLabel?: boolean }> = ({ className = '', showLabel = true }) => {
+  const { language, setLanguage } = useAppStore();
   const { t } = useTranslation('common');
   const [langOpen, setLangOpen] = useState(false);
 
   const languages = [
-    { code: 'en' as const, label: 'English' },
-    { code: 'hi' as const, label: 'हिंदी' },
-    { code: 'sat' as const, label: 'ᱥᱟᱱᱛᱟᱞᱤ' },
+    { code: 'en' as const, label: 'English', native: 'English' },
+    { code: 'hi' as const, label: 'Hindi', native: 'हिंदी' },
+    { code: 'sat' as const, label: 'Santhali', native: 'ᱥᱟᱱᱛᱟᱞᱤ' },
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
+    <div className={`relative ${className}`}>
+      <button
+        type="button"
+        onClick={() => setLangOpen(!langOpen)}
+        className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-700 dark:text-slate-200 bg-white/90 dark:bg-slate-800/90 hover:bg-slate-100 hover:border-[#0B75A4]/50 dark:hover:bg-slate-700 border border-[#DEE2E6] dark:border-slate-700 rounded-lg shadow-xs transition-all cursor-pointer"
+        aria-label={t('language.toggle')}
+      >
+        <Globe size={14} className="text-[#0B75A4] dark:text-[#1697C5] flex-shrink-0" />
+        {showLabel && <span>{languages.find((l) => l.code === language)?.native || 'English'}</span>}
+        <ChevronDown size={12} className="text-slate-400" />
+      </button>
+
+      {langOpen && (
+        <>
+          <div className="fixed inset-0 z-40" onClick={() => setLangOpen(false)} />
+          <div className="absolute right-0 top-full mt-1.5 z-50 bg-white dark:bg-slate-800 border border-[#DEE2E6] dark:border-slate-700 rounded-xl shadow-lg min-w-[130px] py-1">
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                type="button"
+                onClick={() => {
+                  setLanguage(lang.code);
+                  setLangOpen(false);
+                }}
+                className={`w-full text-left flex items-center justify-between px-3 py-2 text-xs transition-colors cursor-pointer ${
+                  language === lang.code
+                    ? 'text-[#0B75A4] dark:text-[#1697C5] font-semibold bg-[#0B75A4]/10 dark:bg-[#0B75A4]/25'
+                    : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
+                }`}
+              >
+                <span>{lang.native}</span>
+                {language === lang.code && <Check size={12} className="text-[#0B75A4] dark:text-[#1697C5]" />}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+// ============ HEADER ============
+export const Header: React.FC<{ title?: string }> = ({ title }) => {
+  const { theme, toggleTheme } = useAppStore();
+  const { user, logout } = useAuthStore();
+  const { t } = useTranslation('common');
+
+  return (
+    <header className="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-[#DEE2E6] dark:border-slate-800 shadow-xs">
       <div className="flex items-center justify-between px-4 h-14">
         <div className="flex items-center gap-3">
-          <div className="w-7 h-7 bg-teal-600 flex items-center justify-center">
-            <span className="text-white font-semibold text-[10px]">MoTA</span>
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#024969] via-[#056C9A] to-[#0B75A4] flex items-center justify-center shadow-sm shadow-[#0B75A4]/20 text-white flex-shrink-0">
+              <GraduationCap size={18} className="stroke-[2.3]" />
+            </div>
+            <div className="flex flex-col leading-none">
+              <div className="flex items-center gap-1.5">
+                <span className="font-extrabold text-sm tracking-tight text-[#024969] dark:text-white">UDAAN</span>
+                <span className="text-[9px] font-bold px-1.5 py-0.2 bg-[#E0F0F7] dark:bg-[#0B75A4]/20 text-[#056C9A] dark:text-[#1697C5] rounded tracking-wider border border-[#B8DEEE]/60 dark:border-[#0B75A4]/40">MoTA</span>
+              </div>
+              <span className="text-[8px] font-bold tracking-widest text-[#0B75A4] dark:text-[#1697C5] uppercase mt-0.5">SCHOLAR PORTAL</span>
+            </div>
           </div>
-          {title && <h1 className="text-sm font-medium text-slate-900 dark:text-slate-100 hidden sm:block">{title}</h1>}
+          {title && (
+            <div className="hidden sm:flex items-center pl-3 border-l border-[#DEE2E6] dark:border-slate-700">
+              <h1 className="text-xs font-semibold text-slate-700 dark:text-slate-300">{title}</h1>
+            </div>
+          )}
         </div>
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1.5">
           <ConnectionStatus />
-          {/* Language dropdown */}
-          <div className="relative">
-            <button
-              onClick={() => setLangOpen(!langOpen)}
-              className="flex items-center gap-1 px-2 py-1.5 text-xs text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded"
-              aria-label={t('language.toggle')}
-            >
-              <Globe size={14} />
-              <span>{languages.find(l => l.code === language)?.label}</span>
-              <ChevronDown size={12} />
-            </button>
-            {langOpen && (
-              <>
-                <div className="fixed inset-0 z-40" onClick={() => setLangOpen(false)} />
-                <div className="absolute right-0 top-full mt-1 z-50 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded shadow-lg min-w-[120px]">
-                  {languages.map((lang) => (
-                    <button
-                      key={lang.code}
-                      onClick={() => { setLanguage(lang.code); setLangOpen(false); }}
-                      className={`w-full text-left px-3 py-2 text-xs hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors ${
-                        language === lang.code ? 'text-teal-700 dark:text-teal-400 font-medium bg-teal-50 dark:bg-teal-900/20' : 'text-slate-700 dark:text-slate-300'
-                      }`}
-                    >
-                      {lang.label}
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-          <button onClick={toggleTheme} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded" aria-label={t('theme.toggle')}>
-            {theme === 'light' ? <Moon size={16} className="text-slate-600" /> : <Sun size={16} className="text-amber-400" />}
+          {/* Reusable Language selector */}
+          <LanguageSelector />
+          <button onClick={toggleTheme} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-600 dark:text-amber-400 transition-colors" aria-label={t('theme.toggle')}>
+            {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
           </button>
           {user && (
             <div className="flex items-center gap-2 ml-1">
@@ -450,15 +482,31 @@ interface SidebarItem { label: string; icon: ReactNode; path: string; badge?: nu
 export const Sidebar: React.FC<{ items: SidebarItem[]; currentPath: string; onNavigate: (path: string) => void }> = ({ items, currentPath, onNavigate }) => {
   const { sidebarOpen } = useAppStore();
   return (
-    <aside className={`fixed left-0 top-14 bottom-0 z-30 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 transition-all duration-300 ${sidebarOpen ? 'w-56' : 'w-0 overflow-hidden lg:w-14'}`}>
-      <nav className="p-2 space-y-0.5">
-        {items.map(item => (
-          <button key={item.path} onClick={() => onNavigate(item.path)} className={`w-full flex items-center gap-2.5 px-3 py-2 text-sm rounded transition-colors ${currentPath === item.path ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-slate-100 font-medium' : 'text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-800'}`} aria-label={item.label}>
-            {item.icon}
-            {sidebarOpen && <span className="flex-1 text-left">{item.label}</span>}
-            {sidebarOpen && item.badge && item.badge > 0 && <span className="px-1.5 py-0.5 text-[10px] font-medium bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300 rounded">{item.badge}</span>}
-          </button>
-        ))}
+    <aside className={`fixed left-0 top-14 bottom-0 z-30 bg-white dark:bg-slate-900 border-r border-[#DEE2E6] dark:border-slate-800 transition-all duration-300 shadow-xs ${sidebarOpen ? 'w-56' : 'w-0 overflow-hidden lg:w-14'}`}>
+      <nav className="p-2 space-y-1">
+        {items.map(item => {
+          const active = currentPath === item.path;
+          return (
+            <button
+              key={item.path}
+              onClick={() => onNavigate(item.path)}
+              className={`w-full flex items-center gap-2.5 px-3 py-2 text-sm rounded-lg transition-all duration-150 cursor-pointer ${
+                active
+                  ? 'bg-[#0B75A4]/10 text-[#0B75A4] dark:bg-[#0B75A4]/20 dark:text-[#1697C5] font-semibold border-l-4 border-[#0B75A4]'
+                  : 'text-slate-600 hover:bg-slate-50 hover:text-[#0B75A4] dark:text-slate-400 dark:hover:bg-slate-800/80 dark:hover:text-slate-200'
+              }`}
+              aria-label={item.label}
+            >
+              <span className={active ? 'text-[#0B75A4] dark:text-[#1697C5]' : 'text-slate-500'}>{item.icon}</span>
+              {sidebarOpen && <span className="flex-1 text-left">{item.label}</span>}
+              {sidebarOpen && item.badge && item.badge > 0 && (
+                <span className="px-1.5 py-0.5 text-[10px] font-bold bg-[#E25A18]/15 text-[#E25A18] rounded-full border border-[#E25A18]/30">
+                  {item.badge}
+                </span>
+              )}
+            </button>
+          );
+        })}
       </nav>
     </aside>
   );

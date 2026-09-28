@@ -4,17 +4,50 @@
    driven by the theme toggle in the store (persisted in localStorage). */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Design tokens - calm, official, human */
+@theme {
+  --color-gov-primary: #0B75A4;
+  --color-gov-dark: #056C9A;
+  --color-gov-deep: #024969;
+  --color-gov-light: #1697C5;
+  --color-gov-bg: #F8F8F8;
+  --color-gov-border: #DEE2E6;
+  --color-gov-orange: #E25A18;
+  --color-gov-green: #38C88B;
+
+  /* Government Blue/Teal palette mapping */
+  --color-teal-50: #f0f7fb;
+  --color-teal-100: #e0f0f7;
+  --color-teal-200: #b8deee;
+  --color-teal-300: #7ec5e2;
+  --color-teal-400: #3aa8d2;
+  --color-teal-500: #1697C5;
+  --color-teal-600: #0B75A4;
+  --color-teal-700: #056C9A;
+  --color-teal-800: #024969;
+  --color-teal-900: #01344c;
+  --color-teal-950: #012132;
+}
+
+/* Design tokens - professional government palette */
 :root {
-  /* Status colors - only 3 with meaning */
-  --status-done: #0d9488;        /* teal-600 - verified/complete */
-  --status-progress: #d97706;    /* amber-600 - in progress/attention */
-  --status-neutral: #64748b;     /* slate-500 - not started */
+  --gov-primary: #0B75A4;
+  --gov-dark: #056C9A;
+  --gov-deep: #024969;
+  --gov-light: #1697C5;
+  --gov-bg: #F8F8F8;
+  --gov-border: #DEE2E6;
+  --gov-orange: #E25A18;
+  --gov-green: #38C88B;
+
+  /* Status colors */
+  --status-done: #38C88B;
+  --status-progress: #E25A18;
+  --status-neutral: #64748b;
   
   /* Surface colors */
-  --surface-bg: #ffffff;
-  --surface-elevated: #f8fafc;
-  --surface-border: #e2e8f0;
+  --surface-bg: #F8F8F8;
+  --surface-elevated: #ffffff;
+  --surface-border: #DEE2E6;
   
   /* Text colors */
   --text-primary: #0f172a;
@@ -23,9 +56,9 @@
 }
 
 .dark {
-  --surface-bg: #0f172a;
-  --surface-elevated: #1e293b;
-  --surface-border: #334155;
+  --surface-bg: #0b1320;
+  --surface-elevated: #152238;
+  --surface-border: #243552;
   --text-primary: #f1f5f9;
   --text-secondary: #cbd5e1;
   --text-tertiary: #64748b;
