@@ -326,12 +326,12 @@ const Login: React.FC = () => {
 
           {/* Error */}
           {shownError && (
-            <div className='p-3 rounded border border-red-200 bg-red-50 dark:bg-red-900/20 dark:border-red-800 flex items-start gap-2'>
+            <div className='p-3 rounded-lg border border-[#EF4444]/20 bg-[#EF4444]/10 dark:bg-[#EF4444]/20 dark:border-[#EF4444]/30 flex items-start gap-2'>
               <AlertTriangle
-                size={14}
-                className='text-red-600 shrink-0 mt-0.5'
+                size={16}
+                className='text-[#EF4444] shrink-0 mt-0.5'
               />
-              <p className='text-sm text-red-700 dark:text-red-300'>
+              <p className='text-xs font-medium text-[#EF4444] dark:text-red-400'>
                 {shownError}
               </p>
             </div>
@@ -339,9 +339,9 @@ const Login: React.FC = () => {
 
           {/* Lock warning */}
           {lockRemaining > 0 && (
-            <div className='p-3 rounded border border-[#E25A18]/30 bg-[#E25A18]/10 dark:bg-[#E25A18]/20 dark:border-[#E25A18]/40 flex items-center gap-2'>
-              <Lock size={14} className='text-[#E25A18]' />
-              <p className='text-sm text-[#b0400d] dark:text-[#ff8a50]'>
+            <div className='p-3 rounded-lg border border-[#F59E0B]/30 bg-[#F59E0B]/10 dark:bg-[#F59E0B]/20 dark:border-[#F59E0B]/40 flex items-center gap-2'>
+              <Lock size={16} className='text-[#F59E0B]' />
+              <p className='text-xs font-medium text-[#B45309] dark:text-[#FCD34D]'>
                 {t('locked', { seconds: lockRemaining })}
               </p>
             </div>
@@ -356,8 +356,8 @@ const Login: React.FC = () => {
             {loading ? tc('actions.signingIn') : tc('actions.signIn')}
           </Button>
 
-          <p className='text-xs text-slate-500 text-center flex items-center justify-center gap-1'>
-            <CheckCircle2 size={12} className='text-[#38C88B]' />
+          <p className='text-xs text-[#64748B] dark:text-slate-400 text-center flex items-center justify-center gap-1.5'>
+            <CheckCircle2 size={13} className='text-[#009B68]' />
             {tc('common.frontendDemo')}
           </p>
 

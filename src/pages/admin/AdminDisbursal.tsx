@@ -540,23 +540,28 @@ export const AdminDisbursal: React.FC = () => {
   }
 
   return (
-    <div className='p-4 md:p-6 space-y-6 animate-fade-in max-w-7xl mx-auto'>
+    <div className='p-4 md:p-8 space-y-6 animate-fade-in max-w-7xl mx-auto font-sans text-[#1D293D] dark:text-slate-100'>
       {/* Header */}
-      <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-4'>
-        <div>
-          <h1 className='text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2'>
-            <IndianRupee size={22} /> {t('disbursal.title')}
-          </h1>
-          <p className='text-sm text-slate-500 dark:text-slate-400'>
-            {t('disbursal.subtitle')}
-          </p>
-          {adminUser?.name && (
-            <p className='text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1'>
-              <MapPin size={11} />
-              {t('disbursal.signedInAs')} <strong>{adminUser.name}</strong>
-              {adminState ? ` · ${t('disbursal.scopedTo')} ${adminState}` : ""}
+      <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[#DEE2E6] dark:border-slate-800 pb-5'>
+        <div className='flex items-start gap-3'>
+          <div className='p-2.5 rounded-xl bg-[#E6F1F5] dark:bg-[#0B75A4]/20 text-[#0B75A4] dark:text-[#1697C5] shrink-0 mt-0.5'>
+            <IndianRupee size={24} />
+          </div>
+          <div>
+            <h1 className='text-2xl md:text-3xl font-bold text-[#1D293D] dark:text-white leading-tight'>
+              {t('disbursal.title')}
+            </h1>
+            <p className='text-sm text-[#64748B] dark:text-slate-400 mt-1'>
+              {t('disbursal.subtitle')}
             </p>
-          )}
+            {adminUser?.name && (
+              <p className='text-xs text-[#64748B] dark:text-slate-400 mt-1 flex items-center gap-1 font-mono'>
+                <MapPin size={11} className='text-[#0B75A4]' />
+                {t('disbursal.signedInAs')} <strong className='font-sans text-[#1D293D] dark:text-slate-200'>{adminUser.name}</strong>
+                {adminState ? ` · ${t('disbursal.scopedTo')} ${adminState}` : ""}
+              </p>
+            )}
+          </div>
         </div>
         <div className='flex items-center gap-2 flex-wrap'>
           <Badge variant='success'>{t('communication.frontendOnly')}</Badge>
@@ -596,163 +601,165 @@ export const AdminDisbursal: React.FC = () => {
       </div>
 
       {/* Stats */}
-      <div className='grid grid-cols-2 md:grid-cols-4 gap-3'>
-        <Card className='!p-4'>
-          <p className='text-xs font-semibold text-emerald-600 uppercase tracking-wider flex items-center gap-1'>
-            <CheckCircle2 size={12} /> {t('disbursal.processedCount')}
+      <div className='grid grid-cols-2 md:grid-cols-4 gap-3.5'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#009B68] dark:text-emerald-400 uppercase tracking-wider flex items-center gap-1'>
+            <CheckCircle2 size={13} /> {t('disbursal.processedCount')}
           </p>
-          <p className='text-2xl font-bold text-emerald-600 mt-1'>
+          <p className='text-2xl font-bold text-[#009B68] dark:text-emerald-400 mt-1'>
             {stats.processedCount}
           </p>
-          <p className='text-[11px] text-slate-500 mt-0.5'>
+          <p className='text-[11px] text-[#64748B] font-mono mt-0.5'>
             ₹{stats.totalProcessed.toLocaleString("en-IN")}
           </p>
         </Card>
-        <Card className='!p-4'>
-          <p className='text-xs font-semibold text-amber-600 uppercase tracking-wider flex items-center gap-1'>
-            <Clock size={12} /> {t('disbursal.pendingCount')}
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#F59E0B] uppercase tracking-wider flex items-center gap-1'>
+            <Clock size={13} /> {t('disbursal.pendingCount')}
           </p>
-          <p className='text-2xl font-bold text-amber-600 mt-1'>
+          <p className='text-2xl font-bold text-[#F59E0B] mt-1'>
             {stats.pendingCount}
           </p>
-          <p className='text-[11px] text-slate-500 mt-0.5'>
+          <p className='text-[11px] text-[#64748B] font-mono mt-0.5'>
             ₹{stats.totalPending.toLocaleString("en-IN")}
           </p>
         </Card>
-        <Card className='!p-4'>
-          <p className='text-xs font-semibold text-red-600 uppercase tracking-wider flex items-center gap-1'>
-            <XCircle size={12} /> {t('disbursal.failedCount')}
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#EF4444] uppercase tracking-wider flex items-center gap-1'>
+            <XCircle size={13} /> {t('disbursal.failedCount')}
           </p>
-          <p className='text-2xl font-bold text-red-600 mt-1'>
+          <p className='text-2xl font-bold text-[#EF4444] mt-1'>
             {stats.failedCount}
           </p>
-          <p className='text-[11px] text-slate-500 mt-0.5'>
+          <p className='text-[11px] text-[#64748B] font-mono mt-0.5'>
             ₹{stats.totalFailed.toLocaleString("en-IN")}
           </p>
         </Card>
-        <Card className='!p-4'>
-          <p className='text-xs font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#0B75A4] dark:text-[#1697C5] uppercase tracking-wider'>
             {t('disbursal.totalDisbursed')}
           </p>
-          <p className='text-2xl font-bold text-slate-900 dark:text-white mt-1'>
+          <p className='text-2xl font-bold text-[#0B75A4] dark:text-[#1697C5] mt-1 font-mono'>
             ₹{stats.totalProcessed.toLocaleString("en-IN")}
           </p>
         </Card>
       </div>
 
       {/* Filters */}
-      <div className='flex flex-wrap gap-3'>
-        <div className='flex-1 relative min-w-[200px]'>
-          <Search
-            size={16}
-            className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-400'
-          />
-          <input
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            placeholder={t('disbursal.searchPlaceholder')}
-            className='w-full pl-9 pr-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500'
-          />
-        </div>
-
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className='px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-300 outline-none'
-        >
-          <option value=''>{t('disbursal.allStatuses')}</option>
-          <option value='pending'>{t('disbursal.statusPending')}</option>
-          <option value='processed'>{t('disbursal.statusProcessed')}</option>
-          <option value='failed'>{t('disbursal.statusFailed')}</option>
-        </select>
-
-        {adminState ? (
-          <div className='px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-slate-100 dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-300 flex items-center gap-1'>
-            <MapPin size={12} className='text-slate-500' />
-            <strong>{adminState}</strong>
+      <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+        <div className='flex flex-wrap gap-3'>
+          <div className='flex-1 relative min-w-[200px]'>
+            <Search
+              size={16}
+              className='absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8]'
+            />
+            <input
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              placeholder={t('disbursal.searchPlaceholder')}
+              className='w-full pl-9 pr-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-white outline-none focus:ring-2 focus:ring-[#0B75A4] focus:border-[#0B75A4]'
+            />
           </div>
-        ) : (
+
           <select
-            value={stateFilter}
-            onChange={(e) => setStateFilter(e.target.value)}
-            className='px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-300 outline-none'
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className='px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-300 outline-none focus:ring-2 focus:ring-[#0B75A4]'
           >
-            <option value=''>{t('screening.allStates')}</option>
-            {uniqueStates.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
+            <option value=''>{t('disbursal.allStatuses')}</option>
+            <option value='pending'>{t('disbursal.statusPending')}</option>
+            <option value='processed'>{t('disbursal.statusProcessed')}</option>
+            <option value='failed'>{t('disbursal.statusFailed')}</option>
           </select>
-        )}
-      </div>
+
+          {adminState ? (
+            <div className='px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-[#F8FAFC] dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-300 flex items-center gap-1.5'>
+              <MapPin size={12} className='text-[#0B75A4]' />
+              <strong className='font-semibold'>{adminState}</strong>
+            </div>
+          ) : (
+            <select
+              value={stateFilter}
+              onChange={(e) => setStateFilter(e.target.value)}
+              className='px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-300 outline-none focus:ring-2 focus:ring-[#0B75A4]'
+            >
+              <option value=''>{t('screening.allStates')}</option>
+              {uniqueStates.map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
+              ))}
+            </select>
+          )}
+        </div>
+      </Card>
 
       {/* Table */}
-      <Card padding={false}>
+      <Card padding={false} className='border-[#DEE2E6] dark:border-slate-700 shadow-xs rounded-xl overflow-hidden'>
         <div className='overflow-x-auto'>
-          <table className='w-full text-sm'>
-            <thead className='bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700'>
+          <table className='w-full text-xs'>
+            <thead className='bg-[#F8FAFC] dark:bg-slate-800/50 border-b border-[#DEE2E6] dark:border-slate-700 uppercase tracking-wider text-[#475569] dark:text-slate-400 font-semibold'>
               <tr>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
+                <th className='p-3.5 text-left'>
                   {t('disbursal.tableTxn')}
                 </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
+                <th className='p-3.5 text-left'>
                   {t('disbursal.tableStudent')}
                 </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
+                <th className='p-3.5 text-left'>
                   {t('screening.location')}
                 </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
+                <th className='p-3.5 text-left'>
                   {t('disbursal.tableAmount')}
                 </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
+                <th className='p-3.5 text-left'>
                   {t('disbursal.processingDate')}
                 </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
+                <th className='p-3.5 text-left'>
                   {t('disbursal.tableStatus')}
                 </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
+                <th className='p-3.5 text-left'>
                   {t('disbursal.tableBank')}
                 </th>
-                <th className='p-3 text-left font-medium text-slate-600 dark:text-slate-400'>
+                <th className='p-3.5 text-right'>
                   {t('disbursal.tableAction')}
                 </th>
               </tr>
             </thead>
-            <tbody className='divide-y divide-slate-100 dark:divide-slate-700'>
+            <tbody className='divide-y divide-[#DEE2E6] dark:divide-slate-800'>
               {visible.map((d) => (
                 <tr
                   key={d.id}
-                  className='hover:bg-slate-50 dark:hover:bg-slate-800/30 cursor-pointer'
+                  className='hover:bg-[#F8FAFC] dark:hover:bg-slate-800/30 cursor-pointer transition-colors'
                   onClick={() => setSelected(d)}
                 >
-                  <td className='p-3 text-xs font-mono text-slate-600 dark:text-slate-400'>
+                  <td className='p-3.5 text-xs font-mono text-[#64748B] dark:text-slate-400'>
                     {d.transactionId}
                   </td>
-                  <td className='p-3'>
-                    <p className='text-slate-900 dark:text-white'>
+                  <td className='p-3.5'>
+                    <p className='font-bold text-[#1D293D] dark:text-white'>
                       {d.studentName}
                     </p>
-                    <p className='text-[11px] font-mono text-slate-500'>
+                    <p className='text-[11px] font-mono text-[#64748B]'>
                       {d.applicationId}
                     </p>
                   </td>
-                  <td className='p-3 text-xs text-slate-600 dark:text-slate-400'>
+                  <td className='p-3.5 text-xs text-[#64748B] dark:text-slate-400 font-medium'>
                     {d.state}
                   </td>
-                  <td className='p-3 font-medium text-slate-900 dark:text-white'>
+                  <td className='p-3.5 font-bold font-mono text-[#009B68]'>
                     ₹{Number(d.amount).toLocaleString("en-IN")}
                   </td>
-                  <td className='p-3 text-slate-600 dark:text-slate-400'>
+                  <td className='p-3.5 text-[#64748B] dark:text-slate-400 font-mono'>
                     {fmtDate(d.date)}
                   </td>
-                  <td className='p-3'>
+                  <td className='p-3.5'>
                     <StatusBadge status={d.status} />
                   </td>
-                  <td className='p-3 text-xs text-slate-500 max-w-[180px] truncate'>
+                  <td className='p-3.5 text-xs text-[#64748B] max-w-[180px] truncate font-mono'>
                     {d.bankReference}
                   </td>
-                  <td className='p-3' onClick={(e) => e.stopPropagation()}>
+                  <td className='p-3.5 text-right' onClick={(e) => e.stopPropagation()}>
                     {d.status === "pending" && (
                       <Button
                         size='sm'
@@ -793,7 +800,7 @@ export const AdminDisbursal: React.FC = () => {
         {visible.length === 0 && (
           <div className='py-12'>
             <EmptyState
-              icon={<Search size={36} className='text-slate-400' />}
+              icon={<Search size={36} className='text-[#94A3B8]' />}
               title={t('auditLog.noLogs')}
               description={t('auditLog.noLogsDesc')}
             />
@@ -809,72 +816,72 @@ export const AdminDisbursal: React.FC = () => {
         size='lg'
       >
         {selected && (
-          <div className='space-y-4'>
+          <div className='space-y-4 font-sans text-[#1D293D] dark:text-slate-100'>
             {/* Amount highlight */}
-            <div className='p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-center'>
-              <p className='text-xs text-slate-500 uppercase tracking-wider'>
+            <div className='p-5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/50 border border-[#DEE2E6] dark:border-slate-700 text-center'>
+              <p className='text-xs text-[#64748B] uppercase tracking-wider font-semibold'>
                 {t('disbursal.tableAmount')}
               </p>
-              <p className='text-3xl font-bold text-slate-900 dark:text-white mt-1 font-mono'>
+              <p className='text-3xl font-bold text-[#009B68] mt-1 font-mono'>
                 ₹{selected.amount.toLocaleString("en-IN")}
               </p>
-              <div className='mt-2 flex justify-center'>
+              <div className='mt-2.5 flex justify-center'>
                 <StatusBadge status={selected.status} />
               </div>
             </div>
 
             {/* Meta grid */}
             <div className='grid grid-cols-2 md:grid-cols-3 gap-3'>
-              <div className='p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40'>
-                <p className='text-[10px] font-semibold text-slate-500 uppercase tracking-wider'>
+              <div className='p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/40 border border-[#DEE2E6] dark:border-slate-700'>
+                <p className='text-[10px] font-semibold text-[#64748B] uppercase tracking-wider'>
                   {t('disbursal.tableStudent')}
                 </p>
-                <p className='text-sm font-medium text-slate-900 dark:text-white mt-0.5'>
+                <p className='text-sm font-bold text-[#1D293D] dark:text-white mt-0.5'>
                   {selected.studentName}
                 </p>
-                <p className='text-[11px] text-slate-500 font-mono'>
+                <p className='text-[11px] text-[#64748B] font-mono mt-0.5'>
                   {selected.applicationId}
                 </p>
               </div>
-              <div className='p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40'>
-                <p className='text-[10px] font-semibold text-slate-500 uppercase tracking-wider'>
+              <div className='p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/40 border border-[#DEE2E6] dark:border-slate-700'>
+                <p className='text-[10px] font-semibold text-[#64748B] uppercase tracking-wider'>
                   {t('disbursal.tableScheme')}
                 </p>
-                <p className='text-sm font-medium text-slate-900 dark:text-white mt-0.5'>
+                <p className='text-sm font-bold text-[#1D293D] dark:text-white mt-0.5'>
                   {getLocalizedSchemeName(selected.scheme, i18n.language)}
                 </p>
               </div>
-              <div className='p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40'>
-                <p className='text-[10px] font-semibold text-slate-500 uppercase tracking-wider'>
+              <div className='p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/40 border border-[#DEE2E6] dark:border-slate-700'>
+                <p className='text-[10px] font-semibold text-[#64748B] uppercase tracking-wider'>
                   {t('screening.location')}
                 </p>
-                <p className='text-sm font-medium text-slate-900 dark:text-white mt-0.5'>
+                <p className='text-sm font-bold text-[#1D293D] dark:text-white mt-0.5'>
                   {selected.district}, {selected.state}
                 </p>
               </div>
             </div>
 
             {/* Bank details */}
-            <div className='p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700'>
-              <p className='text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 flex items-center gap-1'>
-                <Landmark size={12} /> {t('disbursal.tableBank')}
+            <div className='p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/40 border border-[#DEE2E6] dark:border-slate-700'>
+              <p className='text-xs font-bold text-[#1D293D] dark:text-white uppercase tracking-wider mb-2.5 flex items-center gap-1.5'>
+                <Landmark size={15} className='text-[#0B75A4]' /> {t('disbursal.tableBank')}
               </p>
               <div className='grid grid-cols-2 gap-2 text-xs'>
                 <div>
-                  <span className='text-slate-500'>Bank:</span>{" "}
-                  <span className='font-medium text-slate-900 dark:text-white'>
+                  <span className='text-[#64748B]'>Bank:</span>{" "}
+                  <span className='font-bold text-[#1D293D] dark:text-white'>
                     {selected.bankName}
                   </span>
                 </div>
                 <div>
-                  <span className='text-slate-500'>A/C:</span>{" "}
-                  <span className='font-medium font-mono text-slate-900 dark:text-white'>
+                  <span className='text-[#64748B]'>A/C:</span>{" "}
+                  <span className='font-bold font-mono text-[#1D293D] dark:text-white'>
                     ••••{selected.accountLast4}
                   </span>
                 </div>
                 <div className='col-span-2'>
-                  <span className='text-slate-500'>Reference:</span>{" "}
-                  <span className='font-mono text-slate-900 dark:text-white'>
+                  <span className='text-[#64748B]'>Reference:</span>{" "}
+                  <span className='font-mono font-medium text-[#1D293D] dark:text-white'>
                     {selected.bankReference}
                   </span>
                 </div>
@@ -883,20 +890,20 @@ export const AdminDisbursal: React.FC = () => {
 
             {/* Timestamps */}
             <div className='grid grid-cols-2 gap-3 text-xs'>
-              <div className='p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40'>
-                <p className='text-[10px] font-semibold text-slate-500 uppercase tracking-wider'>
+              <div className='p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/40 border border-[#DEE2E6] dark:border-slate-700'>
+                <p className='text-[10px] font-semibold text-[#64748B] uppercase tracking-wider'>
                   {t('disbursal.processingDate')}
                 </p>
-                <p className='text-slate-900 dark:text-white mt-0.5'>
+                <p className='text-[#1D293D] dark:text-white font-mono mt-0.5'>
                   {fmtDate(selected.date)}
                 </p>
               </div>
               {selected.processedAt && (
-                <div className='p-3 rounded-lg bg-emerald-50 dark:bg-emerald-900/20'>
-                  <p className='text-[10px] font-semibold text-emerald-600 uppercase tracking-wider'>
+                <div className='p-3.5 rounded-xl bg-[#009B68]/10 dark:bg-emerald-950/20 border border-[#009B68]/20 dark:border-emerald-800'>
+                  <p className='text-[10px] font-bold text-[#009B68] dark:text-emerald-400 uppercase tracking-wider'>
                     {t('disbursal.processedCount')}
                   </p>
-                  <p className='text-emerald-700 dark:text-emerald-300 mt-0.5'>
+                  <p className='text-[#009B68] dark:text-emerald-300 font-mono mt-0.5'>
                     {fmtDateTime(selected.processedAt)}
                   </p>
                 </div>
@@ -905,18 +912,18 @@ export const AdminDisbursal: React.FC = () => {
 
             {/* Failure reason */}
             {selected.failureReason && (
-              <div className='p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800'>
-                <p className='text-xs font-semibold text-red-700 dark:text-red-300 flex items-center gap-1'>
-                  <AlertTriangle size={12} /> {t('disbursal.statusFailed')}
+              <div className='p-3.5 rounded-xl bg-red-50/80 dark:bg-red-950/20 border border-red-200 dark:border-red-800/60'>
+                <p className='text-xs font-bold text-[#EF4444] flex items-center gap-1.5'>
+                  <AlertTriangle size={14} /> {t('disbursal.statusFailed')}
                 </p>
-                <p className='text-sm text-red-800 dark:text-red-200 mt-1'>
+                <p className='text-sm text-[#1D293D] dark:text-red-200 mt-1'>
                   {selected.failureReason}
                 </p>
               </div>
             )}
 
             {/* Actions */}
-            <div className='flex flex-wrap gap-2 pt-2 border-t border-slate-200 dark:border-slate-700 justify-end'>
+            <div className='flex flex-wrap gap-2.5 pt-3 border-t border-[#DEE2E6] dark:border-slate-700 justify-end'>
               {selected.status === "pending" && (
                 <>
                   <Button
@@ -952,8 +959,8 @@ export const AdminDisbursal: React.FC = () => {
                 </Button>
               )}
               {selected.status === "processed" && (
-                <p className='text-xs text-emerald-600 flex items-center gap-1'>
-                  <CheckCircle2 size={12} /> {t('disbursal.disbursalCleared')}
+                <p className='text-xs text-[#009B68] font-bold flex items-center gap-1.5'>
+                  <CheckCircle2 size={15} /> {t('disbursal.disbursalCleared')}
                 </p>
               )}
             </div>
@@ -969,27 +976,27 @@ export const AdminDisbursal: React.FC = () => {
         size='lg'
       >
         {audit.length === 0 ? (
-          <p className='text-sm text-slate-500 italic'>No actions yet.</p>
+          <p className='text-sm text-[#94A3B8] italic'>No actions yet.</p>
         ) : (
-          <div className='space-y-2 max-h-[60vh] overflow-y-auto'>
+          <div className='space-y-2 max-h-[60vh] overflow-y-auto font-sans text-[#1D293D] dark:text-slate-100'>
             {audit.map((e) => (
               <div
                 key={e.id}
-                className='p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700'
+                className='p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/50 border border-[#DEE2E6] dark:border-slate-700'
               >
                 <div className='flex items-center justify-between gap-2'>
-                  <span className='text-xs font-semibold text-slate-800 dark:text-slate-200'>
+                  <span className='text-xs font-bold text-[#1D293D] dark:text-slate-200'>
                     {e.action}
                   </span>
-                  <span className='text-[10px] text-slate-500'>
+                  <span className='text-[10px] text-[#64748B] font-mono'>
                     {fmtDateTime(e.at)}
                   </span>
                 </div>
-                <p className='text-xs text-slate-600 dark:text-slate-400 mt-1'>
-                  {e.target} · by <strong>{e.actor}</strong>
+                <p className='text-xs text-[#64748B] dark:text-slate-400 mt-1'>
+                  {e.target} · by <strong className='text-[#1D293D] dark:text-slate-200'>{e.actor}</strong>
                 </p>
                 {e.remark && (
-                  <p className='text-[11px] text-slate-500 mt-1 italic'>
+                  <p className='text-[11px] text-[#64748B] mt-1 italic'>
                     "{e.remark}"
                   </p>
                 )}

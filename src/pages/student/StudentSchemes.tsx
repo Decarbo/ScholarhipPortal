@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Card, Button, Skeleton, Modal } from "../../components/ui";
 import { schemes, students } from "../../mock/data";
 import { checkEligibility } from "../../services/api";
-import { AlertTriangle, CheckCircle, ChevronRight } from "lucide-react";
+import { AlertTriangle, CheckCircle, ChevronRight, BookOpen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { Scheme } from "../../mock/data";
 import { getLocalizedScheme } from "../../utils/localizedData";
@@ -41,22 +41,29 @@ export const StudentSchemes: React.FC = () => {
     return (
       <div className="p-6 max-w-7xl mx-auto space-y-4 font-sans">
         {[1, 2, 3].map((i) => (
-          <Skeleton key={i} className="h-48 rounded-md" />
+          <Skeleton key={i} className="h-48 rounded-xl" />
         ))}
       </div>
     );
   }
 
   return (
-    <div className="p-4 md:p-8 space-y-6 max-w-7xl mx-auto font-sans text-[#1B2434] dark:text-slate-100">
+    <div className="p-4 md:p-8 space-y-6 max-w-7xl mx-auto font-sans text-[#1D293D] dark:text-slate-100 animate-fade-in">
       {/* Header section */}
-      <div className="pb-4 border-b border-[#1B2434]/10 dark:border-slate-800">
-        <h1 className="font-serif text-[28px] md:text-[34px] text-[#1B2434] dark:text-white leading-tight">
-          {t("schemes.title")}
-        </h1>
-        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-          {t("schemes.subtitle")}
-        </p>
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[#DEE2E6] dark:border-slate-800 pb-5">
+        <div className="flex items-start gap-3">
+          <div className="p-2.5 rounded-xl bg-[#E6F1F5] dark:bg-[#0B75A4]/20 text-[#0B75A4] dark:text-[#1697C5] shrink-0 mt-0.5">
+            <BookOpen size={24} />
+          </div>
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold text-[#1D293D] dark:text-white leading-tight">
+              {t("schemes.title")}
+            </h1>
+            <p className="text-sm text-[#64748B] dark:text-slate-400 mt-1">
+              {t("schemes.subtitle")}
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Schemes Grid */}
@@ -66,40 +73,40 @@ export const StudentSchemes: React.FC = () => {
           return (
             <Card
               key={scheme.id}
-              className="border border-[#1B2434]/10 dark:border-slate-800 rounded-md shadow-none transition-colors hover:border-[#9A7B2F] dark:hover:border-amber-400 group p-5 md:p-6 flex flex-col justify-between bg-white dark:bg-[#0F1622]"
+              className="border border-[#DEE2E6] dark:border-slate-800 rounded-xl shadow-xs transition-all hover:border-[#0B75A4] hover:shadow-md group p-5 md:p-6 flex flex-col justify-between bg-white dark:bg-slate-900"
             >
               <div className="space-y-4">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <span className="text-[13px] text-[#9A7B2F] dark:text-amber-400 font-medium">
+                    <span className="text-xs font-bold text-[#0B75A4] dark:text-[#1697C5] uppercase tracking-wider">
                       {scheme.name}
                     </span>
-                    <h2 className="font-serif text-lg text-[#1B2434] dark:text-white mt-0.5">
+                    <h2 className="text-lg font-bold text-[#1D293D] dark:text-white mt-1">
                       {scheme.fullName}
                     </h2>
                   </div>
                   <div className="text-right shrink-0">
-                    <p className="font-serif text-2xl text-[#1B2434] dark:text-white">
+                    <p className="text-2xl font-bold text-[#1D293D] dark:text-white">
                       ₹{scheme.amount.toLocaleString("en-IN")}
                     </p>
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                    <p className="text-[11px] text-[#64748B] dark:text-slate-400">
                       {t("schemes.perYear")}
                     </p>
                   </div>
                 </div>
 
-                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-2">
+                <p className="text-sm text-[#64748B] dark:text-slate-400 leading-relaxed line-clamp-2">
                   {scheme.description}
                 </p>
 
-                <div className="text-[13px] text-slate-500 dark:text-slate-400 flex flex-wrap items-center gap-x-2 gap-y-1">
+                <div className="text-xs text-[#64748B] dark:text-slate-400 flex flex-wrap items-center gap-x-2 gap-y-1">
                   <span>{scheme.duration}</span>
                   <span>·</span>
                   <span>{t("schemes.deadline")}: {scheme.deadline}</span>
                   {scheme.renewable && (
                     <>
                       <span>·</span>
-                      <span className="text-[#2E6B4F] dark:text-emerald-400">
+                      <span className="text-[#009B68] dark:text-emerald-400 font-semibold">
                         {t("schemes.renewable")}
                       </span>
                     </>
@@ -107,7 +114,7 @@ export const StudentSchemes: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 mt-6 pt-4 border-t border-[#1B2434]/5 dark:border-slate-800">
+              <div className="flex items-center gap-3 mt-6 pt-4 border-t border-[#DEE2E6] dark:border-slate-800">
                 <Button
                   size="sm"
                   variant="outline"
@@ -116,7 +123,7 @@ export const StudentSchemes: React.FC = () => {
                     setEligibilityResult(null);
                     handleEligibilityCheck(scheme.id);
                   }}
-                  className="bg-transparent border-[#1B2434]/10 dark:border-slate-700 text-[#1B2434] dark:text-white group-hover:border-[#9A7B2F] dark:group-hover:border-amber-400 transition-colors"
+                  className="hover:border-[#0B75A4] hover:text-[#0B75A4]"
                 >
                   {t("schemes.checkEligibility")}
                 </Button>
@@ -125,12 +132,12 @@ export const StudentSchemes: React.FC = () => {
                   onClick={() =>
                     navigate("/student/apply", { state: { schemeId: scheme.id } })
                   }
-                  className="bg-[#1B2434] hover:bg-[#1B2434]/90 text-white dark:bg-white dark:hover:bg-slate-200 dark:text-[#0F1622] group/btn"
+                  className="group/btn"
                 >
                   {t("schemes.apply")}
                   <ChevronRight
                     size={14}
-                    className="ml-1 opacity-0 group-hover/btn:opacity-100 transition-opacity"
+                    className="ml-1 opacity-70 group-hover/btn:opacity-100 group-hover/btn:translate-x-0.5 transition-all"
                   />
                 </Button>
               </div>
@@ -149,12 +156,12 @@ export const StudentSchemes: React.FC = () => {
         {selectedScheme && (
           <div className="space-y-6">
             <div>
-              <h2 className="font-serif text-xl text-[#1B2434] dark:text-white">
+              <h2 className="text-xl font-bold text-[#1D293D] dark:text-white">
                 {selectedScheme.fullName}
               </h2>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+              <p className="text-sm text-[#64748B] dark:text-slate-400 mt-1">
                 {t("schemes.awardValue")}:{" "}
-                <span className="font-serif text-[#1B2434] dark:text-white font-medium">
+                <span className="text-[#1D293D] dark:text-white font-bold">
                   ₹{selectedScheme.amount.toLocaleString("en-IN")}
                 </span>
               </p>
@@ -162,8 +169,8 @@ export const StudentSchemes: React.FC = () => {
 
             {checkingEligibility ? (
               <div className="py-12 text-center space-y-3">
-                <div className="w-6 h-6 border-2 border-[#1B2434] dark:border-slate-300 border-t-transparent rounded-full animate-spin mx-auto" />
-                <p className="text-sm text-slate-500 dark:text-slate-400">
+                <div className="w-8 h-8 border-3 border-[#0B75A4] border-t-transparent rounded-full animate-spin mx-auto" />
+                <p className="text-sm text-[#64748B] dark:text-slate-400">
                   {t("schemes.verifyingCriteria")}
                 </p>
               </div>
@@ -171,31 +178,31 @@ export const StudentSchemes: React.FC = () => {
               <div className="space-y-6">
                 {/* Eligibility Status Alert */}
                 {eligibilityResult.eligible ? (
-                  <div className="p-4 rounded-r-md border-l-[3px] border-l-[#2E6B4F] bg-[#2E6B4F]/[0.04] dark:border-l-emerald-400 dark:bg-emerald-400/10 flex items-start gap-3">
+                  <div className="p-4 rounded-xl border border-[#009B68]/30 bg-[#009B68]/10 dark:bg-emerald-950/20 flex items-start gap-3">
                     <CheckCircle
-                      size={18}
-                      className="text-[#2E6B4F] dark:text-emerald-400 mt-0.5 shrink-0"
+                      size={20}
+                      className="text-[#009B68] dark:text-emerald-400 mt-0.5 shrink-0"
                     />
                     <div>
-                      <p className="text-sm font-medium text-[#2E6B4F] dark:text-emerald-400">
+                      <p className="text-sm font-bold text-[#009B68] dark:text-emerald-400">
                         {t("schemes.eligibleToApply")}
                       </p>
-                      <p className="text-sm text-[#1B2434]/80 dark:text-slate-300 mt-1">
+                      <p className="text-sm text-[#1D293D]/90 dark:text-slate-300 mt-1">
                         {t("schemes.eligibleDesc")}
                       </p>
                     </div>
                   </div>
                 ) : (
-                  <div className="p-4 rounded-r-md border-l-[3px] border-l-[#B4472A] bg-[#B4472A]/[0.04] dark:border-l-red-500 dark:bg-red-500/10 flex items-start gap-3">
+                  <div className="p-4 rounded-xl border border-[#EF4444]/30 bg-[#EF4444]/10 dark:bg-red-950/20 flex items-start gap-3">
                     <AlertTriangle
-                      size={18}
-                      className="text-[#B4472A] dark:text-red-400 mt-0.5 shrink-0"
+                      size={20}
+                      className="text-[#EF4444] dark:text-red-400 mt-0.5 shrink-0"
                     />
                     <div>
-                      <p className="text-sm font-medium text-[#B4472A] dark:text-red-400">
+                      <p className="text-sm font-bold text-[#EF4444] dark:text-red-400">
                         {t("schemes.ineligibleTitle")}
                       </p>
-                      <p className="text-sm text-[#1B2434]/80 dark:text-slate-300 mt-1">
+                      <p className="text-sm text-[#1D293D]/90 dark:text-slate-300 mt-1">
                         {t("schemes.ineligibleDesc")}
                       </p>
                     </div>
@@ -205,19 +212,19 @@ export const StudentSchemes: React.FC = () => {
                 {/* Verified Requirements */}
                 {eligibilityResult.passedChecks.length > 0 && (
                   <div className="space-y-2">
-                    <p className="text-[13px] text-slate-500 dark:text-slate-400">
+                    <p className="text-xs font-semibold text-[#64748B] dark:text-slate-400 uppercase tracking-wider">
                       {t("schemes.verifiedReqs")}
                     </p>
-                    <div className="border border-[#1B2434]/10 dark:border-slate-800 rounded-md divide-y divide-[#1B2434]/10 dark:divide-slate-800 overflow-hidden">
+                    <div className="border border-[#DEE2E6] dark:border-slate-800 rounded-xl divide-y divide-[#DEE2E6] dark:divide-slate-800 overflow-hidden">
                       {eligibilityResult.passedChecks.map((check, i) => (
                         <div
                           key={i}
-                          className="flex items-center gap-3 p-3 text-sm text-[#1B2434] dark:text-slate-200 bg-white dark:bg-[#0F1622]"
+                          className="flex items-center gap-3 p-3.5 text-sm text-[#1D293D] dark:text-slate-200 bg-white dark:bg-slate-900"
                         >
-                          <div className="w-5 h-5 rounded-md bg-[#2E6B4F]/[0.10] dark:bg-emerald-400/20 flex items-center justify-center shrink-0">
+                          <div className="w-5 h-5 rounded-full bg-[#009B68]/15 dark:bg-emerald-400/20 flex items-center justify-center shrink-0">
                             <CheckCircle
-                              size={12}
-                              className="text-[#2E6B4F] dark:text-emerald-400"
+                              size={13}
+                              className="text-[#009B68] dark:text-emerald-400"
                             />
                           </div>
                           <span>{check}</span>
@@ -230,19 +237,19 @@ export const StudentSchemes: React.FC = () => {
                 {/* Unmet Requirements */}
                 {eligibilityResult.failedChecks.length > 0 && (
                   <div className="space-y-2">
-                    <p className="text-[13px] text-slate-500 dark:text-slate-400">
+                    <p className="text-xs font-semibold text-[#64748B] dark:text-slate-400 uppercase tracking-wider">
                       {t("schemes.unmetReqs")}
                     </p>
-                    <div className="border border-[#1B2434]/10 dark:border-slate-800 rounded-md divide-y divide-[#1B2434]/10 dark:divide-slate-800 overflow-hidden">
+                    <div className="border border-[#DEE2E6] dark:border-slate-800 rounded-xl divide-y divide-[#DEE2E6] dark:divide-slate-800 overflow-hidden">
                       {eligibilityResult.failedChecks.map((check, i) => (
                         <div
                           key={i}
-                          className="flex items-center gap-3 p-3 text-sm text-[#1B2434] dark:text-slate-200 bg-white dark:bg-[#0F1622]"
+                          className="flex items-center gap-3 p-3.5 text-sm text-[#1D293D] dark:text-slate-200 bg-white dark:bg-slate-900"
                         >
-                          <div className="w-5 h-5 rounded-md bg-[#B4472A]/[0.10] dark:bg-red-500/20 flex items-center justify-center shrink-0">
+                          <div className="w-5 h-5 rounded-full bg-[#EF4444]/15 dark:bg-red-500/20 flex items-center justify-center shrink-0">
                             <AlertTriangle
-                              size={12}
-                              className="text-[#B4472A] dark:text-red-400"
+                              size={13}
+                              className="text-[#EF4444] dark:text-red-400"
                             />
                           </div>
                           <span>{check}</span>
@@ -255,7 +262,7 @@ export const StudentSchemes: React.FC = () => {
                 {/* Action Button */}
                 {eligibilityResult.eligible && (
                   <Button
-                    className="w-full bg-[#1B2434] hover:bg-[#1B2434]/90 text-white dark:bg-white dark:hover:bg-slate-200 dark:text-[#0F1622]"
+                    className="w-full"
                     onClick={() => {
                       setSelectedScheme(null);
                       navigate("/student/apply", {
@@ -274,3 +281,5 @@ export const StudentSchemes: React.FC = () => {
     </div>
   );
 };
+
+export default StudentSchemes;

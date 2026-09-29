@@ -182,6 +182,7 @@ interface AuthState {
     email: string;
     password: string;
     state?: string;
+    [key: string]: any;
   }) => Promise<void>;
   logout: () => void;
   initAuth: () => void;
@@ -360,6 +361,7 @@ interface AppState {
   theme: Theme;
   language: Language;
   sidebarOpen: boolean;
+  mobileSidebarOpen: boolean;
   toasts: Array<{
     id: string;
     type: "success" | "error" | "info" | "warning";
@@ -369,6 +371,9 @@ interface AppState {
   setTheme: (theme: Theme) => void;
   setLanguage: (lang: Language) => void;
   toggleSidebar: () => void;
+  setSidebarOpen: (open: boolean) => void;
+  toggleMobileSidebar: () => void;
+  setMobileSidebarOpen: (open: boolean) => void;
   addToast: (
     type: "success" | "error" | "info" | "warning",
     message: string,
@@ -384,11 +389,15 @@ export const useAppStore = create<AppState>((set) => {
   };
   const initialTheme = (localStorage.getItem("theme") as Theme) || "light";
   applyTheme(initialTheme);
+  const initialSidebar = typeof localStorage !== 'undefined' && localStorage.getItem("sidebar_open") !== null
+    ? localStorage.getItem("sidebar_open") !== "false"
+    : true;
 
   return {
     theme: initialTheme,
     language: (localStorage.getItem("app_language") as Language) || "en",
-    sidebarOpen: true,
+    sidebarOpen: initialSidebar,
+    mobileSidebarOpen: false,
     toasts: [],
     toggleTheme: () =>
       set((state) => {
@@ -404,7 +413,23 @@ export const useAppStore = create<AppState>((set) => {
       i18next.changeLanguage(lang);
       set({ language: lang });
     },
-    toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
+    toggleSidebar: () =>
+      set((state) => {
+        const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+        if (isMobile) {
+          return { mobileSidebarOpen: !state.mobileSidebarOpen };
+        }
+        const next = !state.sidebarOpen;
+        localStorage.setItem("sidebar_open", String(next));
+        return { sidebarOpen: next };
+      }),
+    setSidebarOpen: (open) => {
+      localStorage.setItem("sidebar_open", String(open));
+      set({ sidebarOpen: open });
+    },
+    toggleMobileSidebar: () =>
+      set((state) => ({ mobileSidebarOpen: !state.mobileSidebarOpen })),
+    setMobileSidebarOpen: (open) => set({ mobileSidebarOpen: open }),
     addToast: (type, message) => {
       const id = Date.now().toString() + Math.random().toString(36).slice(2, 6);
       set((state) => ({ toasts: [...state.toasts, { id, type, message }] }));

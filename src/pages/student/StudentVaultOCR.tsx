@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from 'react-i18next';
-import { Card, Badge, EmptyState } from "../../components/ui";
+import { Card, Badge, EmptyState, Button } from "../../components/ui";
 import { useAppStore } from "../../store";
 import {
   FileText,
@@ -15,7 +15,9 @@ import {
   Save,
   X,
   AlertTriangle,
-  FolderDot
+  FolderDot,
+  CheckCircle2,
+  Sparkles
 } from "lucide-react";
 
 const ACCEPTED = ".jpg,.jpeg,.png,.webp,.pdf";
@@ -98,10 +100,6 @@ const StudentVaultOCR: React.FC = () => {
   const { t: tc } = useTranslation('common');
   const processingRef = useRef<Set<string>>(new Set());
 
-  // Shared classes
-  const btnPrimary = "bg-[#1B2434] hover:bg-[#1B2434]/90 text-white dark:bg-white dark:hover:bg-slate-200 dark:text-[#0F1622] transition-colors rounded-md";
-  const btnOutline = "bg-transparent border border-[#1B2434]/15 dark:border-slate-700 text-[#1B2434] dark:text-slate-200 hover:bg-[#1B2434]/5 dark:hover:bg-slate-800 transition-colors rounded-md";
-
   /* ---------- Load ---------- */
   useEffect(() => {
     try {
@@ -150,7 +148,7 @@ const StudentVaultOCR: React.FC = () => {
     setModalOpen(true);
 
     const template = OCR_TEMPLATES[Math.floor(Math.random() * OCR_TEMPLATES.length)];
-    const score = Math.floor(85 + Math.random() * 14);
+    const score = Math.floor(88 + Math.random() * 11);
 
     setTimeout(() => {
       setDocs((prev) =>
@@ -203,7 +201,7 @@ const StudentVaultOCR: React.FC = () => {
       if (processingRef.current.has(d.id)) return;
       processingRef.current.add(d.id);
       const template = OCR_TEMPLATES[Math.floor(Math.random() * OCR_TEMPLATES.length)];
-      const score = Math.floor(85 + Math.random() * 14);
+      const score = Math.floor(88 + Math.random() * 11);
       setTimeout(() => {
         setDocs((prev) =>
           prev.map((x) =>
@@ -274,36 +272,39 @@ const StudentVaultOCR: React.FC = () => {
   const modalDoc = docs.find((d) => d.id === modalDocId) || null;
 
   return (
-    <div className="p-4 md:p-8 space-y-8 max-w-5xl mx-auto font-sans text-[#1B2434] dark:text-slate-100 animate-fade-in">
+    <div className="p-4 md:p-6 lg:p-8 space-y-6 max-w-5xl mx-auto font-sans text-[#1D293D] dark:text-slate-100 animate-fade-in">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[#1B2434]/10 dark:border-slate-800 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#DEE2E6] dark:border-slate-800 pb-5">
         <div className="flex items-start gap-3">
-          <FolderOpen size={32} className="text-[#1B2434] dark:text-slate-300 shrink-0 mt-1" />
+          <div className="p-2 rounded-xl bg-[#E6F1F5] dark:bg-[#0B75A4]/20 text-[#0B75A4] dark:text-[#7EC5E2] shrink-0 mt-0.5">
+            <FolderOpen size={24} />
+          </div>
           <div>
-            <h1 className="font-serif text-[28px] md:text-[34px] text-[#1B2434] dark:text-white leading-tight">
+            <h1 className="text-2xl font-bold text-[#1D293D] dark:text-white leading-tight">
               {t('documents.ocrTitle')}
             </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-sm text-[#64748B] dark:text-slate-400 mt-0.5">
               {t('documents.ocrSubtitle')}
             </p>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="border-[#1B2434]/15 text-slate-500 text-[11px] font-mono uppercase tracking-wider">
+          <Badge variant="outline" className="border-[#DEE2E6] text-[#64748B] text-xs">
             {t('tracker.frontendOnly')}
           </Badge>
-          <button
+          <Button
+            variant="secondary"
+            size="sm"
             onClick={handleReset}
-            className="p-2 rounded-md border border-[#1B2434]/15 text-[#1B2434] hover:bg-[#1B2434]/5 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors"
-            aria-label="Clear vault"
+            icon={<RefreshCw size={14} />}
             title="Clear vault"
           >
-            <RefreshCw size={16} />
-          </button>
+            Clear Vault
+          </Button>
         </div>
       </div>
 
-      {/* Dropzone */}
+      {/* Standardized Upload Area */}
       <div
         onDragOver={(e) => {
           e.preventDefault();
@@ -316,12 +317,13 @@ const StudentVaultOCR: React.FC = () => {
           handleUpload(e.dataTransfer.files);
         }}
         onClick={() => inputRef.current?.click()}
-        className={`border border-dashed rounded-md p-8 text-center cursor-pointer transition-colors ${
+        className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-200 ${
           dragActive
-            ? "border-[#1B2434] bg-[#1B2434]/[0.03] dark:border-slate-400 dark:bg-slate-800/40"
-            : "border-[#1B2434]/20 dark:border-slate-700 hover:border-[#1B2434]/40 hover:bg-[#1B2434]/[0.02]"
+            ? "border-[#0B75A4] bg-[#E6F1F5] dark:bg-[#0B75A4]/20"
+            : "border-[#CBD5E1] bg-white dark:bg-slate-800 hover:border-[#0B75A4] hover:bg-[#F8FAFC] dark:hover:bg-slate-800/80"
         }`}
         role="button"
+        tabIndex={0}
       >
         <input
           ref={inputRef}
@@ -332,66 +334,73 @@ const StudentVaultOCR: React.FC = () => {
           onChange={(e) => handleUpload(e.target.files)}
         />
         <div className="flex flex-col items-center gap-2">
-          <Upload size={24} className="text-[#1B2434] dark:text-slate-400" />
-          <p className="text-sm font-medium text-[#1B2434] dark:text-slate-200 mt-2">
+          <div className="w-12 h-12 rounded-full bg-[#E6F1F5] dark:bg-[#0B75A4]/20 flex items-center justify-center text-[#0B75A4] dark:text-[#7EC5E2]">
+            <Upload size={22} />
+          </div>
+          <p className="text-sm font-semibold text-[#1D293D] dark:text-slate-200 mt-1">
             {t('documents.dragDropBrowse')}
           </p>
-          <p className="text-[13px] text-slate-500">
+          <p className="text-xs text-[#94A3B8]">
             {t('documents.fileSpecs')}
           </p>
         </div>
       </div>
 
-      {/* List */}
+      {/* Documents List */}
       {docs.length === 0 ? (
         <EmptyState
-          icon={<FolderDot size={40} className="text-[#1B2434]/40 dark:text-slate-600" />}
+          icon={<FolderDot size={36} className="text-[#94A3B8]" />}
           title={t('documents.emptyVault')}
           description={t('documents.emptyVaultDesc')}
         />
       ) : (
         <div className="space-y-4">
-          <h2 className="font-serif text-lg text-[#1B2434] dark:text-white px-1">
-            {t('documents.processedRecords', { count: docs.length })}
-          </h2>
+          <div className="flex items-center justify-between px-1">
+            <h2 className="text-base font-semibold text-[#1D293D] dark:text-white">
+              {t('documents.processedRecords', { count: docs.length })}
+            </h2>
+            <span className="text-xs text-[#64748B]">Showing verified and pending OCR scans</span>
+          </div>
+
           {docs.map((doc) => (
-            <Card key={doc.id} className="border border-[#1B2434]/10 dark:border-slate-800 rounded-md shadow-none bg-white dark:bg-[#0F1622] p-5">
-              <div className="flex items-start gap-5">
+            <Card key={doc.id} className="border border-[#DEE2E6] dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800 p-5 shadow-xs">
+              <div className="flex items-start gap-4 sm:gap-5 flex-col sm:flex-row">
                 {/* Preview thumb */}
-                <div className="w-24 h-32 shrink-0 rounded-md overflow-hidden border border-[#1B2434]/15 dark:border-slate-700 bg-slate-50 dark:bg-[#0F1622] flex items-center justify-center">
+                <div className="w-24 h-28 shrink-0 rounded-lg overflow-hidden border border-[#DEE2E6] dark:border-slate-700 bg-[#F8FAFC] dark:bg-slate-900 flex items-center justify-center">
                   {doc.previewUrl ? (
                     <img src={doc.previewUrl} alt={doc.name} className="w-full h-full object-cover" />
                   ) : (
-                    <FileText size={28} className="text-slate-300" />
+                    <FileText size={28} className="text-[#94A3B8]" />
                   )}
                 </div>
 
                 {/* Info + text below */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-4 flex-wrap">
-                    <div className="min-w-0 space-y-1.5">
-                      <p className="font-serif text-lg text-[#1B2434] dark:text-white truncate">
+                <div className="flex-1 min-w-0 w-full">
+                  <div className="flex items-start justify-between gap-3 flex-wrap">
+                    <div className="min-w-0 space-y-1">
+                      <p className="text-base font-semibold text-[#1D293D] dark:text-white truncate">
                         {doc.name}
                       </p>
-                      <div className="flex items-center gap-2 flex-wrap">
+                      <div className="flex items-center gap-2 flex-wrap text-xs">
                         {doc.status === "processing" && (
-                          <Badge variant="outline" className="border-[#1B2434]/20 bg-[#1B2434]/[0.04] text-[#1B2434] dark:border-slate-500/30 dark:bg-slate-800/40 dark:text-slate-300 text-[11px] font-mono uppercase tracking-wider">
+                          <Badge variant="warning" className="text-xs">
                             {t('documents.scanning')}
                           </Badge>
                         )}
                         {doc.status === "review" && (
-                          <Badge variant="outline" className="border-[#B4472A]/30 bg-[#B4472A]/[0.04] text-[#B4472A] dark:border-red-500/30 dark:bg-red-500/10 dark:text-red-400 text-[11px] font-mono uppercase tracking-wider">
+                          <Badge variant="warning" className="text-xs">
                             {t('documents.reviewPending')}
                           </Badge>
                         )}
                         {doc.status === "saved" && (
-                          <Badge variant="outline" className="border-[#2E6B4F]/20 bg-[#2E6B4F]/[0.04] text-[#2E6B4F] dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-400 text-[11px] font-mono uppercase tracking-wider">
+                          <Badge variant="success" className="text-xs">
                             {doc.edited ? t('documents.savedEdited') : t('documents.savedRecord')}
                           </Badge>
                         )}
                         {doc.aiScore > 0 && (
-                          <span className="text-[13px] text-slate-500 flex items-center gap-1">
-                            · {t('documents.aiConfidence', { score: doc.aiScore })}
+                          <span className="text-xs text-[#009B68] font-semibold flex items-center gap-1">
+                            <CheckCircle2 size={13} />
+                            OCR Confidence: {doc.aiScore}% · Match: 100%
                           </span>
                         )}
                       </div>
@@ -399,51 +408,66 @@ const StudentVaultOCR: React.FC = () => {
 
                     <div className="flex items-center gap-2 shrink-0">
                       {doc.status === "review" && (
-                        <button
+                        <Button
+                          size="sm"
+                          variant="primary"
                           onClick={() => handleEditAgain(doc.id)}
-                          className={`px-3 py-1.5 text-[13px] font-medium flex items-center gap-1.5 ${btnPrimary}`}
+                          icon={<Pencil size={13} />}
                         >
-                          <Pencil size={14} /> {t('documents.reviewOcr')}
-                        </button>
+                          {t('documents.reviewOcr')}
+                        </Button>
                       )}
                       {doc.status === "saved" && (
-                        <button
+                        <Button
+                          size="sm"
+                          variant="secondary"
                           onClick={() => handleEditAgain(doc.id)}
-                          className={`p-1.5 ${btnOutline}`}
-                          title="Edit text"
+                          icon={<Pencil size={13} />}
                         >
-                          <Pencil size={14} />
-                        </button>
+                          Edit
+                        </Button>
                       )}
                       <button
                         onClick={() => handleDelete(doc.id)}
-                        className="p-1.5 rounded-md border border-transparent hover:border-[#B4472A]/30 hover:bg-[#B4472A]/[0.04] text-[#B4472A] transition-colors"
+                        className="p-2 rounded-lg text-[#64748B] hover:text-[#EF4444] hover:bg-[#FEE2E2] dark:hover:bg-red-950/40 transition-colors cursor-pointer"
                         title={t('documents.deleteRecord')}
                       >
-                        <Trash2 size={14} />
+                        <Trash2 size={15} />
                       </button>
                     </div>
                   </div>
 
+                  {/* Document information cells - Standard #F8FAFC background */}
+                  {doc.fields && doc.fields.length > 0 && (
+                    <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2 bg-[#F8FAFC] dark:bg-slate-900/60 p-3 rounded-lg border border-[#F1F5F9] dark:border-slate-800">
+                      {doc.fields.slice(0, 4).map((f, idx) => (
+                        <div key={idx} className="min-w-0">
+                          <p className="text-[10px] font-semibold text-[#64748B] dark:text-slate-400 uppercase tracking-wider truncate">{f.label}</p>
+                          <p className="text-xs font-medium text-[#1D293D] dark:text-slate-200 truncate mt-0.5">{f.value}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
                   {/* OCR text below the doc */}
                   {doc.status === "processing" ? (
-                    <div className="mt-4 rounded-md border border-[#1B2434]/10 bg-[#1B2434]/[0.02] dark:border-slate-800 p-4 flex items-center gap-3 text-sm text-slate-500">
-                      <Loader2 size={16} className="animate-spin text-[#1B2434] dark:text-slate-400" />
+                    <div className="mt-3 rounded-lg border border-[#DEE2E6] bg-[#F8FAFC] dark:bg-slate-900/60 dark:border-slate-800 p-3.5 flex items-center gap-2.5 text-xs text-[#64748B]">
+                      <Loader2 size={15} className="animate-spin text-[#0B75A4]" />
                       {t('documents.parsing')}
                     </div>
                   ) : doc.extractedText ? (
-                    <div className="mt-4">
-                      <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-[11px] font-mono uppercase tracking-wider text-slate-500">
+                    <div className="mt-3">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs font-semibold uppercase tracking-wider text-[#64748B]">
                           {t('documents.extractedRecord')}
                         </span>
                         {doc.edited && (
-                          <span className="text-[11px] font-medium text-[#B4472A] dark:text-red-400 flex items-center gap-1">
+                          <span className="text-xs font-medium text-[#F59E0B] flex items-center gap-1">
                             <AlertTriangle size={12} /> {t('documents.manuallyCorrected')}
                           </span>
                         )}
                       </div>
-                      <pre className="rounded-md border border-[#1B2434]/10 dark:border-slate-800 bg-[#1B2434]/[0.01] dark:bg-slate-900/50 p-4 text-[13px] leading-relaxed text-[#1B2434] dark:text-slate-300 whitespace-pre-wrap font-mono max-h-48 overflow-auto">
+                      <pre className="rounded-lg border border-[#DEE2E6] dark:border-slate-800 bg-[#F8FAFC] dark:bg-slate-900/60 p-3 text-xs leading-relaxed text-[#1D293D] dark:text-slate-300 whitespace-pre-wrap font-mono max-h-36 overflow-auto">
                         {doc.extractedText}
                       </pre>
                     </div>
@@ -455,16 +479,18 @@ const StudentVaultOCR: React.FC = () => {
         </div>
       )}
 
-      {/* ---------- OCR MODAL ---------- */}
+      {/* Standardized OCR Modal */}
       {modalOpen && modalDoc && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1B2434]/40 backdrop-blur-sm">
-          <div className="bg-white dark:bg-[#0F1622] rounded-md border border-[#1B2434]/15 shadow-sm w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+          <div className="bg-white dark:bg-slate-900 rounded-xl border border-[#DEE2E6] dark:border-slate-800 shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col animate-fade-in">
             {/* Modal header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-[#1B2434]/10 dark:border-slate-800">
-              <div className="flex items-center gap-3">
-                <ScanLine size={20} className="text-[#1B2434] dark:text-white" />
-                <h2 className="font-serif text-lg text-[#1B2434] dark:text-white">
-                  {modalPhase === "scanning" ? "Processing Document" : "Review Extracted Record"}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-[#DEE2E6] dark:border-slate-800">
+              <div className="flex items-center gap-2.5">
+                <div className="p-1.5 rounded-lg bg-[#E6F1F5] dark:bg-[#0B75A4]/20 text-[#0B75A4] dark:text-[#7EC5E2]">
+                  <ScanLine size={18} />
+                </div>
+                <h2 className="text-base font-semibold text-[#1D293D] dark:text-white">
+                  {modalPhase === "scanning" ? "Analyzing Document OCR" : "Review Extracted Record"}
                 </h2>
               </div>
               <button
@@ -472,7 +498,7 @@ const StudentVaultOCR: React.FC = () => {
                   setModalOpen(false);
                   setModalDocId(null);
                 }}
-                className="p-1.5 rounded-md hover:bg-[#1B2434]/5 dark:hover:bg-slate-800 text-slate-500 transition-colors"
+                className="p-1.5 rounded-lg hover:bg-[#F8FAFC] dark:hover:bg-slate-800 text-[#64748B] hover:text-[#1D293D] transition-colors cursor-pointer"
                 aria-label="Close"
               >
                 <X size={18} />
@@ -480,28 +506,28 @@ const StudentVaultOCR: React.FC = () => {
             </div>
 
             {/* Modal body */}
-            <div className="flex-1 overflow-auto p-6 bg-[#1B2434]/[0.01] dark:bg-transparent">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="flex-1 overflow-auto p-5 sm:p-6 bg-[#F8F8F8] dark:bg-slate-900/50">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                 {/* Preview */}
                 <div className="flex flex-col">
-                  <p className="text-[11px] font-mono font-semibold text-slate-500 mb-2 uppercase tracking-wider">
+                  <p className="text-xs font-semibold text-[#475569] dark:text-slate-400 mb-2 uppercase tracking-wider">
                     Source Document
                   </p>
-                  <div className="relative flex-1 rounded-md overflow-hidden border border-[#1B2434]/15 dark:border-slate-700 bg-white dark:bg-[#0F1622] min-h-[300px]">
+                  <div className="relative flex-1 rounded-xl overflow-hidden border border-[#DEE2E6] dark:border-slate-700 bg-white dark:bg-slate-800 min-h-[280px]">
                     {modalDoc.previewUrl ? (
                       <img src={modalDoc.previewUrl} alt={modalDoc.name} className="w-full h-full object-contain" />
                     ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center text-slate-400 gap-3 p-4">
-                        <FileText size={48} className="opacity-50" />
-                        <p className="text-sm font-mono text-center break-all">
+                      <div className="w-full h-full flex flex-col items-center justify-center text-[#94A3B8] gap-2.5 p-4">
+                        <FileText size={44} className="opacity-40" />
+                        <p className="text-xs font-mono text-center break-all">
                           {modalDoc.name}
                         </p>
                       </div>
                     )}
                     {modalPhase === "scanning" && (
                       <>
-                        <div className="absolute inset-0 bg-[#1B2434]/[0.03]" />
-                        <div className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#1B2434] to-transparent shadow-[0_0_15px_3px_rgba(27,36,52,0.3)] dark:via-slate-300 dark:shadow-[0_0_15px_3px_rgba(203,213,225,0.3)] animate-ocr-scan" />
+                        <div className="absolute inset-0 bg-[#0B75A4]/5" />
+                        <div className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#0B75A4] to-transparent shadow-[0_0_15px_3px_rgba(11,117,164,0.4)] animate-progress" />
                       </>
                     )}
                   </div>
@@ -509,26 +535,25 @@ const StudentVaultOCR: React.FC = () => {
 
                 {/* OCR text area */}
                 <div className="flex flex-col">
-                  <p className="text-[11px] font-mono font-semibold text-slate-500 mb-2 uppercase tracking-wider">
+                  <p className="text-xs font-semibold text-[#475569] dark:text-slate-400 mb-2 uppercase tracking-wider">
                     {modalPhase === "scanning" ? "Extraction Progress" : "Editable Output"}
                   </p>
 
                   {modalPhase === "scanning" ? (
-                    <div className="flex-1 rounded-md border border-[#1B2434]/15 dark:border-slate-700 bg-white dark:bg-[#0F1622] p-6 flex flex-col items-center justify-center gap-4">
-                      <ScanLine size={32} className="animate-pulse text-[#1B2434] dark:text-slate-400" />
-                      <p className="text-sm font-medium text-[#1B2434] dark:text-slate-300">
-                        Analyzing fields...
+                    <div className="flex-1 rounded-xl border border-[#DEE2E6] dark:border-slate-700 bg-white dark:bg-slate-800 p-6 flex flex-col items-center justify-center gap-3">
+                      <ScanLine size={32} className="animate-pulse text-[#0B75A4]" />
+                      <p className="text-sm font-semibold text-[#1D293D] dark:text-slate-200">
+                        Extracting structured data fields...
                       </p>
-                      <div className="w-full max-w-[200px] space-y-2 mt-4">
-                        {[80, 60, 90, 50, 70, 65].map((w, i) => (
+                      <p className="text-xs text-[#64748B]">Matching PAN / Aadhaar / Academic records</p>
+                      <div className="w-full max-w-[200px] space-y-2 mt-3">
+                        {[80, 60, 90, 50, 70].map((w, i) => (
                           <div
                             key={i}
-                            className="h-1.5 rounded-full bg-[#1B2434]/20 dark:bg-slate-700 animate-pulse"
-                            style={{
-                              width: `${w}%`,
-                              animationDelay: `${i * 120}ms`,
-                            }}
-                          />
+                            className="h-1.5 rounded-full bg-[#E6F1F5] dark:bg-slate-700 overflow-hidden"
+                          >
+                            <div className="h-full bg-[#0B75A4] rounded-full animate-progress" style={{ width: `${w}%` }} />
+                          </div>
                         ))}
                       </div>
                     </div>
@@ -537,7 +562,7 @@ const StudentVaultOCR: React.FC = () => {
                       value={editableText}
                       onChange={(e) => setEditableText(e.target.value)}
                       spellCheck={false}
-                      className="flex-1 min-h-[300px] rounded-md border border-[#1B2434]/15 dark:border-slate-700 bg-white dark:bg-[#0F1622] p-4 text-[13px] font-mono leading-relaxed text-[#1B2434] dark:text-slate-200 resize-none focus:outline-none focus:ring-1 focus:ring-[#1B2434] focus:border-[#1B2434] dark:focus:ring-slate-400"
+                      className="flex-1 min-h-[280px] rounded-xl border border-[#CBD5E1] dark:border-slate-700 bg-white dark:bg-slate-800 p-4 text-xs font-mono leading-relaxed text-[#1D293D] dark:text-slate-200 resize-none focus:outline-none focus:border-[#0B75A4] focus:ring-2 focus:ring-[#0B75A4]/20"
                     />
                   )}
                 </div>
@@ -546,24 +571,27 @@ const StudentVaultOCR: React.FC = () => {
 
             {/* Modal footer */}
             {modalPhase === "review" && (
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t border-[#1B2434]/10 dark:border-slate-800 bg-white dark:bg-[#0F1622]">
-                <p className="text-[13px] text-slate-500 flex items-center gap-1.5">
-                  <AlertTriangle size={14} className="text-[#B4472A]" />
-                  Amend any incorrect values before committing to vault.
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 px-6 py-3.5 border-t border-[#DEE2E6] dark:border-slate-800 bg-white dark:bg-slate-900">
+                <p className="text-xs text-[#64748B] flex items-center gap-1.5">
+                  <CheckCircle2 size={14} className="text-[#009B68]" />
+                  Verify extracted text and amend any details before saving.
                 </p>
-                <div className="flex items-center gap-3">
-                  <button
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="secondary"
+                    size="sm"
                     onClick={() => setEditableText(modalDoc.originalText)}
-                    className="px-4 py-2 rounded-md text-[13px] font-medium text-slate-600 dark:text-slate-300 hover:bg-[#1B2434]/5 dark:hover:bg-slate-800 transition-colors"
                   >
-                    Reset to original
-                  </button>
-                  <button
+                    Reset
+                  </Button>
+                  <Button
+                    variant="primary"
+                    size="sm"
                     onClick={handleSaveText}
-                    className={`px-5 py-2 text-[13px] font-medium flex items-center gap-2 ${btnPrimary}`}
+                    icon={<Save size={14} />}
                   >
-                    <Save size={14} /> Commit Record
-                  </button>
+                    Commit Record
+                  </Button>
                 </div>
               </div>
             )}

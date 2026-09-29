@@ -20,21 +20,22 @@ import {
 export const StudentProfile: React.FC = () => {
   const student = students[0];
   const { addToast, language, setLanguage } = useAppStore();
-  const [showBankVerify, setShowBankVerify] = useState(false);
   const { t } = useTranslation("student");
   const { t: tc } = useTranslation("common");
 
   return (
-    <div className="p-4 md:p-8 space-y-8 mx-auto font-sans text-[#1B2434] dark:text-slate-100 animate-fade-in">
+    <div className="p-4 md:p-8 space-y-6 mx-auto font-sans text-[#1D293D] dark:text-slate-100 animate-fade-in max-w-5xl">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[#1B2434]/10 dark:border-slate-800 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[#DEE2E6] dark:border-slate-800 pb-5">
         <div className="flex items-start gap-3">
-          <User className="w-8 h-8 text-[#1B2434] dark:text-slate-300 shrink-0 mt-1" />
+          <div className="p-2.5 rounded-xl bg-[#E6F1F5] dark:bg-[#0B75A4]/20 text-[#0B75A4] dark:text-[#1697C5] shrink-0 mt-0.5">
+            <User className="w-6 h-6" />
+          </div>
           <div>
-            <h1 className="font-serif text-[28px] md:text-[34px] text-[#1B2434] dark:text-white leading-tight">
+            <h1 className="text-2xl md:text-3xl font-bold text-[#1D293D] dark:text-white leading-tight">
               {t("profile.title")}
             </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+            <p className="text-sm text-[#64748B] dark:text-slate-400 mt-1">
               Manage your personal identity details, academic records, bank
               account information, and system preferences.
             </p>
@@ -42,32 +43,32 @@ export const StudentProfile: React.FC = () => {
         </div>
       </div>
 
-      <Card className="border-[#1B2434]/20 dark:border-slate-700 shadow-sm p-5 md:p-6 space-y-8">
+      <Card className="border-[#DEE2E6] dark:border-slate-700 shadow-xs p-5 md:p-6 space-y-8">
         {/* Identity Summary Card */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-4 rounded-md bg-[#1B2434]/5 dark:bg-slate-800/60 border border-[#1B2434]/15 dark:border-slate-700">
-          <div className="w-16 h-16 rounded-full bg-[#1B2434] text-white flex items-center justify-center text-xl font-serif font-bold shrink-0 shadow-sm">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/60 border border-[#DEE2E6] dark:border-slate-700">
+          <div className="w-16 h-16 rounded-full bg-[#0B75A4] text-white flex items-center justify-center text-xl font-bold shrink-0 shadow-xs">
             {student.name
               .split(" ")
               .map((n) => n[0])
               .join("")}
           </div>
           <div className="space-y-1 grow">
-            <h2 className="text-xl font-serif font-semibold text-[#1B2434] dark:text-white">
+            <h2 className="text-xl font-bold text-[#1D293D] dark:text-white">
               {student.name}
             </h2>
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-600 dark:text-slate-300 font-mono">
-              <span className="flex items-center gap-1">
-                <Mail size={12} /> {student.email}
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[#64748B] dark:text-slate-300 font-mono">
+              <span className="flex items-center gap-1 font-sans">
+                <Mail size={12} className="text-[#0B75A4]" /> {student.email}
               </span>
               <span>•</span>
-              <span className="flex items-center gap-1">
-                <Phone size={12} /> {student.phone}
+              <span className="flex items-center gap-1 font-sans">
+                <Phone size={12} className="text-[#0B75A4]" /> {student.phone}
               </span>
             </div>
             <div className="flex flex-wrap items-center gap-2 pt-1.5">
               <Badge
                 variant="info"
-                className="bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300"
+                className="bg-[#E6F1F5] dark:bg-[#0B75A4]/20 text-[#0B75A4] dark:text-[#1697C5] border border-[#0B75A4]/20"
               >
                 {student.tribeName} Tribe
               </Badge>
@@ -80,12 +81,12 @@ export const StudentProfile: React.FC = () => {
 
         {/* Personal Details */}
         <section className="space-y-3">
-          <div className="flex items-center gap-2 border-b border-[#1B2434]/10 dark:border-slate-800 pb-2">
+          <div className="flex items-center gap-2 border-b border-[#DEE2E6] dark:border-slate-800 pb-2">
             <ShieldCheck
               size={18}
-              className="text-[#1B2434] dark:text-slate-300"
+              className="text-[#0B75A4] dark:text-[#1697C5]"
             />
-            <h3 className="font-serif text-lg font-semibold text-[#1B2434] dark:text-white">
+            <h3 className="text-base font-bold text-[#1D293D] dark:text-white">
               {t("profile.personalDetails")}
             </h3>
           </div>
@@ -104,12 +105,12 @@ export const StudentProfile: React.FC = () => {
             ].map((field, i) => (
               <div
                 key={i}
-                className="p-3.5 rounded-md bg-[#1B2434]/5 dark:bg-slate-800/40 border border-[#1B2434]/10 dark:border-slate-700/60"
+                className="p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/40 border border-[#DEE2E6] dark:border-slate-700/60"
               >
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                <p className="text-xs text-[#64748B] dark:text-slate-400 font-medium">
                   {field.label}
                 </p>
-                <p className="text-sm font-semibold text-[#1B2434] dark:text-white font-mono mt-0.5">
+                <p className="text-sm font-semibold text-[#1D293D] dark:text-white font-mono mt-0.5">
                   {field.value}
                 </p>
               </div>
@@ -119,12 +120,12 @@ export const StudentProfile: React.FC = () => {
 
         {/* Academic Details */}
         <section className="space-y-3">
-          <div className="flex items-center gap-2 border-b border-[#1B2434]/10 dark:border-slate-800 pb-2">
+          <div className="flex items-center gap-2 border-b border-[#DEE2E6] dark:border-slate-800 pb-2">
             <GraduationCap
               size={18}
-              className="text-[#1B2434] dark:text-slate-300"
+              className="text-[#0B75A4] dark:text-[#1697C5]"
             />
-            <h3 className="font-serif text-lg font-semibold text-[#1B2434] dark:text-white">
+            <h3 className="text-base font-bold text-[#1D293D] dark:text-white">
               {t("profile.academicDetails")}
             </h3>
           </div>
@@ -137,12 +138,12 @@ export const StudentProfile: React.FC = () => {
             ].map((field, i) => (
               <div
                 key={i}
-                className="p-3.5 rounded-md bg-[#1B2434]/5 dark:bg-slate-800/40 border border-[#1B2434]/10 dark:border-slate-700/60"
+                className="p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/40 border border-[#DEE2E6] dark:border-slate-700/60"
               >
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                <p className="text-xs text-[#64748B] dark:text-slate-400 font-medium">
                   {field.label}
                 </p>
-                <p className="text-sm font-semibold text-[#1B2434] dark:text-white mt-0.5">
+                <p className="text-sm font-semibold text-[#1D293D] dark:text-white mt-0.5">
                   {field.value}
                 </p>
               </div>
@@ -152,18 +153,18 @@ export const StudentProfile: React.FC = () => {
 
         {/* Bank Details */}
         <section className="space-y-3">
-          <div className="flex items-center justify-between border-b border-[#1B2434]/10 dark:border-slate-800 pb-2">
+          <div className="flex items-center justify-between border-b border-[#DEE2E6] dark:border-slate-800 pb-2">
             <div className="flex items-center gap-2">
               <CreditCard
                 size={18}
-                className="text-[#1B2434] dark:text-slate-300"
+                className="text-[#0B75A4] dark:text-[#1697C5]"
               />
-              <h3 className="font-serif text-lg font-semibold text-[#1B2434] dark:text-white">
+              <h3 className="text-base font-bold text-[#1D293D] dark:text-white">
                 {t("profile.bankDetails")}
               </h3>
             </div>
             {student.bankVerified && (
-              <span className="text-xs text-[#2E6B4F] dark:text-emerald-400 font-medium flex items-center gap-1">
+              <span className="text-xs text-[#009B68] dark:text-emerald-400 font-semibold flex items-center gap-1">
                 <CheckCircle2 size={14} /> {tc("status.verified")}
               </span>
             )}
@@ -180,12 +181,12 @@ export const StudentProfile: React.FC = () => {
             ].map((field, i) => (
               <div
                 key={i}
-                className="p-3.5 rounded-md bg-[#1B2434]/5 dark:bg-slate-800/40 border border-[#1B2434]/10 dark:border-slate-700/60"
+                className="p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/40 border border-[#DEE2E6] dark:border-slate-700/60"
               >
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                <p className="text-xs text-[#64748B] dark:text-slate-400 font-medium">
                   {field.label}
                 </p>
-                <p className="text-sm font-semibold text-[#1B2434] dark:text-white font-mono mt-0.5">
+                <p className="text-sm font-semibold text-[#1D293D] dark:text-white font-mono mt-0.5">
                   {field.value}
                 </p>
               </div>
@@ -195,48 +196,48 @@ export const StudentProfile: React.FC = () => {
 
         {/* Guardian / Parent Contact */}
         <section className="space-y-3">
-          <div className="p-4 md:p-5 rounded-md bg-blue-50/70 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/60 space-y-3">
-            <div className="flex items-center gap-2 text-blue-900 dark:text-blue-300">
+          <div className="p-4 md:p-5 rounded-xl bg-[#E6F1F5]/40 dark:bg-slate-800/60 border border-[#0B75A4]/20 dark:border-slate-700 space-y-3">
+            <div className="flex items-center gap-2 text-[#0B75A4] dark:text-[#1697C5]">
               <Users size={18} className="shrink-0" />
-              <h4 className="text-xs font-semibold uppercase tracking-wider">
+              <h4 className="text-xs font-bold uppercase tracking-wider">
                 {t("apply.guardianNotified")}
               </h4>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
               <div>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-[#64748B] dark:text-slate-400 font-medium">
                   {tc("common.name")}
                 </p>
-                <p className="text-sm font-semibold text-[#1B2434] dark:text-white">
+                <p className="text-sm font-semibold text-[#1D293D] dark:text-white">
                   {student.guardianName}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-[#64748B] dark:text-slate-400 font-medium">
                   Relation
                 </p>
-                <p className="text-sm font-semibold text-[#1B2434] dark:text-white">
+                <p className="text-sm font-semibold text-[#1D293D] dark:text-white">
                   {student.guardianRelation}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-[#64748B] dark:text-slate-400 font-medium">
                   {tc("common.phone")}
                 </p>
-                <p className="text-sm font-semibold text-[#1B2434] dark:text-white font-mono">
+                <p className="text-sm font-semibold text-[#1D293D] dark:text-white font-mono">
                   {student.guardianPhone}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-[#64748B] dark:text-slate-400 font-medium">
                   {tc("common.email")}
                 </p>
-                <p className="text-sm font-semibold text-[#1B2434] dark:text-white font-mono">
+                <p className="text-sm font-semibold text-[#1D293D] dark:text-white font-mono">
                   {student.guardianEmail || "Not provided"}
                 </p>
               </div>
             </div>
-            <p className="text-xs text-blue-700 dark:text-blue-300 pt-2 border-t border-blue-200/60 dark:border-blue-800/40">
+            <p className="text-xs text-[#0B75A4] dark:text-[#1697C5] pt-2 border-t border-[#0B75A4]/15 dark:border-slate-700">
               {t("apply.guardianAlertNote")}
             </p>
           </div>
@@ -244,15 +245,15 @@ export const StudentProfile: React.FC = () => {
 
         {/* Accessibility Preferences */}
         <section className="space-y-3">
-          <div className="flex items-center gap-2 border-b border-[#1B2434]/10 dark:border-slate-800 pb-2">
-            <Globe size={18} className="text-[#1B2434] dark:text-slate-300" />
-            <h3 className="font-serif text-lg font-semibold text-[#1B2434] dark:text-white">
+          <div className="flex items-center gap-2 border-b border-[#DEE2E6] dark:border-slate-800 pb-2">
+            <Globe size={18} className="text-[#0B75A4] dark:text-[#1697C5]" />
+            <h3 className="text-base font-bold text-[#1D293D] dark:text-white">
               {tc("language.toggle")}
             </h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-3.5 rounded-md bg-[#1B2434]/5 dark:bg-slate-800/40 border border-[#1B2434]/10 dark:border-slate-700/60 space-y-2">
-              <label className="block text-xs font-semibold text-[#1B2434] dark:text-slate-300">
+            <div className="p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/40 border border-[#DEE2E6] dark:border-slate-700/60 space-y-2">
+              <label className="block text-xs font-semibold text-[#1D293D] dark:text-slate-300">
                 {tc("language.toggle")}
               </label>
               <LanguageSelector
@@ -265,14 +266,14 @@ export const StudentProfile: React.FC = () => {
                 }}
               />
             </div>
-            <div className="p-3.5 rounded-md bg-[#1B2434]/5 dark:bg-slate-800/40 border border-[#1B2434]/10 dark:border-slate-700/60 space-y-1">
-              <p className="text-xs font-semibold text-[#1B2434] dark:text-slate-300">
+            <div className="p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/40 border border-[#DEE2E6] dark:border-slate-700/60 space-y-1">
+              <p className="text-xs font-semibold text-[#1D293D] dark:text-slate-300">
                 {t("voice.voiceInput")}
               </p>
-              <div className="flex items-center gap-2 pt-1 text-sm font-semibold text-[#1B2434] dark:text-white">
+              <div className="flex items-center gap-2 pt-1 text-sm font-semibold text-[#1D293D] dark:text-white">
                 <Mic
                   size={16}
-                  className="text-[#2E6B4F] dark:text-emerald-400"
+                  className="text-[#009B68] dark:text-emerald-400"
                 />
                 <span>
                   {student.voiceInputEnabled ? "🎤 Enabled" : "Disabled"}

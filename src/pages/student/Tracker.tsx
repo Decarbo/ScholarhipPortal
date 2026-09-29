@@ -348,9 +348,9 @@ const validateBank = (b: {
 };
 
 const btnPrimary =
-  "bg-[#1B2434] hover:bg-[#1B2434]/90 text-white dark:bg-white dark:hover:bg-slate-200 dark:text-[#0F1622] transition-colors rounded-md font-medium text-xs px-3 py-2 inline-flex items-center gap-1.5";
+  "bg-[#0B75A4] hover:bg-[#09658E] active:bg-[#064E70] text-white transition-all rounded-lg font-medium text-xs px-3.5 py-2 inline-flex items-center gap-1.5 shadow-xs cursor-pointer";
 const btnOutline =
-  "bg-transparent border border-[#1B2434]/15 dark:border-slate-700 text-[#1B2434] dark:text-slate-200 hover:bg-[#1B2434]/5 dark:hover:bg-slate-800 transition-colors rounded-md font-medium text-xs px-3 py-2 inline-flex items-center gap-1.5";
+  "bg-white dark:bg-slate-800 border border-[#DEE2E6] dark:border-slate-700 text-[#475569] dark:text-slate-200 hover:bg-[#F8FAFC] hover:text-[#0B75A4] hover:border-[#0B75A4]/40 transition-all rounded-lg font-medium text-xs px-3.5 py-2 inline-flex items-center gap-1.5 shadow-xs cursor-pointer";
 
 /* ============================================================
  *  MAIN COMPONENT
@@ -617,19 +617,18 @@ export const Tracker: React.FC = () => {
     );
 
   return (
-    <div className='p-4 md:p-8 space-y-8 max-w-5xl mx-auto font-sans text-[#1B2434] dark:text-slate-100 animate-fade-in'>
+    <div className='p-4 md:p-6 lg:p-8 space-y-6 max-w-5xl mx-auto font-sans text-[#1D293D] dark:text-slate-100 animate-fade-in'>
       {/* Header */}
-      <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[#1B2434]/10 dark:border-slate-800 pb-5'>
+      <div className='flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#DEE2E6] dark:border-slate-800 pb-5'>
         <div className='flex items-start gap-3'>
-          <ClipboardList
-            size={32}
-            className='text-[#1B2434] dark:text-slate-300 shrink-0 mt-1'
-          />
+          <div className="p-2 rounded-xl bg-[#E6F1F5] dark:bg-[#0B75A4]/20 text-[#0B75A4] dark:text-[#7EC5E2] shrink-0 mt-0.5">
+            <ClipboardList size={24} />
+          </div>
           <div>
-            <h1 className='font-serif text-[28px] md:text-[34px] text-[#1B2434] dark:text-white leading-tight'>
+            <h1 className='text-2xl font-bold text-[#1D293D] dark:text-white leading-tight'>
               {t('tracker.title')}
             </h1>
-            <p className='text-sm text-slate-500 dark:text-slate-400 mt-1'>
+            <p className='text-sm text-[#64748B] dark:text-slate-400 mt-0.5'>
               {t('tracker.subtitle')}
             </p>
           </div>
@@ -637,7 +636,7 @@ export const Tracker: React.FC = () => {
         <div className='flex items-center gap-2 flex-wrap'>
           <Badge
             variant='outline'
-            className='border-[#1B2434]/15 text-slate-500 text-[11px] font-mono uppercase tracking-wider'
+            className='border-[#DEE2E6] text-[#64748B] text-xs'
           >
             {t('tracker.frontendOnly')}
           </Badge>
@@ -661,21 +660,23 @@ export const Tracker: React.FC = () => {
               <Upload size={14} /> {t('tracker.import')}
             </span>
           </label>
-          <button
+          <Button
+            size="sm"
+            variant="secondary"
             onClick={handleReset}
-            className='p-2 rounded-md border border-[#1B2434]/15 text-[#1B2434] hover:bg-[#1B2434]/5 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 transition-colors'
+            icon={<RefreshCw size={14} />}
             title={t('tracker.resetDemo')}
           >
-            <RefreshCw size={15} />
-          </button>
-          <button onClick={handleCreateDraft} className={btnPrimary}>
-            <Plus size={14} /> {t('tracker.newDraft')}
-          </button>
+            Reset
+          </Button>
+          <Button size="sm" variant="primary" onClick={handleCreateDraft} icon={<Plus size={14} />}>
+            {t('tracker.newDraft')}
+          </Button>
         </div>
       </div>
 
       {/* Filter Tabs */}
-      <div className='flex items-center gap-2 flex-wrap border-b border-[#1B2434]/10 dark:border-slate-800 pb-3'>
+      <div className='flex items-center gap-2 flex-wrap border-b border-[#DEE2E6] dark:border-slate-800 pb-3'>
         {(
           [
             "all",
@@ -691,10 +692,10 @@ export const Tracker: React.FC = () => {
           <button
             key={f}
             onClick={() => setFilter(f)}
-            className={`px-3 py-1.5 rounded-md text-xs font-mono transition-colors ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
               filter === f
-                ? "bg-[#1B2434] text-white dark:bg-white dark:text-[#0F1622]"
-                : "text-slate-600 dark:text-slate-400 hover:bg-[#1B2434]/5 dark:hover:bg-slate-800"
+                ? "bg-[#0B75A4] text-white shadow-xs font-semibold"
+                : "text-[#475569] dark:text-slate-400 hover:bg-[#F1F5F9] hover:text-[#0B75A4] dark:hover:bg-slate-800"
             }`}
           >
             {f === "all" ? t('tracker.filterAll') : (tc(`status.${f}`) || f.replace("_", " ").toUpperCase())} (
@@ -708,8 +709,8 @@ export const Tracker: React.FC = () => {
         <EmptyState
           icon={
             <FileText
-              size={40}
-              className='text-[#1B2434]/40 dark:text-slate-600'
+              size={36}
+              className='text-[#94A3B8]'
             />
           }
           title={t('tracker.noApplications')}
@@ -724,22 +725,22 @@ export const Tracker: React.FC = () => {
             return (
               <Card
                 key={app.id}
-                className='border border-[#1B2434]/10 dark:border-slate-800 rounded-md shadow-none bg-white dark:bg-[#0F1622] p-5'
+                className='border border-[#DEE2E6] dark:border-slate-700 rounded-xl shadow-xs bg-white dark:bg-slate-800 p-5'
               >
                 <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4'>
                   <div className='min-w-0 space-y-1'>
                     <div className='flex items-center gap-2 flex-wrap'>
-                      <p className='font-serif text-xl text-[#1B2434] dark:text-white'>
+                      <p className='text-lg font-bold text-[#1D293D] dark:text-white'>
                         {getLocalizedSchemeName(app.schemeName, i18n.language)}
                       </p>
                       <StatusBadge status={app.status} />
                       {app.status === "draft" && (
-                        <span className='text-xs font-mono text-slate-500'>
+                        <span className='text-xs text-[#64748B]'>
                           ({app.draftProgress}% {t('tracker.draftComplete')})
                         </span>
                       )}
                       {app.enrolmentConfirmed && (
-                        <span className='text-xs font-medium text-[#2E6B4F] dark:text-emerald-400 flex items-center gap-1'>
+                        <span className='text-xs font-medium text-[#009B68] dark:text-[#38C88B] flex items-center gap-1'>
                           <CheckCircle2 size={13} /> {t('tracker.enrolled')}
                         </span>
                       )}
@@ -761,16 +762,16 @@ export const Tracker: React.FC = () => {
                     </button>
                     <button
                       onClick={() => handleDelete(app.id)}
-                      className='p-2 rounded-md border border-transparent hover:border-[#B4472A]/30 hover:bg-[#B4472A]/[0.04] text-[#B4472A] transition-colors'
+                      className='p-2 rounded-lg text-[#64748B] hover:text-[#EF4444] hover:bg-[#FEE2E2] dark:hover:bg-red-950/40 transition-colors cursor-pointer'
                       title='Delete record'
                     >
-                      <Trash2 size={14} />
+                      <Trash2 size={15} />
                     </button>
                   </div>
                 </div>
 
                 {app.status !== "draft" && (
-                  <div className='my-4 pt-2 border-t border-[#1B2434]/5 dark:border-slate-800/60'>
+                  <div className='my-4 pt-3 border-t border-[#F1F5F9] dark:border-slate-700/60'>
                     <Stepper
                       steps={statusSteps}
                       currentStep={statusIndex(app.status)}
@@ -779,22 +780,22 @@ export const Tracker: React.FC = () => {
                 )}
 
                 {pendingNotice && (
-                  <div className='mt-4 p-4 rounded-md bg-[#B4472A]/[0.04] border border-[#B4472A]/30 text-[#1B2434] dark:text-slate-200'>
+                  <div className='mt-4 p-4 rounded-xl bg-[#FEF3C7] dark:bg-[#F59E0B]/15 border border-[#F59E0B]/30 text-[#B45309] dark:text-[#FBBF24]'>
                     <div className='flex items-center gap-2'>
                       <AlertTriangle
                         size={15}
-                        className='text-[#B4472A] dark:text-red-400'
+                        className='text-[#B45309] dark:text-[#FBBF24]'
                       />
-                      <span className='text-xs font-mono font-semibold uppercase tracking-wider text-[#B4472A] dark:text-red-400'>
+                      <span className='text-xs font-semibold uppercase tracking-wider'>
                         {t('tracker.actionRequired')}
                       </span>
                     </div>
-                    <p className='text-xs mt-1 text-slate-700 dark:text-slate-300'>
+                    <p className='text-xs mt-1 text-[#475569] dark:text-slate-300'>
                       {pendingNotice.plainLanguageMessage}
                     </p>
                     <button
                       onClick={() => setSelectedId(app.id)}
-                      className='mt-2 text-xs font-medium text-[#B4472A] dark:text-red-400 underline hover:opacity-80'
+                      className='mt-2 text-xs font-semibold text-[#0B75A4] hover:underline cursor-pointer'
                     >
                       {t('tracker.resolveIssueNow')}
                     </button>
@@ -802,23 +803,23 @@ export const Tracker: React.FC = () => {
                 )}
 
                 {app.status === "rejected" && app.plainReason && (
-                  <div className='mt-4 p-4 rounded-md bg-[#B4472A]/[0.04] border border-[#B4472A]/30'>
-                    <p className='text-xs font-mono uppercase tracking-wider text-[#B4472A] font-semibold'>
+                  <div className='mt-4 p-4 rounded-xl bg-[#FEE2E2] dark:bg-[#EF4444]/15 border border-[#EF4444]/30'>
+                    <p className='text-xs uppercase tracking-wider text-[#B91C1C] dark:text-[#F87171] font-semibold'>
                       {t('tracker.reasonForRejection')}
                     </p>
-                    <p className='text-xs text-slate-700 dark:text-slate-300 mt-1'>
+                    <p className='text-xs text-[#475569] dark:text-slate-300 mt-1'>
                       {app.plainReason}
                     </p>
                   </div>
                 )}
 
                 {app.status === "selected" && !app.enrolmentConfirmed && (
-                  <div className='mt-4 p-4 rounded-md bg-[#2E6B4F]/[0.04] border border-[#2E6B4F]/20 flex items-center justify-between gap-3 flex-wrap'>
+                  <div className='mt-4 p-4 rounded-xl bg-[#009B68]/10 dark:bg-[#009B68]/15 border border-[#009B68]/25 flex items-center justify-between gap-3 flex-wrap'>
                     <div>
-                      <p className='text-sm font-serif text-[#2E6B4F] dark:text-emerald-400'>
+                      <p className='text-sm font-semibold text-[#006045] dark:text-[#38C88B]'>
                         {t('tracker.selectionConfirmed')}
                       </p>
-                      <p className='text-xs text-slate-600 dark:text-slate-300 mt-0.5'>
+                      <p className='text-xs text-[#475569] dark:text-slate-300 mt-0.5'>
                         {t('tracker.acceptAwardDesc', { amount: app.amount.toLocaleString("en-IN") })}
                       </p>
                     </div>
@@ -844,19 +845,19 @@ export const Tracker: React.FC = () => {
         size='xl'
       >
         {selectedApp && (
-          <div className='space-y-6 font-sans text-[#1B2434] dark:text-slate-100'>
+          <div className='space-y-6 font-sans text-[#1D293D] dark:text-slate-100'>
             {/* Summary Grid */}
-            <div className='grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-md border border-[#1B2434]/10 dark:border-slate-800 bg-[#1B2434]/[0.01]'>
+            <div className='grid grid-cols-2 md:grid-cols-4 gap-4 p-4 rounded-xl border border-[#DEE2E6] dark:border-slate-800 bg-[#F8FAFC] dark:bg-slate-900/60'>
               <div>
-                <p className='text-[11px] font-mono uppercase tracking-wider text-slate-500'>
+                <p className='text-xs font-semibold uppercase tracking-wider text-[#64748B]'>
                   {t('tracker.scheme')}
                 </p>
-                <p className='font-serif text-base text-[#1B2434] dark:text-white mt-0.5'>
+                <p className='text-sm font-bold text-[#1D293D] dark:text-white mt-0.5'>
                   {getLocalizedSchemeName(selectedApp.schemeName, i18n.language)}
                 </p>
               </div>
               <div>
-                <p className='text-[11px] font-mono uppercase tracking-wider text-slate-500'>
+                <p className='text-xs font-semibold uppercase tracking-wider text-[#64748B]'>
                   {t('tracker.currentStatus')}
                 </p>
                 <div className='mt-1'>
@@ -864,26 +865,26 @@ export const Tracker: React.FC = () => {
                 </div>
               </div>
               <div>
-                <p className='text-[11px] font-mono uppercase tracking-wider text-slate-500'>
+                <p className='text-xs font-semibold uppercase tracking-wider text-[#64748B]'>
                   {t('tracker.disbursement')}
                 </p>
-                <p className='font-mono text-sm text-[#1B2434] dark:text-white mt-0.5'>
+                <p className='text-sm font-semibold text-[#1D293D] dark:text-white mt-0.5'>
                   ₹{selectedApp.amount.toLocaleString("en-IN")}
                 </p>
               </div>
               <div>
-                <p className='text-[11px] font-mono uppercase tracking-wider text-slate-500'>
+                <p className='text-xs font-semibold uppercase tracking-wider text-[#64748B]'>
                   {t('tracker.lastAudit')}
                 </p>
-                <p className='font-mono text-sm text-[#1B2434] dark:text-white mt-0.5'>
+                <p className='text-sm font-semibold text-[#1D293D] dark:text-white mt-0.5'>
                   {fmtDate(selectedApp.lastUpdated)}
                 </p>
               </div>
             </div>
 
             {selectedApp.status === "draft" && (
-              <div className='p-4 rounded-md border border-[#1B2434]/15 bg-[#1B2434]/[0.02] flex items-center justify-between gap-3 flex-wrap'>
-                <p className='text-xs text-slate-600 dark:text-slate-300'>
+              <div className='p-4 rounded-xl border border-[#DEE2E6] bg-[#F8FAFC] dark:bg-slate-800 flex items-center justify-between gap-3 flex-wrap'>
+                <p className='text-xs text-[#475569] dark:text-slate-300'>
                   {t('tracker.uncommittedDraft')}
                 </p>
                 <button
@@ -896,11 +897,11 @@ export const Tracker: React.FC = () => {
             )}
 
             {selectedApp.status === "rejected" && selectedApp.plainReason && (
-              <div className='p-4 rounded-md bg-[#B4472A]/[0.04] border border-[#B4472A]/30'>
-                <p className='text-xs font-mono uppercase tracking-wider text-[#B4472A] font-semibold mb-1'>
+              <div className='p-4 rounded-xl bg-[#FEE2E2] dark:bg-[#EF4444]/15 border border-[#EF4444]/30'>
+                <p className='text-xs uppercase tracking-wider text-[#B91C1C] dark:text-[#F87171] font-semibold mb-1'>
                   {t('tracker.rejectionJustification')}
                 </p>
-                <p className='text-xs text-slate-700 dark:text-slate-300'>
+                <p className='text-xs text-[#475569] dark:text-slate-300'>
                   {selectedApp.plainReason}
                 </p>
               </div>
@@ -908,34 +909,34 @@ export const Tracker: React.FC = () => {
 
             {/* Documents */}
             <div>
-              <h4 className='font-serif text-base text-[#1B2434] dark:text-white mb-2'>
+              <h4 className='text-sm font-semibold text-[#1D293D] dark:text-white mb-2.5'>
                 {t('tracker.attachedDocs')}
               </h4>
               <div className='space-y-2'>
                 {selectedApp.documents.length === 0 && (
-                  <p className='text-xs text-slate-500 font-mono'>
+                  <p className='text-xs text-[#64748B]'>
                     {t('tracker.noDocsAttached')}
                   </p>
                 )}
                 {selectedApp.documents.map((doc) => (
                   <div
                     key={doc.id}
-                    className='flex items-center justify-between p-3 rounded-md border border-[#1B2434]/10 dark:border-slate-800 bg-white dark:bg-[#0F1622] gap-3 flex-wrap'
+                    className='flex items-center justify-between p-3 rounded-lg border border-[#DEE2E6] dark:border-slate-800 bg-white dark:bg-slate-800 gap-3 flex-wrap'
                   >
                     <div className='flex items-center gap-2 min-w-0'>
-                      <FileText size={15} className='text-slate-400 shrink-0' />
-                      <span className='text-xs font-medium text-[#1B2434] dark:text-slate-200 truncate'>
+                      <FileText size={16} className='text-[#64748B] shrink-0' />
+                      <span className='text-xs font-semibold text-[#1D293D] dark:text-slate-200 truncate'>
                         {doc.name}
                       </span>
                       {doc.required && (
-                        <span className='text-[10px] font-mono text-[#B4472A] uppercase'>
+                        <span className='text-[10px] font-semibold text-[#EF4444] uppercase'>
                           {t('tracker.required')}
                         </span>
                       )}
                     </div>
-                    <div className='flex items-center gap-3'>
+                    <div className='flex items-center gap-2.5'>
                       {doc.aiScore > 0 && (
-                        <span className='text-xs font-mono text-slate-500'>
+                        <span className='text-xs font-medium text-[#009B68]'>
                           AI: {doc.aiScore}%
                         </span>
                       )}
@@ -949,7 +950,7 @@ export const Tracker: React.FC = () => {
                               docId: doc.id,
                             })
                           }
-                          className='px-2.5 py-1 rounded-md bg-[#B4472A] hover:bg-[#B4472A]/90 text-white text-[11px] font-medium flex items-center gap-1 transition-colors'
+                          className='px-2.5 py-1 rounded-md bg-[#EF4444] hover:bg-[#DC2626] text-white text-[11px] font-medium flex items-center gap-1 transition-colors cursor-pointer'
                         >
                           <Upload size={11} /> {t('tracker.reupload')}
                         </button>
@@ -963,10 +964,10 @@ export const Tracker: React.FC = () => {
             {/* AI feedback */}
             {selectedApp.documents.some((d) => d.aiFeedback) && (
               <div>
-                <h4 className='font-serif text-base text-[#1B2434] dark:text-white mb-2 flex items-center gap-1.5'>
+                <h4 className='text-sm font-semibold text-[#1D293D] dark:text-white mb-2 flex items-center gap-1.5'>
                   <Sparkles
                     size={16}
-                    className='text-[#1B2434] dark:text-slate-300'
+                    className='text-[#0B75A4]'
                   />{" "}
                   {t('tracker.autoNotes')}
                 </h4>
@@ -975,12 +976,12 @@ export const Tracker: React.FC = () => {
                   .map((doc) => (
                     <div
                       key={doc.id}
-                      className='p-3 rounded-md bg-[#1B2434]/[0.02] border border-[#1B2434]/10 dark:border-slate-800 mb-2'
+                      className='p-3 rounded-lg bg-[#F8FAFC] border border-[#DEE2E6] dark:border-slate-800 mb-2'
                     >
-                      <p className='text-xs font-mono font-semibold text-[#1B2434] dark:text-slate-200'>
+                      <p className='text-xs font-semibold text-[#1D293D] dark:text-slate-200'>
                         {doc.name}
                       </p>
-                      <p className='text-xs text-slate-600 dark:text-slate-400 mt-1'>
+                      <p className='text-xs text-[#64748B] dark:text-slate-400 mt-1'>
                         {doc.aiFeedback}
                       </p>
                     </div>
@@ -991,23 +992,23 @@ export const Tracker: React.FC = () => {
             {/* AI flags */}
             {selectedApp.aiFlags.length > 0 && (
               <div>
-                <h4 className='font-serif text-base text-[#1B2434] dark:text-white mb-2 flex items-center gap-1.5'>
-                  <AlertTriangle size={16} className='text-[#B4472A]' />{" "}
+                <h4 className='text-sm font-semibold text-[#1D293D] dark:text-white mb-2 flex items-center gap-1.5'>
+                  <AlertTriangle size={16} className='text-[#F59E0B]' />{" "}
                   {t('tracker.detectedIrregularities')}
                 </h4>
                 {selectedApp.aiFlags.map((flag) => (
                   <div
                     key={flag.id}
-                    className='p-3.5 rounded-md mb-2 border border-[#B4472A]/30 bg-[#B4472A]/[0.04]'
+                    className='p-3.5 rounded-lg mb-2 border border-[#F59E0B]/30 bg-[#FEF3C7] dark:bg-[#F59E0B]/15'
                   >
-                    <p className='text-xs font-medium text-[#1B2434] dark:text-slate-200'>
+                    <p className='text-xs font-medium text-[#1D293D] dark:text-slate-200'>
                       {flag.plainLanguageMessage}
                     </p>
                     {flag.suggestion && (
-                      <p className='text-xs text-slate-600 dark:text-slate-400 mt-1.5 flex items-start gap-1'>
+                      <p className='text-xs text-[#64748B] dark:text-slate-400 mt-1.5 flex items-start gap-1'>
                         <Info
                           size={13}
-                          className='shrink-0 mt-0.5 text-slate-500'
+                          className='shrink-0 mt-0.5 text-[#0B75A4]'
                         />
                         <span>
                           <strong>{t('tracker.recommendation')}:</strong> {flag.suggestion}
@@ -1021,17 +1022,17 @@ export const Tracker: React.FC = () => {
 
             {/* Timeline */}
             <div>
-              <h4 className='font-serif text-base text-[#1B2434] dark:text-white mb-3 flex items-center gap-2'>
-                <History size={16} /> {t('tracker.auditTrail')}
+              <h4 className='text-sm font-semibold text-[#1D293D] dark:text-white mb-3 flex items-center gap-2'>
+                <History size={16} className="text-[#0B75A4]" /> {t('tracker.auditTrail')}
               </h4>
-              <ol className='relative border-l border-[#1B2434]/15 dark:border-slate-700 ml-2 space-y-4'>
+              <ol className='relative border-l-2 border-[#DEE2E6] dark:border-slate-700 ml-2 space-y-4'>
                 {selectedApp.timeline.map((t) => (
                   <li key={t.id} className='ml-4'>
-                    <span className='absolute -left-1.5 w-3 h-3 rounded-full bg-[#1B2434] dark:bg-slate-300' />
-                    <p className='text-[11px] font-mono text-slate-500'>
+                    <span className='absolute -left-1.5 w-2.5 h-2.5 rounded-full bg-[#0B75A4]' />
+                    <p className='text-[11px] text-[#64748B]'>
                       {fmtDateTime(t.at)}
                     </p>
-                    <p className='text-xs text-[#1B2434] dark:text-slate-200 font-medium'>
+                    <p className='text-xs text-[#1D293D] dark:text-slate-200 font-medium'>
                       {t.label}
                     </p>
                   </li>
@@ -1042,11 +1043,11 @@ export const Tracker: React.FC = () => {
             {/* Enrolment actions */}
             {selectedApp.status === "selected" &&
               !selectedApp.enrolmentConfirmed && (
-                <div className='p-4 rounded-md bg-[#2E6B4F]/[0.04] border border-[#2E6B4F]/30'>
-                  <p className='text-sm font-serif text-[#2E6B4F] dark:text-emerald-400 mb-1'>
+                <div className='p-4 rounded-xl bg-[#009B68]/10 border border-[#009B68]/25'>
+                  <p className='text-sm font-semibold text-[#006045] dark:text-[#38C88B] mb-1'>
                     {t('tracker.selectionFinalized')}
                   </p>
-                  <p className='text-xs text-slate-600 dark:text-slate-300 mb-3'>
+                  <p className='text-xs text-[#475569] dark:text-slate-300 mb-3'>
                     {t('tracker.confirmBankDesc')}
                   </p>
                   <div className='flex gap-2 flex-wrap'>
@@ -1069,12 +1070,12 @@ export const Tracker: React.FC = () => {
             {selectedApp.status === "selected" &&
               selectedApp.enrolmentConfirmed && (
                 <div className='space-y-3'>
-                  <div className='p-4 rounded-md bg-[#2E6B4F]/[0.04] border border-[#2E6B4F]/30'>
-                    <p className='text-xs text-[#2E6B4F] dark:text-emerald-400 font-mono uppercase tracking-wider font-semibold flex items-center gap-1.5'>
+                  <div className='p-4 rounded-xl bg-[#009B68]/10 border border-[#009B68]/25'>
+                    <p className='text-xs text-[#006045] dark:text-[#38C88B] uppercase tracking-wider font-semibold flex items-center gap-1.5'>
                       <CheckCircle2 size={14} /> {t('tracker.enrolmentVerified')}
                     </p>
                     {selectedApp.bankDetails && (
-                      <p className='text-xs text-slate-600 dark:text-slate-400 font-mono mt-1'>
+                      <p className='text-xs text-[#64748B] dark:text-slate-400 mt-1'>
                         {selectedApp.bankDetails.bankName} · A/C ••••
                         {selectedApp.bankDetails.accountNumber.slice(-4)}
                       </p>
@@ -1162,11 +1163,11 @@ const EnrolmentModal: React.FC<{
       size='lg'
     >
       <div className='space-y-5 font-sans'>
-        <div className='p-4 rounded-md bg-[#2E6B4F]/[0.04] border border-[#2E6B4F]/20'>
-          <p className='text-xs text-[#2E6B4F] dark:text-emerald-400 font-mono uppercase tracking-wider font-semibold'>
+        <div className='p-4 rounded-xl bg-[#009B68]/10 border border-[#009B68]/25'>
+          <p className='text-xs text-[#006045] dark:text-[#38C88B] uppercase tracking-wider font-semibold'>
             {t('tracker.awardAcceptance')}
           </p>
-          <p className='text-sm text-slate-700 dark:text-slate-200 mt-1'>
+          <p className='text-sm text-[#1D293D] dark:text-slate-200 mt-1 font-medium'>
             {t('tracker.acceptingScheme', {
               scheme: getLocalizedSchemeName(app.schemeName, i18n.language),
               amount: app.amount.toLocaleString("en-IN")
@@ -1202,13 +1203,13 @@ const EnrolmentModal: React.FC<{
         </div>
 
         {errors.length > 0 && (
-          <div className='p-3.5 rounded-md bg-[#B4472A]/[0.04] border border-[#B4472A]/30 space-y-1'>
+          <div className='p-3.5 rounded-xl bg-[#FEE2E2] dark:bg-[#EF4444]/15 border border-[#EF4444]/30 space-y-1'>
             {errors.map((e, i) => (
               <p
                 key={i}
-                className='text-xs text-[#B4472A] dark:text-red-400 flex items-center gap-1.5 font-mono'
+                className='text-xs text-[#B91C1C] dark:text-[#F87171] flex items-center gap-1.5 font-medium'
               >
-                <AlertTriangle size={12} /> {e}
+                <AlertTriangle size={13} /> {e}
               </p>
             ))}
           </div>
@@ -1234,14 +1235,14 @@ const Field: React.FC<{
   placeholder?: string;
 }> = ({ label, value, onChange, placeholder }) => (
   <label className='block space-y-1'>
-    <span className='text-[11px] font-mono uppercase tracking-wider text-slate-500'>
+    <span className='text-xs font-semibold text-[#475569] dark:text-slate-300'>
       {label}
     </span>
     <input
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
-      className='w-full rounded-md border border-[#1B2434]/15 dark:border-slate-700 bg-white dark:bg-[#0F1622] px-3 py-2 text-xs font-mono text-[#1B2434] dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-[#1B2434] focus:border-[#1B2434] dark:focus:ring-slate-400'
+      className='w-full rounded-lg border border-[#CBD5E1] dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-[#1D293D] dark:text-slate-200 outline-none focus:border-[#0B75A4] focus:ring-2 focus:ring-[#0B75A4]/20 transition-all placeholder:text-[#94A3B8]'
     />
   </label>
 );
@@ -1260,7 +1261,7 @@ const ReuploadModal: React.FC<{
   return (
     <Modal isOpen onClose={onClose} title={t('tracker.reuploadTitle')} size='md'>
       <div className='space-y-4 font-sans'>
-        <p className='text-xs text-slate-600 dark:text-slate-300'>
+        <p className='text-xs text-[#64748B] dark:text-slate-300'>
           {t('tracker.reuploadPrompt', { doc: docName })}
         </p>
         <input
@@ -1275,16 +1276,16 @@ const ReuploadModal: React.FC<{
         />
         <div
           onClick={() => localRef.current?.click()}
-          className='border border-dashed border-[#1B2434]/20 dark:border-slate-700 rounded-md p-8 text-center cursor-pointer hover:border-[#1B2434]/40 hover:bg-[#1B2434]/[0.02] transition-colors'
+          className='border-2 border-dashed border-[#CBD5E1] dark:border-slate-700 rounded-xl p-8 text-center cursor-pointer hover:border-[#0B75A4] hover:bg-[#F8FAFC] dark:hover:bg-slate-800/80 transition-all'
         >
           <Upload
-            size={22}
-            className='mx-auto text-[#1B2434] dark:text-slate-400'
+            size={24}
+            className='mx-auto text-[#0B75A4] dark:text-[#7EC5E2]'
           />
-          <p className='text-xs font-medium mt-2 text-[#1B2434] dark:text-slate-200'>
+          <p className='text-xs font-semibold mt-2 text-[#1D293D] dark:text-slate-200'>
             {t('tracker.clickToChoose')}
           </p>
-          <p className='text-[11px] font-mono text-slate-500 mt-1'>
+          <p className='text-[11px] text-[#94A3B8] mt-1'>
             {t('tracker.fileTypes')}
           </p>
         </div>

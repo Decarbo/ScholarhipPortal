@@ -5,67 +5,110 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  /* GLOBAL COLOR SYSTEM */
   --color-gov-primary: #0B75A4;
-  --color-gov-dark: #056C9A;
-  --color-gov-deep: #024969;
-  --color-gov-light: #1697C5;
+  --color-gov-primary-hover: #09658E;
+  --color-gov-primary-light: #E6F1F5;
   --color-gov-bg: #F8F8F8;
+  --color-gov-card: #FFFFFF;
+  --color-gov-soft: #F8FAFC;
+  --color-gov-text: #1D293D;
+  --color-gov-text-secondary: #64748B;
+  --color-gov-text-muted: #94A3B8;
   --color-gov-border: #DEE2E6;
-  --color-gov-orange: #E25A18;
-  --color-gov-green: #38C88B;
+  --color-gov-border-light: #F1F5F9;
+  --color-gov-success: #009B68;
+  --color-gov-success-dark: #006045;
+  --color-gov-warning: #F59E0B;
+  --color-gov-danger: #EF4444;
+  --color-gov-info: #0B75A4;
+
+  /* Legacy color aliases maintained for backwards-compatibility */
+  --color-gov-dark: #09658E;
+  --color-gov-deep: #064E70;
+  --color-gov-light: #1697C5;
+  --color-gov-orange: #F59E0B;
+  --color-gov-green: #009B68;
 
   /* Government Blue/Teal palette mapping */
-  --color-teal-50: #f0f7fb;
-  --color-teal-100: #e0f0f7;
-  --color-teal-200: #b8deee;
-  --color-teal-300: #7ec5e2;
-  --color-teal-400: #3aa8d2;
+  --color-teal-50: #F0F7FB;
+  --color-teal-100: #E6F1F5;
+  --color-teal-200: #B8DEEE;
+  --color-teal-300: #7EC5E2;
+  --color-teal-400: #3AA8D2;
   --color-teal-500: #1697C5;
   --color-teal-600: #0B75A4;
-  --color-teal-700: #056C9A;
-  --color-teal-800: #024969;
-  --color-teal-900: #01344c;
+  --color-teal-700: #09658E;
+  --color-teal-800: #064E70;
+  --color-teal-900: #01344C;
   --color-teal-950: #012132;
 }
 
 /* Design tokens - professional government palette */
 :root {
+  --primary: #0B75A4;
+  --primary-hover: #09658E;
+  --primary-light: #E6F1F5;
+  --background: #F8F8F8;
+  --surface: #FFFFFF;
+  --surface-soft: #F8FAFC;
+  --text-primary: #1D293D;
+  --text-secondary: #64748B;
+  --text-muted: #94A3B8;
+  --border: #DEE2E6;
+  --border-light: #F1F5F9;
+  --success: #009B68;
+  --success-dark: #006045;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --info: #0B75A4;
+
+  /* Backwards-compatible aliases */
   --gov-primary: #0B75A4;
-  --gov-dark: #056C9A;
-  --gov-deep: #024969;
+  --gov-dark: #09658E;
+  --gov-deep: #064E70;
   --gov-light: #1697C5;
   --gov-bg: #F8F8F8;
   --gov-border: #DEE2E6;
-  --gov-orange: #E25A18;
-  --gov-green: #38C88B;
+  --gov-orange: #F59E0B;
+  --gov-green: #009B68;
 
   /* Status colors */
-  --status-done: #38C88B;
-  --status-progress: #E25A18;
-  --status-neutral: #64748b;
+  --status-done: #009B68;
+  --status-progress: #F59E0B;
+  --status-neutral: #64748B;
   
   /* Surface colors */
   --surface-bg: #F8F8F8;
-  --surface-elevated: #ffffff;
+  --surface-elevated: #FFFFFF;
   --surface-border: #DEE2E6;
   
   /* Text colors */
-  --text-primary: #0f172a;
+  --text-primary: #1D293D;
   --text-secondary: #475569;
-  --text-tertiary: #94a3b8;
+  --text-tertiary: #94A3B8;
 }
 
 .dark {
-  --surface-bg: #0b1320;
+  --background: #0B1320;
+  --surface: #152238;
+  --surface-soft: #1E2E4A;
+  --text-primary: #F1F5F9;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+  --border: #243552;
+  --border-light: #1A2840;
+
+  --surface-bg: #0B1320;
   --surface-elevated: #152238;
   --surface-border: #243552;
-  --text-primary: #f1f5f9;
-  --text-secondary: #cbd5e1;
-  --text-tertiary: #64748b;
+  --text-primary: #F1F5F9;
+  --text-secondary: #CBD5E1;
+  --text-tertiary: #64748B;
 }
 
 * {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Ol Chiki font for Santhali language */
@@ -73,20 +116,40 @@ html[lang="sat"] * {
   font-family: 'Noto Sans Ol Chiki', 'Inter', system-ui, sans-serif;
 }
 
-html {
+html, body {
+  height: 100%;
+  overflow-x: hidden;
   background-color: var(--surface-bg);
   color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-body {
-  background-color: var(--surface-bg);
-  color: var(--text-primary);
+#root {
+  height: 100%;
+}
+
+/* Standardized Typography Classes */
+h1, .h1 {
+  color: #1D293D;
+  font-weight: 700;
+}
+.dark h1, .dark .h1 {
+  color: #F1F5F9;
+}
+
+h2, .h2, h3, .h3 {
+  color: #1D293D;
+  font-weight: 600;
+}
+.dark h2, .dark .h2, .dark h3, .dark .h3 {
+  color: #F1F5F9;
 }
 
 /* Custom scrollbar - subtle */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -94,29 +157,70 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+  background: #CBD5E1;
+  border-radius: 9999px;
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: #475569;
+  background: #334155;
 }
 
-/* Animations - subtle, not flashy */
+/* Standard Form Control styling */
+.gov-input {
+  background-color: #FFFFFF;
+  border: 1px solid #CBD5E1;
+  color: #1D293D;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  transition: all 0.15s ease-in-out;
+  outline: none;
+}
+.gov-input:focus {
+  border-color: #0B75A4;
+  box-shadow: 0 0 0 2px rgba(11, 117, 164, 0.2);
+}
+.gov-input::placeholder {
+  color: #94A3B8;
+}
+.dark .gov-input {
+  background-color: #1E293B;
+  border-color: #334155;
+  color: #F1F5F9;
+}
+.dark .gov-input:focus {
+  border-color: #0B75A4;
+  box-shadow: 0 0 0 2px rgba(11, 117, 164, 0.3);
+}
+
+/* Standard Card */
+.gov-card {
+  background-color: #FFFFFF;
+  border: 1px solid #DEE2E6;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease-in-out;
+}
+.dark .gov-card {
+  background-color: #152238;
+  border-color: #243552;
+}
+
+/* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in {
   animation: fadeIn 0.2s ease-out;
 }
 
-/* Progress timeline animation */
 @keyframes progressFill {
   from { width: 0; }
 }
 
 .animate-progress {
-  animation: progressFill 0.6s ease-out;
+  animation: progressFill 0.5s ease-out;
 }

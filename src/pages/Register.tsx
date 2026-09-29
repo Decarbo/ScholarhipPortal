@@ -317,8 +317,8 @@ const Register: React.FC = () => {
                     required
                   />
                 </div>
-                <div className="p-3 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
-                  <p className="text-xs text-blue-700 dark:text-blue-300">
+                <div className="p-3 rounded-lg bg-[#E6F1F5] dark:bg-[#0B75A4]/10 border border-[#0B75A4]/20">
+                  <p className="text-xs font-medium text-[#0B75A4] dark:text-[#1697C5]">
                     💡 Most schemes require family income below ₹2.5 lakh per year. Some merit-based schemes allow up to ₹6 lakh.
                   </p>
                 </div>
@@ -357,8 +357,8 @@ const Register: React.FC = () => {
                     required
                   />
                 </div>
-                <div className="p-3 rounded-lg bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800">
-                  <p className="text-xs text-amber-700 dark:text-amber-300">
+                <div className="p-3 rounded-lg bg-[#F59E0B]/10 dark:bg-[#F59E0B]/20 border border-[#F59E0B]/30">
+                  <p className="text-xs font-medium text-[#B45309] dark:text-[#FCD34D]">
                     ⚠️ Ensure your bank account is linked to your Aadhaar for Direct Benefit Transfer (DBT).
                   </p>
                 </div>
@@ -380,20 +380,25 @@ const Register: React.FC = () => {
                     placeholder="e.g., B.Tech Computer Science"
                     required
                   />
-                  <select
-                    name="courseLevel"
-                    value={formData.courseLevel}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  >
-                    <option value="">Select Course Level</option>
-                    <option value="Pre-Matric">Pre-Matric (Class IX-X)</option>
-                    <option value="Post-Matric">Post-Matric (Class XI+)</option>
-                    <option value="Graduation">Graduation</option>
-                    <option value="Post Graduation">Post Graduation</option>
-                    <option value="Doctorate">Doctorate (Ph.D)</option>
-                  </select>
+                  <div>
+                    <label className="block text-xs font-semibold text-[#1D293D] dark:text-slate-300 mb-1.5">
+                      Course Level *
+                    </label>
+                    <select
+                      name="courseLevel"
+                      value={formData.courseLevel}
+                      onChange={handleChange}
+                      className="w-full px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-[#1D293D] dark:text-white outline-none focus:ring-2 focus:ring-[#0B75A4]/30 focus:border-[#0B75A4] transition-all"
+                      required
+                    >
+                      <option value="">Select Course Level</option>
+                      <option value="Pre-Matric">Pre-Matric (Class IX-X)</option>
+                      <option value="Post-Matric">Post-Matric (Class XI+)</option>
+                      <option value="Graduation">Graduation</option>
+                      <option value="Post Graduation">Post Graduation</option>
+                      <option value="Doctorate">Doctorate (Ph.D)</option>
+                    </select>
+                  </div>
                   <Input
                     label="Institution Name *"
                     name="institution"
@@ -430,21 +435,26 @@ const Register: React.FC = () => {
                     placeholder="Parent/guardian name"
                     required
                   />
-                  <select
-                    name="guardianRelation"
-                    value={formData.guardianRelation}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  >
-                    <option value="">Select Relation</option>
-                    <option value="Father">Father</option>
-                    <option value="Mother">Mother</option>
-                    <option value="Guardian">Guardian</option>
-                    <option value="Uncle">Uncle</option>
-                    <option value="Aunt">Aunt</option>
-                    <option value="Other">Other</option>
-                  </select>
+                  <div>
+                    <label className="block text-xs font-semibold text-[#1D293D] dark:text-slate-300 mb-1.5">
+                      Guardian Relation *
+                    </label>
+                    <select
+                      name="guardianRelation"
+                      value={formData.guardianRelation}
+                      onChange={handleChange}
+                      className="w-full px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-600 bg-white dark:bg-slate-800 text-sm text-[#1D293D] dark:text-white outline-none focus:ring-2 focus:ring-[#0B75A4]/30 focus:border-[#0B75A4] transition-all"
+                      required
+                    >
+                      <option value="">Select Relation</option>
+                      <option value="Father">Father</option>
+                      <option value="Mother">Mother</option>
+                      <option value="Guardian">Guardian</option>
+                      <option value="Uncle">Uncle</option>
+                      <option value="Aunt">Aunt</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
                   <Input
                     label="Guardian Phone *"
                     name="guardianPhone"
@@ -463,8 +473,8 @@ const Register: React.FC = () => {
                     placeholder="Optional"
                   />
                 </div>
-                <div className="p-3 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800">
-                  <p className="text-xs text-emerald-700 dark:text-emerald-300">
+                <div className="p-3 rounded-lg bg-[#009B68]/10 dark:bg-[#009B68]/20 border border-[#009B68]/20">
+                  <p className="text-xs font-medium text-[#009B68] dark:text-emerald-300">
                     ✅ Your guardian will receive SMS/email alerts about your application status and deadlines.
                   </p>
                 </div>
@@ -473,8 +483,8 @@ const Register: React.FC = () => {
 
             {/* Error Message */}
             {error && (
-              <div className="p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
-                <p className="text-sm text-red-700 dark:text-red-300">{error}</p>
+              <div className="p-3 rounded-lg bg-[#EF4444]/10 dark:bg-[#EF4444]/20 border border-[#EF4444]/20">
+                <p className="text-xs font-medium text-[#EF4444] dark:text-red-400">{error}</p>
               </div>
             )}
 

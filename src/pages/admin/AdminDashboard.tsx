@@ -725,25 +725,24 @@ export const AdminDashboard: React.FC = () => {
   }
 
   return (
-    <div className='p-4 md:p-8 space-y-8 max-w-7xl mx-auto font-sans text-[#1B2434] dark:text-slate-100 animate-fade-in'>
+    <div className='p-4 md:p-8 space-y-6 max-w-7xl mx-auto font-sans text-[#1D293D] dark:text-slate-100 animate-fade-in'>
       {/* Header */}
-      <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[#1B2434]/10 dark:border-slate-800 pb-5'>
+      <div className='flex flex-col sm:flex-row sm:items-start justify-between gap-4 border-b border-[#DEE2E6] dark:border-slate-800 pb-5'>
         <div className='flex items-start gap-3'>
-          <LayoutDashboard
-            size={32}
-            className='text-[#1B2434] dark:text-slate-300 shrink-0 mt-1'
-          />
+          <div className='p-2.5 rounded-xl bg-[#E6F1F5] dark:bg-[#0B75A4]/20 text-[#0B75A4] dark:text-[#1697C5] shrink-0 mt-0.5'>
+            <LayoutDashboard size={24} />
+          </div>
           <div>
-            <h1 className='font-serif text-[28px] md:text-[34px] text-[#1B2434] dark:text-white leading-tight'>
+            <h1 className='text-2xl md:text-3xl font-bold text-[#1D293D] dark:text-white leading-tight'>
               {t('dashboard.controlCenter')}
             </h1>
-            <p className='text-sm text-slate-500 dark:text-slate-400 mt-1'>
+            <p className='text-sm text-[#64748B] dark:text-slate-400 mt-1'>
               {t('dashboard.controlSubtitle')}
             </p>
             {adminUser?.name && (
-              <p className='text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-1'>
-                <MapPin size={11} />
-                {t('dashboard.signedInAs')} <strong>{adminUser.name}</strong>
+              <p className='text-xs text-[#64748B] dark:text-slate-400 mt-1 flex items-center gap-1 font-mono'>
+                <MapPin size={11} className='text-[#0B75A4]' />
+                {t('dashboard.signedInAs')} <strong className='font-sans text-[#1D293D] dark:text-slate-200'>{adminUser.name}</strong>
                 {adminState ? ` · ${t('dashboard.scopedTo')} ${adminState}` : ""}
               </p>
             )}
@@ -771,63 +770,63 @@ export const AdminDashboard: React.FC = () => {
       </div>
 
       {/* Analytics Summary */}
-      <div className='grid grid-cols-2 md:grid-cols-5 gap-4'>
-        <Card className='!p-4 border-[#1B2434]/15 dark:border-slate-700'>
-          <p className='text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider'>
+      <div className='grid grid-cols-2 md:grid-cols-5 gap-3.5'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#64748B] dark:text-slate-400 uppercase tracking-wider'>
             {t('dashboard.totalApplications')}
           </p>
-          <p className='text-2xl font-serif font-bold text-[#1B2434] dark:text-white mt-1'>
+          <p className='text-2xl font-bold text-[#1D293D] dark:text-white mt-1'>
             {stats.totalApplications}
           </p>
         </Card>
-        <Card className='!p-4 border-[#1B2434]/15 dark:border-slate-700'>
-          <p className='text-xs font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wider'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#F59E0B] uppercase tracking-wider'>
             {t('dashboard.pendingReview')}
           </p>
-          <p className='text-2xl font-serif font-bold text-amber-600 dark:text-amber-400 mt-1'>
+          <p className='text-2xl font-bold text-[#F59E0B] mt-1'>
             {stats.pendingReview}
           </p>
         </Card>
-        <Card className='!p-4 border-[#1B2434]/15 dark:border-slate-700'>
-          <p className='text-xs font-semibold text-red-700 dark:text-red-400 uppercase tracking-wider flex items-center gap-1'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#EF4444] uppercase tracking-wider flex items-center gap-1'>
             <ShieldAlert size={12} /> {t('dashboard.aiFlags')}
           </p>
-          <p className='text-2xl font-serif font-bold text-[#B4472A] dark:text-red-400 mt-1'>
+          <p className='text-2xl font-bold text-[#EF4444] mt-1'>
             {stats.flagged}
           </p>
         </Card>
-        <Card className='!p-4 border-[#1B2434]/15 dark:border-slate-700'>
-          <p className='text-xs font-semibold text-[#2E6B4F] dark:text-emerald-400 uppercase tracking-wider'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#009B68] dark:text-emerald-400 uppercase tracking-wider'>
             {tc('status.selected')}
           </p>
-          <p className='text-2xl font-serif font-bold text-[#2E6B4F] dark:text-emerald-400 mt-1'>
+          <p className='text-2xl font-bold text-[#009B68] dark:text-emerald-400 mt-1'>
             {stats.selected}
           </p>
         </Card>
-        <Card className='!p-4 border-[#1B2434]/15 dark:border-slate-700'>
-          <p className='text-xs font-semibold text-blue-700 dark:text-blue-400 uppercase tracking-wider'>
+        <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
+          <p className='text-xs font-semibold text-[#0B75A4] dark:text-[#1697C5] uppercase tracking-wider'>
             {t('dashboard.registeredStudents')}
           </p>
-          <p className='text-2xl font-serif font-bold text-blue-800 dark:text-blue-300 mt-1'>
+          <p className='text-2xl font-bold text-[#0B75A4] dark:text-[#1697C5] mt-1'>
             {stats.totalStudents}
           </p>
         </Card>
       </div>
 
       {/* Filter Toolbar */}
-      <Card className='!p-4 border-[#1B2434]/20 dark:border-slate-700 shadow-sm'>
+      <Card className='p-4 border-[#DEE2E6] dark:border-slate-700 shadow-xs'>
         <div className='flex flex-col md:flex-row gap-3'>
           <div className='flex-1 relative'>
             <Search
               size={16}
-              className='absolute left-3 top-1/2 -translate-y-1/2 text-slate-400'
+              className='absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8]'
             />
             <input
               type='text'
               placeholder={t('dashboard.searchPlaceholder')}
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              className='w-full pl-9 pr-3 py-2 rounded-md border border-[#1B2434]/20 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-[#1B2434] dark:text-white outline-none focus:ring-2 focus:ring-[#1B2434]'
+              className='w-full pl-9 pr-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-white outline-none focus:ring-2 focus:ring-[#0B75A4] focus:border-[#0B75A4]'
             />
           </div>
 
@@ -835,7 +834,7 @@ export const AdminDashboard: React.FC = () => {
             <select
               value={filterScheme}
               onChange={(e) => setFilterScheme(e.target.value)}
-              className='px-3 py-2 rounded-md border border-[#1B2434]/20 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-[#1B2434] dark:text-slate-200 outline-none focus:ring-2 focus:ring-[#1B2434]'
+              className='px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-200 outline-none focus:ring-2 focus:ring-[#0B75A4]'
             >
               <option value=''>{t('dashboard.allSchemes')}</option>
               {SEED_SCHEMES.map((s) => (
@@ -846,16 +845,16 @@ export const AdminDashboard: React.FC = () => {
             </select>
 
             {adminState ? (
-              <div className='px-3 py-2 rounded-md border border-[#1B2434]/20 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-xs text-[#1B2434] dark:text-slate-200 flex items-center gap-1'>
-                <MapPin size={11} className='text-slate-500' />
-                <span className='text-slate-500'>{tc('common.state')}:</span>
-                <strong>{adminState}</strong>
+              <div className='px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-700 bg-[#F8FAFC] dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-200 flex items-center gap-1.5'>
+                <MapPin size={12} className='text-[#0B75A4]' />
+                <span className='text-[#64748B]'>{tc('common.state')}:</span>
+                <strong className='font-semibold'>{adminState}</strong>
               </div>
             ) : (
               <select
                 value={filterState}
                 onChange={(e) => setFilterState(e.target.value)}
-                className='px-3 py-2 rounded-md border border-[#1B2434]/20 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-[#1B2434] dark:text-slate-200 outline-none focus:ring-2 focus:ring-[#1B2434]'
+                className='px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-200 outline-none focus:ring-2 focus:ring-[#0B75A4]'
               >
                 <option value=''>{t('dashboard.allStates')}</option>
                 {uniqueStates.map((s) => (
@@ -869,7 +868,7 @@ export const AdminDashboard: React.FC = () => {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className='px-3 py-2 rounded-md border border-[#1B2434]/20 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-[#1B2434] dark:text-slate-200 outline-none focus:ring-2 focus:ring-[#1B2434]'
+              className='px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-slate-200 outline-none focus:ring-2 focus:ring-[#0B75A4]'
             >
               <option value=''>{t('dashboard.allStatuses')}</option>
               {[
@@ -905,8 +904,8 @@ export const AdminDashboard: React.FC = () => {
 
       {/* Bulk Action Toolbar */}
       {selectedApps.length > 0 && (
-        <div className='flex flex-wrap items-center gap-3 p-3.5 rounded-md bg-[#1B2434]/10 dark:bg-slate-800 border border-[#1B2434]/20 dark:border-slate-700'>
-          <span className='text-xs font-semibold text-[#1B2434] dark:text-slate-200'>
+        <div className='flex flex-wrap items-center gap-3 p-3.5 rounded-xl bg-[#E6F1F5]/50 dark:bg-slate-800 border border-[#0B75A4]/20 dark:border-slate-700'>
+          <span className='text-xs font-bold text-[#0B75A4] dark:text-[#1697C5]'>
             {selectedApps.length} application(s) selected
           </span>
           <div className='flex items-center gap-2 flex-wrap'>
@@ -957,11 +956,11 @@ export const AdminDashboard: React.FC = () => {
       {/* Table */}
       <Card
         padding={false}
-        className='border-[#1B2434]/20 dark:border-slate-700 overflow-hidden shadow-sm'
+        className='border-[#DEE2E6] dark:border-slate-700 overflow-hidden shadow-xs rounded-xl'
       >
         <div className='overflow-x-auto'>
           <table className='w-full text-left text-xs'>
-            <thead className='bg-[#1B2434]/5 dark:bg-slate-800/80 border-b border-[#1B2434]/10 dark:border-slate-700 uppercase tracking-wider text-slate-600 dark:text-slate-300 font-semibold'>
+            <thead className='bg-[#F8FAFC] dark:bg-slate-800/80 border-b border-[#DEE2E6] dark:border-slate-700 uppercase tracking-wider text-[#475569] dark:text-slate-300 font-semibold'>
               <tr>
                 <th className='p-3.5 w-10 text-center'>
                   <input
@@ -975,7 +974,7 @@ export const AdminDashboard: React.FC = () => {
                         setSelectedApps(appsFiltered.map((a) => a.id));
                       else setSelectedApps([]);
                     }}
-                    className='rounded border-slate-300 text-[#1B2434] focus:ring-[#1B2434]'
+                    className='rounded border-[#CBD5E1] text-[#0B75A4] focus:ring-[#0B75A4]'
                   />
                 </th>
                 <th className='p-3.5'>Applicant</th>
@@ -986,11 +985,11 @@ export const AdminDashboard: React.FC = () => {
                 <th className='p-3.5 text-right'>Actions</th>
               </tr>
             </thead>
-            <tbody className='divide-y divide-[#1B2434]/10 dark:divide-slate-800'>
+            <tbody className='divide-y divide-[#DEE2E6] dark:divide-slate-800'>
               {appsFiltered.map((app) => (
                 <tr
                   key={app.id}
-                  className='hover:bg-[#1B2434]/5 dark:hover:bg-slate-800/40 transition-colors'
+                  className='hover:bg-[#F8FAFC] dark:hover:bg-slate-800/40 transition-colors'
                 >
                   <td className='p-3.5 text-center'>
                     <input
@@ -1003,26 +1002,26 @@ export const AdminDashboard: React.FC = () => {
                             : [...prev, app.id],
                         )
                       }
-                      className='rounded border-slate-300 text-[#1B2434] focus:ring-[#1B2434]'
+                      className='rounded border-[#CBD5E1] text-[#0B75A4] focus:ring-[#0B75A4]'
                     />
                   </td>
                   <td className='p-3.5'>
-                    <p className='font-semibold text-[#1B2434] dark:text-white'>
+                    <p className='font-bold text-[#1D293D] dark:text-white'>
                       {app.studentName}
                     </p>
-                    <p className='text-[11px] font-mono text-slate-500'>
+                    <p className='text-[11px] font-mono text-[#64748B]'>
                       {app.id}
                     </p>
                   </td>
                   <td className='p-3.5'>
                     <Badge
                       variant='info'
-                      className='bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300'
+                      className='bg-[#E6F1F5] dark:bg-[#0B75A4]/20 text-[#0B75A4] dark:text-[#1697C5]'
                     >
                       {app.schemeName}
                     </Badge>
                   </td>
-                  <td className='p-3.5 text-slate-600 dark:text-slate-300'>
+                  <td className='p-3.5 text-[#64748B] dark:text-slate-300 font-medium'>
                     {app.state}
                   </td>
                   <td className='p-3.5'>
@@ -1030,11 +1029,11 @@ export const AdminDashboard: React.FC = () => {
                   </td>
                   <td className='p-3.5'>
                     {(app.aiFlags?.length || 0) > 0 ? (
-                      <span className='inline-flex items-center gap-1 font-semibold text-[#B4472A] dark:text-red-400'>
+                      <span className='inline-flex items-center gap-1 font-semibold text-[#EF4444] dark:text-red-400'>
                         <AlertTriangle size={13} /> {app.aiFlags.length}
                       </span>
                     ) : (
-                      <span className='text-slate-400'>—</span>
+                      <span className='text-[#94A3B8]'>—</span>
                     )}
                   </td>
                   <td className='p-3.5 text-right'>
@@ -1056,7 +1055,7 @@ export const AdminDashboard: React.FC = () => {
         {appsFiltered.length === 0 && (
           <div className='py-12'>
             <EmptyState
-              icon={<Search size={36} className='text-slate-400' />}
+              icon={<Search size={36} className='text-[#94A3B8]' />}
               title='No applications found'
               description={
                 adminState
@@ -1076,38 +1075,38 @@ export const AdminDashboard: React.FC = () => {
         size='xl'
       >
         {selectedApp && (
-          <div className='space-y-6 font-sans text-[#1B2434] dark:text-slate-100'>
+          <div className='space-y-6 font-sans text-[#1D293D] dark:text-slate-100'>
             {/* Metadata */}
-            <div className='grid grid-cols-2 md:grid-cols-4 gap-3 p-4 rounded-md bg-[#1B2434]/5 dark:bg-slate-800/60 border border-[#1B2434]/10 dark:border-slate-700'>
+            <div className='grid grid-cols-2 md:grid-cols-4 gap-3 p-4 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/60 border border-[#DEE2E6] dark:border-slate-700'>
               <div>
-                <p className='text-[11px] font-semibold text-slate-500 uppercase tracking-wider'>
+                <p className='text-[11px] font-semibold text-[#64748B] uppercase tracking-wider'>
                   Student Name
                 </p>
-                <p className='text-sm font-semibold text-[#1B2434] dark:text-white mt-0.5'>
+                <p className='text-sm font-bold text-[#1D293D] dark:text-white mt-0.5'>
                   {selectedApp.studentName}
                 </p>
               </div>
               <div>
-                <p className='text-[11px] font-semibold text-slate-500 uppercase tracking-wider'>
+                <p className='text-[11px] font-semibold text-[#64748B] uppercase tracking-wider'>
                   Scheme
                 </p>
-                <p className='text-sm font-semibold text-[#1B2434] dark:text-white mt-0.5'>
+                <p className='text-sm font-bold text-[#1D293D] dark:text-white mt-0.5'>
                   {selectedApp.schemeName}
                 </p>
               </div>
               <div>
-                <p className='text-[11px] font-semibold text-slate-500 uppercase tracking-wider'>
+                <p className='text-[11px] font-semibold text-[#64748B] uppercase tracking-wider'>
                   Location
                 </p>
-                <p className='text-sm font-semibold text-[#1B2434] dark:text-white mt-0.5'>
+                <p className='text-sm font-bold text-[#1D293D] dark:text-white mt-0.5'>
                   {selectedApp.district}, {selectedApp.state}
                 </p>
               </div>
               <div>
-                <p className='text-[11px] font-semibold text-slate-500 uppercase tracking-wider'>
+                <p className='text-[11px] font-semibold text-[#64748B] uppercase tracking-wider'>
                   Grant Amount
                 </p>
-                <p className='text-sm font-semibold font-mono text-[#1B2434] dark:text-white mt-0.5'>
+                <p className='text-sm font-bold font-mono text-[#009B68] mt-0.5'>
                   ₹{Number(selectedApp.amount).toLocaleString("en-IN")}
                 </p>
               </div>
@@ -1115,11 +1114,11 @@ export const AdminDashboard: React.FC = () => {
 
             {/* Rejection reason */}
             {selectedApp.status === "rejected" && selectedApp.plainReason && (
-              <div className='p-4 rounded-md bg-red-50/70 dark:bg-red-950/20 border border-red-200 dark:border-red-800/60'>
-                <p className='text-xs font-semibold text-red-700 dark:text-red-300 mb-1'>
+              <div className='p-4 rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800/60'>
+                <p className='text-xs font-bold text-[#EF4444] mb-1'>
                   Reason for rejection
                 </p>
-                <p className='text-sm text-red-800 dark:text-red-200'>
+                <p className='text-sm text-[#1D293D] dark:text-slate-300'>
                   {selectedApp.plainReason}
                 </p>
               </div>
@@ -1127,35 +1126,35 @@ export const AdminDashboard: React.FC = () => {
 
             {/* Documents */}
             <div className='space-y-2'>
-              <h4 className='font-serif text-base font-semibold text-[#1B2434] dark:text-white border-b border-[#1B2434]/10 dark:border-slate-800 pb-1.5'>
+              <h4 className='text-base font-bold text-[#1D293D] dark:text-white border-b border-[#DEE2E6] dark:border-slate-800 pb-1.5'>
                 Submitted Documents
               </h4>
               <div className='space-y-2 pt-1'>
                 {(selectedApp.documents || []).length === 0 && (
-                  <p className='text-xs text-slate-500 italic'>
+                  <p className='text-xs text-[#64748B] italic'>
                     No documents attached.
                   </p>
                 )}
                 {(selectedApp.documents || []).map((doc) => (
                   <div
                     key={doc.id}
-                    className='flex items-center justify-between p-3 rounded-md bg-[#1B2434]/5 dark:bg-slate-800/40 border border-[#1B2434]/10 dark:border-slate-700/60'
+                    className='flex items-center justify-between p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/40 border border-[#DEE2E6] dark:border-slate-700/60'
                   >
-                    <div className='flex items-center gap-2'>
-                      <FileText size={15} className='text-slate-500' />
+                    <div className='flex items-center gap-2.5'>
+                      <FileText size={16} className='text-[#0B75A4]' />
                       <div>
-                        <span className='text-xs font-semibold text-[#1B2434] dark:text-slate-200'>
+                        <span className='text-xs font-bold text-[#1D293D] dark:text-slate-200'>
                           {doc.name}
                         </span>
                         {doc.aiFeedback && (
-                          <p className='text-[11px] text-slate-500 mt-0.5'>
+                          <p className='text-[11px] text-[#64748B] mt-0.5'>
                             {doc.aiFeedback}
                           </p>
                         )}
                       </div>
                     </div>
                     <div className='flex items-center gap-3'>
-                      <span className='text-xs font-mono text-slate-500'>
+                      <span className='text-xs font-mono text-[#64748B]'>
                         AI: {doc.aiScore ?? 0}%
                       </span>
                       <StatusBadge status={doc.status} />
@@ -1168,20 +1167,20 @@ export const AdminDashboard: React.FC = () => {
             {/* AI Flags */}
             {(selectedApp.aiFlags?.length || 0) > 0 && (
               <div className='space-y-2'>
-                <h4 className='font-serif text-base font-semibold text-[#1B2434] dark:text-white border-b border-[#1B2434]/10 dark:border-slate-800 pb-1.5 flex items-center gap-2'>
-                  <AlertTriangle size={16} className='text-[#B4472A]' /> AI
+                <h4 className='text-base font-bold text-[#1D293D] dark:text-white border-b border-[#DEE2E6] dark:border-slate-800 pb-1.5 flex items-center gap-2'>
+                  <AlertTriangle size={16} className='text-[#EF4444]' /> AI
                   Verification Flags
                 </h4>
                 <div className='space-y-2 pt-1'>
                   {selectedApp.aiFlags.map((flag) => (
                     <div
                       key={flag.id}
-                      className={`p-3 rounded-md border ${
+                      className={`p-3.5 rounded-xl border ${
                         flag.severity === "high"
-                          ? "bg-red-50/70 dark:bg-red-950/20 border-red-200 dark:border-red-800/60"
+                          ? "bg-red-50/80 dark:bg-red-950/20 border-red-200 dark:border-red-800/60"
                           : flag.severity === "medium"
-                            ? "bg-amber-50/70 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/60"
-                            : "bg-blue-50/70 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/60"
+                            ? "bg-amber-50/80 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/60"
+                            : "bg-[#E6F1F5]/60 dark:bg-blue-950/20 border-[#0B75A4]/20 dark:border-blue-800/60"
                       }`}
                     >
                       <div className='flex items-center gap-2'>
@@ -1189,23 +1188,23 @@ export const AdminDashboard: React.FC = () => {
                           size={14}
                           className={
                             flag.severity === "high"
-                              ? "text-red-600"
+                              ? "text-[#EF4444]"
                               : flag.severity === "medium"
-                                ? "text-amber-600"
-                                : "text-blue-600"
+                                ? "text-[#F59E0B]"
+                                : "text-[#0B75A4]"
                           }
                         />
-                        <span className='text-xs font-semibold text-[#1B2434] dark:text-slate-200'>
+                        <span className='text-xs font-bold text-[#1D293D] dark:text-slate-200'>
                           {flag.message || flag.plainLanguageMessage}
                         </span>
                       </div>
                       {flag.suggestion && (
-                        <p className='text-[11px] text-slate-600 dark:text-slate-400 mt-1'>
+                        <p className='text-[11px] text-[#64748B] dark:text-slate-400 mt-1'>
                           💡 {flag.suggestion}
                         </p>
                       )}
                       {flag.createdAt && (
-                        <p className='text-[11px] text-slate-500 mt-1 font-mono'>
+                        <p className='text-[11px] text-[#94A3B8] mt-1 font-mono'>
                           {(flag.type || "").replace(/_/g, " ")} |{" "}
                           {flag.createdAt}
                         </p>
@@ -1217,16 +1216,16 @@ export const AdminDashboard: React.FC = () => {
             )}
 
             {/* Workflow transitions */}
-            <div className='pt-4 border-t border-[#1B2434]/10 dark:border-slate-800 space-y-3'>
-              <p className='text-xs font-semibold text-slate-500 uppercase tracking-wider'>
+            <div className='pt-4 border-t border-[#DEE2E6] dark:border-slate-800 space-y-3'>
+              <p className='text-xs font-semibold text-[#64748B] uppercase tracking-wider'>
                 Advance Workflow — Current Status:{" "}
-                <span className='text-[#1B2434] dark:text-white font-mono font-bold'>
+                <span className='text-[#0B75A4] dark:text-white font-mono font-bold'>
                   {selectedApp.status.replace(/_/g, " ")}
                 </span>
               </p>
               <div className='flex flex-wrap gap-2'>
                 {(NEXT_STATUS[selectedApp.status] || []).length === 0 && (
-                  <span className='text-xs text-slate-400 italic'>
+                  <span className='text-xs text-[#94A3B8] italic'>
                     No further workflow transitions available for this status.
                   </span>
                 )}
@@ -1267,30 +1266,30 @@ export const AdminDashboard: React.FC = () => {
         onClose={() => setShowBulkModal(false)}
         title={`Bulk Status Update → ${bulkAction.replace(/_/g, " ")}`}
       >
-        <div className='space-y-4 font-sans text-[#1B2434] dark:text-slate-100'>
-          <p className='text-xs text-slate-600 dark:text-slate-300 flex items-center gap-2'>
-            <Users size={15} className='text-[#1B2434]' /> You are updating{" "}
-            <strong>{selectedApps.length}</strong> selected application(s) to{" "}
-            <strong className='uppercase'>
+        <div className='space-y-4 font-sans text-[#1D293D] dark:text-slate-100'>
+          <p className='text-xs text-[#64748B] dark:text-slate-300 flex items-center gap-2'>
+            <Users size={16} className='text-[#0B75A4]' /> You are updating{" "}
+            <strong className='text-[#1D293D] dark:text-white'>{selectedApps.length}</strong> selected application(s) to{" "}
+            <strong className='uppercase text-[#0B75A4]'>
               {bulkAction.replace(/_/g, " ")}
             </strong>
             . Invalid workflow transitions will be automatically skipped.
           </p>
 
-          <div className='space-y-1'>
-            <label className='block text-xs font-semibold text-[#1B2434] dark:text-slate-200'>
+          <div className='space-y-1.5'>
+            <label className='block text-xs font-semibold text-[#1D293D] dark:text-slate-200'>
               Administrative Reason / Remark (Required)
             </label>
             <textarea
               rows={3}
               value={bulkRemark}
               onChange={(e) => setBulkRemark(e.target.value)}
-              className='w-full px-3 py-2 rounded-md border border-[#1B2434]/20 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-[#1B2434] dark:text-white outline-none focus:ring-2 focus:ring-[#1B2434] resize-none'
+              className='w-full px-3 py-2 rounded-lg border border-[#CBD5E1] dark:border-slate-700 bg-white dark:bg-slate-800 text-xs text-[#1D293D] dark:text-white outline-none focus:ring-2 focus:ring-[#0B75A4] focus:border-[#0B75A4] resize-none'
               placeholder='Provide standard justification for this bulk action...'
             />
           </div>
 
-          <div className='flex gap-2 pt-2 justify-end'>
+          <div className='flex gap-2.5 pt-2 justify-end'>
             <Button variant='outline' onClick={() => setShowBulkModal(false)}>
               Cancel
             </Button>
@@ -1313,27 +1312,27 @@ export const AdminDashboard: React.FC = () => {
         size='lg'
       >
         {audit.length === 0 ? (
-          <p className='text-sm text-slate-500 italic'>No actions yet.</p>
+          <p className='text-sm text-[#94A3B8] italic'>No actions yet.</p>
         ) : (
           <div className='space-y-2 max-h-[60vh] overflow-y-auto'>
             {audit.map((e) => (
               <div
                 key={e.id}
-                className='p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700'
+                className='p-3.5 rounded-xl bg-[#F8FAFC] dark:bg-slate-800/50 border border-[#DEE2E6] dark:border-slate-700'
               >
                 <div className='flex items-center justify-between gap-2'>
-                  <span className='text-xs font-semibold text-slate-800 dark:text-slate-200'>
+                  <span className='text-xs font-bold text-[#1D293D] dark:text-slate-200'>
                     {e.action}
                   </span>
-                  <span className='text-[10px] text-slate-500'>
+                  <span className='text-[10px] text-[#94A3B8] font-mono'>
                     {new Date(e.at).toLocaleString("en-IN")}
                   </span>
                 </div>
-                <p className='text-xs text-slate-600 dark:text-slate-400 mt-1'>
-                  {e.target} · by <strong>{e.actor}</strong>
+                <p className='text-xs text-[#64748B] dark:text-slate-400 mt-1'>
+                  {e.target} · by <strong className='text-[#1D293D] dark:text-slate-200'>{e.actor}</strong>
                 </p>
                 {e.remark && (
-                  <p className='text-[11px] text-slate-500 mt-1 italic'>
+                  <p className='text-[11px] text-[#64748B] mt-1 italic'>
                     "{e.remark}"
                   </p>
                 )}

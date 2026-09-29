@@ -76,7 +76,9 @@
     "approve": "ᱢᱟᱱᱟᱣ",
     "reject": "ᱵᱟᱹᱲᱛᱤ",
     "resolve": "ᱥᱩᱞᱡᱷᱟᱹ",
-    "retry": "ᱫᱚᱦᱲᱟ"
+    "retry": "ᱫᱚᱦᱲᱟ",
+    "collapse": "ᱦᱩᱰᱤᱧ ᱢᱮ",
+    "expand": "ᱯᱟᱥᱱᱟᱣ ᱢᱮ"
   },
   "fileUpload": {
     "label": "ᱫᱚᱞᱤᱞ ᱟᱯᱞᱚᱰ",
